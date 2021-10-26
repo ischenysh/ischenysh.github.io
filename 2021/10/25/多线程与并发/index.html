@@ -164,11 +164,94 @@
 <h2 id="线程创建"><a href="#线程创建" class="headerlink" title="线程创建"></a>线程创建</h2><p><img src="https://raw.githubusercontent.com/ischenysh/images/master/%E5%A4%9A%E7%BA%BF%E7%A8%8B3.2sjqzrq4id40.png" alt="多线程3"></p>
 <h3 id="继承Thread类"><a href="#继承Thread类" class="headerlink" title="继承Thread类"></a>继承Thread类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadTest</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;<span class="comment">// 创建子线程对象</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">200</span>; i++) &#123;</span><br><span class="line">			System.out.println(Thread.currentThread().getName());;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">new</span> ThreadTest().start();<span class="comment">// 创建匿名对象并开启线程</span></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">200</span>; i++) &#123;</span><br><span class="line">			System.out.println(Thread.currentThread().getName());</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<ul>
+<li>子类继承Thread类具有多线程能力</li>
+<li>启动线程:子类对象.start()</li>
+<li><strong>不建议使用:避免OOP单继承局限性</strong></li>
+</ul>
 <h3 id="实现Runnable接口"><a href="#实现Runnable接口" class="headerlink" title="实现Runnable接口"></a>实现Runnable接口</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadTest2</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">new</span> Thread(<span class="keyword">new</span> ThreadTest2()).start();</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">200</span>; i++) &#123;</span><br><span class="line">			System.out.println(Thread.currentThread().getName());</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">200</span>; i++) &#123;</span><br><span class="line">			System.out.println(Thread.currentThread().getName());</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<ul>
+<li>实现接口Runnable具有多线程能力</li>
+<li>启动线程:传入目标对象+Thread对象.start()</li>
+<li><strong>推荐使用:避免单继承局限性,灵活方便,方便同一个对象被多个线程使用</strong></li>
+</ul>
 <h3 id="实现Callable接口"><a href="#实现Callable接口" class="headerlink" title="实现Callable接口"></a>实现Callable接口</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadTest3</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">Boolean</span>&gt; </span>&#123;<span class="comment">// 实现Callable接口</span></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">    <span class="comment">// 重写call()方法, 有返回值且类型与Callable&lt;&gt;的尖括号中一样</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Boolean <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">200</span>; i++) &#123;</span><br><span class="line">			System.out.println(Thread.currentThread().getName() + <span class="string">&quot; &quot;</span> + i);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ExecutionException, InterruptedException </span>&#123;</span><br><span class="line">		ThreadTest3 task1 = <span class="keyword">new</span> ThreadTest3();</span><br><span class="line">		ThreadTest3 task2 = <span class="keyword">new</span> ThreadTest3();</span><br><span class="line">		ThreadTest3 task3 = <span class="keyword">new</span> ThreadTest3();</span><br><span class="line">		ExecutorService service = Executors.newCachedThreadPool();<span class="comment">// 创建服务</span></span><br><span class="line">        <span class="comment">// Future用于接受结果或结束任务, submit方法用于提交任务, 服务会将其并入线程池</span></span><br><span class="line">		Future&lt;Boolean&gt; ans1 = service.submit(task1);</span><br><span class="line">		Future&lt;Boolean&gt; ans2 = service.submit(task2);</span><br><span class="line">		Future&lt;Boolean&gt; ans3 = service.submit(task3);</span><br><span class="line">		System.out.println(ans1.get());<span class="comment">// 输出得到的结果</span></span><br><span class="line">		System.out.println(ans2.get());</span><br><span class="line">		System.out.println(ans3.get());</span><br><span class="line">		service.shutdown();<span class="comment">// 关闭服务</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<ul>
+<li><p>实现Callable接口, 需要返回值类型</p>
+</li>
+<li><p>重写call方法, 需要抛出异常</p>
+</li>
+<li><p>创建目标对象</p>
+</li>
+<li><p>创建执行服务:<code>ExecutorService service = Executors.newCachedThreadPool();</code></p>
+</li>
+<li><p>提交执行:<code>Future&lt;Boolean&gt; ans1 = service.submit(task1);</code></p>
+</li>
+<li><p>获取结果:<code>ans1.get()</code></p>
+</li>
+<li><p>关闭服务:<code>service.shutdown();</code></p>
+<h2 id="静态代理模式"><a href="#静态代理模式" class="headerlink" title="静态代理模式"></a>静态代理模式</h2></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.chenyusheng;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StaticProxy</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Marry you = <span class="keyword">new</span> You();</span><br><span class="line">		<span class="keyword">new</span> WeddingCompany(you).HappyMarry();</span><br><span class="line">		<span class="keyword">new</span> Thread(()-&gt; System.out.println(<span class="string">&quot;我好开心!&quot;</span>));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Marry</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">HappyMarry</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">You</span> <span class="keyword">implements</span> <span class="title">Marry</span></span>&#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">HappyMarry</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">&quot;我要结婚啦!&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WeddingCompany</span> <span class="keyword">implements</span> <span class="title">Marry</span></span>&#123;</span><br><span class="line">	Marry person;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">WeddingCompany</span><span class="params">(Marry person)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.person = person;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">HappyMarry</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">&quot;准备婚礼&quot;</span>);</span><br><span class="line">		person.HappyMarry();</span><br><span class="line">		System.out.println(<span class="string">&quot;收拾现场&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li><p>真实对象和代理对象都要<strong>实现一个接口</strong></p>
+</li>
+<li><p>代理对象要<strong>代理</strong>真实角色</p>
+</li>
+</ul>
+<h3 id="好处"><a href="#好处" class="headerlink" title="好处"></a>好处</h3><ul>
+<li>代理对象可以做很多真实对象做不了的事情</li>
+<li>真实对象<strong>专注做自己的事情</strong></li>
+</ul>
+<h2 id="线程状态"><a href="#线程状态" class="headerlink" title="线程状态"></a>线程状态</h2><p><img src="https://raw.githubusercontent.com/ischenysh/images/master/%E5%A4%9A%E7%BA%BF%E7%A8%8B4.2bfyewdz96f4.png" alt="多线程4"></p>
+<ul>
+<li><strong>NEW</strong> (新建)</li>
+<li><strong>RUNNABLE</strong>(可运行)</li>
+<li><strong>BLOCKED</strong>(阻塞)</li>
+<li><strong>WAITING</strong>(等待)</li>
+<li><strong>TIMED_WAITING</strong>(计时等待)</li>
+<li><strong>TERMINATED</strong>(终止)</li>
+</ul>
+<h2 id="线程方法"><a href="#线程方法" class="headerlink" title="线程方法"></a>线程方法</h2><table>
+<thead>
+<tr>
+<th align="center">方法</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>setPriority(int newPriority)</code></td>
+<td align="center">更改线程的优先级</td>
+</tr>
+<tr>
+<td align="center"><code>static void sleep(long millis)</code></td>
+<td align="center">在指定的毫秒数内让当前正在执行的线程休眠</td>
+</tr>
+<tr>
+<td align="center"><code>void join()</code></td>
+<td align="center">等待该线程终止</td>
+</tr>
+<tr>
+<td align="center"><code>static void yield()</code></td>
+<td align="center">暂停当前正在执行的线程对象, 并执行其他线程</td>
+</tr>
+<tr>
+<td align="center"><code>void interrupt()</code></td>
+<td align="center">中断线程, 别用这个方式</td>
+</tr>
+<tr>
+<td align="center"><code>boolean isAlive</code></td>
+<td align="center">测试线程是否处于活动状态</td>
+</tr>
+<tr>
+<td align="center"><code>Thread.State getState()</code></td>
+<td align="center">获取当前线程状态</td>
+</tr>
+</tbody></table>
+<h2 id="停止线程"><a href="#停止线程" class="headerlink" title="停止线程"></a>停止线程</h2>
         </div>
 
         
