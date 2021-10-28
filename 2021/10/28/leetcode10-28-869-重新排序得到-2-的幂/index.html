@@ -9,7 +9,7 @@
     
     <title>
         
-            leetcode10.26_496.下一个更大元素I |
+            leetcode10.28.869.重新排序得到 2 的幂 |
         
         chenysh&#39;s blog
     </title>
@@ -124,7 +124,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">leetcode10.26_496.下一个更大元素I</span>
+            <span class="title-hover-animation">leetcode10.28.869.重新排序得到 2 的幂</span>
         </div>
 
         
@@ -142,7 +142,7 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-10-27 00:18:10
+        <i class="fas fa-edit"></i>&nbsp;2021-10-28 11:30:24
     </span>
     
     
@@ -159,19 +159,26 @@
         
 
         <div class="article-content markdown-body">
-            <p>题目如下<span id="more"></span></p>
-<p><img src="https://raw.githubusercontent.com/ischenysh/images/master/leetcode10.26.nbf6kkpd9y8.png" alt="leetcode10"></p>
-<h1 id="个人思路"><a href="#个人思路" class="headerlink" title="个人思路"></a>个人思路</h1><p>暴力</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution_1</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">int</span>[] nextGreaterElement(<span class="keyword">int</span>[] nums1, <span class="keyword">int</span>[] nums2) &#123;</span><br><span class="line">		<span class="keyword">int</span>[] ans = <span class="keyword">new</span> <span class="keyword">int</span>[nums1.length];</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums1.length; i++) &#123;</span><br><span class="line">			<span class="keyword">int</span> index = Integer.MAX_VALUE;</span><br><span class="line">			<span class="keyword">boolean</span> isFound = <span class="keyword">false</span>;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; nums2.length; j++) &#123;</span><br><span class="line">				<span class="keyword">if</span> (nums2[j] == nums1[i]) &#123;</span><br><span class="line">					index = j;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">if</span> (nums2[j] &gt; nums1[i] &amp;&amp; index &lt; j) &#123;</span><br><span class="line">					ans[i] = nums2[j];</span><br><span class="line">					isFound = <span class="keyword">true</span>;</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> (!isFound) &#123;</span><br><span class="line">				ans[i] = -<span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> ans;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h1><p>题解真的牛逼, 麻了</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution_2</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">int</span>[] nextGreaterElement(<span class="keyword">int</span>[] nums1, <span class="keyword">int</span>[] nums2) &#123;</span><br><span class="line">		HashMap&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">		Stack&lt;Integer&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">		<span class="keyword">int</span> n = nums2.length;</span><br><span class="line">		stack.push(nums2[n - <span class="number">1</span>]);</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = n - <span class="number">2</span>; i &gt;= <span class="number">0</span>; i--) &#123;<span class="comment">// 逆序遍历</span></span><br><span class="line">			<span class="keyword">while</span> (!stack.isEmpty() &amp;&amp; stack.peek() &lt; nums2[i]) &#123;</span><br><span class="line">				stack.pop();<span class="comment">// pop栈中所有小于当前元素的值</span></span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> (!stack.isEmpty()) &#123;</span><br><span class="line">				map.put(nums2[i], stack.peek());<span class="comment">// 如果栈不为空则右边存在比该元素大的值</span></span><br><span class="line">			&#125;</span><br><span class="line">			stack.push(nums2[i]);<span class="comment">// 存入当前元素</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums1.length; i++) &#123;</span><br><span class="line">			num1[i] = map.getOrDefault(nums1[i], -<span class="number">1</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> ans;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>逆序遍历 nums2 数组, 栈中只允许存在比当前元素大的元素, 则栈顶元素就为当前元素右边大于该元素的第一个元素, 如果栈为空则右边不存在比该元素大的元素, 用哈希表存储该答案,最后将当前元素push进去;</li>
-<li>获取结果:遍历 nums1 数组, 将哈希表存储的答案写入</li>
-<li>stack永远单调</li>
+            <h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述<span id="more"></span></h1><p><img src="https://raw.githubusercontent.com/ischenysh/images/master/leedcode10.28.6hb3dzhwkeo0.png" alt="leedcode10"></p>
+<h1 id="个人思路"><a href="#个人思路" class="headerlink" title="个人思路:"></a>个人思路:</h1><ul>
+<li><p>利用递归加回溯进行全排列, </p>
+</li>
+<li><p>判断是否合法</p>
+</li>
 </ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution_1</span> </span>&#123;</span><br><span class="line">	<span class="keyword">boolean</span>[] vis;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 递归加回溯</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">reorderedPowerOf2_1</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">char</span>[] nums = String.valueOf(n).toCharArray();</span><br><span class="line">		Arrays.sort(nums);</span><br><span class="line">		vis = <span class="keyword">new</span> <span class="keyword">boolean</span>[nums.length];</span><br><span class="line">		<span class="keyword">return</span> dfs(nums, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">dfs</span><span class="params">(<span class="keyword">char</span>[] nums, <span class="keyword">int</span> index, <span class="keyword">int</span> current)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">boolean</span> ans = <span class="keyword">false</span>;</span><br><span class="line">		<span class="keyword">if</span> (index == nums.length) &#123;</span><br><span class="line">			<span class="keyword">if</span> ((current &amp; (current - <span class="number">1</span>)) == <span class="number">0</span>) &#123;</span><br><span class="line">				<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; vis.length; i++) &#123;</span><br><span class="line">			<span class="keyword">if</span> (vis[i] || (index == <span class="number">0</span> &amp;&amp; nums[i] == <span class="string">&#x27;0&#x27;</span>) || (i != <span class="number">0</span> &amp;&amp; !vis[i - <span class="number">1</span>] &amp;&amp; nums[i - <span class="number">1</span>] == nums[i])) &#123;<span class="comment">// 如果本次已经选中过相同的数字,就continue(!vis[i - 1] &amp;&amp; nums[i - 1] == nums[i])</span></span><br><span class="line">				<span class="keyword">continue</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			vis[i] = <span class="keyword">true</span>;</span><br><span class="line">			ans |= dfs(nums, index + <span class="number">1</span>, current * <span class="number">10</span> + nums[i] - <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">			vis[i] = <span class="keyword">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> ans;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="题解思路"><a href="#题解思路" class="headerlink" title="题解思路:"></a>题解思路:</h1><p>预处理加哈希表</p>
+<ul>
+<li><p>如果 a 和 b 重新排列后,都是同一个 2 的幂, 那么他们每个数字出现的次数应该相同,</p>
+</li>
+<li><p>利用这个结论我们可以将 1 到1e9 之间的 2 的幂的每个数字出现的次数转化成字符串全部存到set中.</p>
+</li>
+<li><p>查询即可</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution_2</span> </span>&#123;</span><br><span class="line">	Set&lt;String&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">reorderedPowerOf2</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">		init();<span class="comment">// 初始化</span></span><br><span class="line">		<span class="keyword">return</span> set.contains(numsCount(n));<span class="comment">// 查询</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;<span class="comment">// 将 1 到1e9 之间的 2 的幂的每个数字出现的次数转化成字符串全部存到set中.</span></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">1e9</span>; i &lt;&lt;= <span class="number">1</span>) &#123;</span><br><span class="line">			set.add(numsCount(i));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> String <span class="title">numsCount</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;<span class="comment">// 每个数字出现的次数转化成字符串</span></span><br><span class="line">		<span class="keyword">int</span>[] numsCount = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>];</span><br><span class="line">		<span class="keyword">while</span> (num &gt; <span class="number">0</span>) &#123;</span><br><span class="line">			numsCount[num % <span class="number">10</span>]++;</span><br><span class="line">			num /= <span class="number">10</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		Arrays.sort(numsCount);</span><br><span class="line">		<span class="keyword">return</span> String.valueOf(numsCount);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 
         </div>
 
@@ -179,11 +186,11 @@
             <div class="post-copyright-info">
                 <div class="article-copyright-info-container">
     <ul>
-        <li>本文标题：leetcode10.26_496.下一个更大元素I</li>
+        <li>本文标题：leetcode10.28.869.重新排序得到 2 的幂</li>
         <li>本文作者：chenysh</li>
-        <li>创建时间：2021-10-27 00:18:10</li>
+        <li>创建时间：2021-10-28 11:30:24</li>
         <li>
-            本文链接：https://ischenysh.github.io/2021/10/27/leetcode10-26-496-下一个更大元素I/
+            本文链接：https://ischenysh.github.io/2021/10/28/leetcode10-28-869-重新排序得到-2-的幂/
         </li>
         <li>
             版权声明：本博客所有文章除特别声明外，均采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -197,29 +204,14 @@
         
             <div class="article-nav">
                 
-                    <div class="article-prev">
-                        <a class="prev"
-                           rel="prev"
-                           href="/2021/10/28/leetcode10-28-869-%E9%87%8D%E6%96%B0%E6%8E%92%E5%BA%8F%E5%BE%97%E5%88%B0-2-%E7%9A%84%E5%B9%82/"
-                        >
-                            <span class="left arrow-icon flex-center">
-                              <i class="fas fa-chevron-left"></i>
-                            </span>
-                            <span class="title flex-center">
-                                <span class="post-nav-title-item">leetcode10.28.869.重新排序得到 2 的幂</span>
-                                <span class="post-nav-item">上一篇</span>
-                            </span>
-                        </a>
-                    </div>
-                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/10/25/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%8E%E5%B9%B6%E5%8F%91/"
+                           href="/2021/10/27/leetcode10-26-496-%E4%B8%8B%E4%B8%80%E4%B8%AA%E6%9B%B4%E5%A4%A7%E5%85%83%E7%B4%A0I/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">多线程与并发</span>
+                                <span class="post-nav-title-item">leetcode10.26_496.下一个更大元素I</span>
                                 <span class="post-nav-item">下一篇</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -352,7 +344,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%AA%E4%BA%BA%E6%80%9D%E8%B7%AF"><span class="nav-number">1.</span> <span class="nav-text">个人思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%98%E8%A7%A3"><span class="nav-number">2.</span> <span class="nav-text">题解</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%AA%E4%BA%BA%E6%80%9D%E8%B7%AF"><span class="nav-number">2.</span> <span class="nav-text">个人思路:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%98%E8%A7%A3%E6%80%9D%E8%B7%AF"><span class="nav-number">3.</span> <span class="nav-text">题解思路:</span></a></li></ol>
     </div>
 </div>
         </aside>
