@@ -9,7 +9,7 @@
     
     <title>
         
-            leetcode10.28.869.重新排序得到 2 的幂 |
+            Java 流 |
         
         chenysh&#39;s blog
     </title>
@@ -124,7 +124,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">leetcode10.28.869.重新排序得到 2 的幂</span>
+            <span class="title-hover-animation">Java 流</span>
         </div>
 
         
@@ -142,7 +142,7 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-10-28 11:30:24
+        <i class="fas fa-edit"></i>&nbsp;2021-10-28 14:22:05
     </span>
     
     
@@ -159,25 +159,33 @@
         
 
         <div class="article-content markdown-body">
-            <h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述<span id="more"></span></h1><p><img src="https://raw.githubusercontent.com/ischenysh/images/master/leedcode10.28.6hb3dzhwkeo0.png" alt="leedcode10"></p>
-<h1 id="个人思路"><a href="#个人思路" class="headerlink" title="个人思路:"></a>个人思路:</h1><ul>
-<li><p>利用递归加回溯进行全排列, </p>
-</li>
-<li><p>判断是否合法</p>
-</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution_1</span> </span>&#123;</span><br><span class="line">	<span class="keyword">boolean</span>[] vis;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 递归加回溯</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">reorderedPowerOf2_1</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">char</span>[] nums = String.valueOf(n).toCharArray();</span><br><span class="line">		Arrays.sort(nums);</span><br><span class="line">		vis = <span class="keyword">new</span> <span class="keyword">boolean</span>[nums.length];</span><br><span class="line">		<span class="keyword">return</span> dfs(nums, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">dfs</span><span class="params">(<span class="keyword">char</span>[] nums, <span class="keyword">int</span> index, <span class="keyword">int</span> current)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">boolean</span> ans = <span class="keyword">false</span>;</span><br><span class="line">		<span class="keyword">if</span> (index == nums.length) &#123;</span><br><span class="line">			<span class="keyword">if</span> ((current &amp; (current - <span class="number">1</span>)) == <span class="number">0</span>) &#123;</span><br><span class="line">				<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; vis.length; i++) &#123;</span><br><span class="line">			<span class="keyword">if</span> (vis[i] || (index == <span class="number">0</span> &amp;&amp; nums[i] == <span class="string">&#x27;0&#x27;</span>) || (i != <span class="number">0</span> &amp;&amp; !vis[i - <span class="number">1</span>] &amp;&amp; nums[i - <span class="number">1</span>] == nums[i])) &#123;<span class="comment">// 如果本次已经选中过相同的数字,就continue(!vis[i - 1] &amp;&amp; nums[i - 1] == nums[i])</span></span><br><span class="line">				<span class="keyword">continue</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			vis[i] = <span class="keyword">true</span>;</span><br><span class="line">			ans |= dfs(nums, index + <span class="number">1</span>, current * <span class="number">10</span> + nums[i] - <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">			vis[i] = <span class="keyword">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> ans;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <h1 id="IO流"><a href="#IO流" class="headerlink" title="IO流"></a>IO流</h1><h2 id="从迭代到流的操作"><a href="#从迭代到流的操作" class="headerlink" title="从迭代到流的操作"></a>从迭代到流的操作</h2><p>当处理集合时, 我们通常会迭代它的元素, 并在每个元素上执行某项操作. </p>
+<p>例如, 假设我们想要对某本书的所有长单词进行计数.首先, 将所有单词放到一个列表里:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String contents = <span class="keyword">new</span> String(</span><br><span class="line">				Files.readAllBytes(path), StandardCharsets.UTF_8);</span><br><span class="line">List&lt;String&gt; words = Arrays.asList(contents.split(<span class="string">&quot;\\PL+&quot;</span>));<span class="comment">// 以非字母的字符为分隔符</span></span><br></pre></td></tr></table></figure>
 
-<h1 id="题解思路"><a href="#题解思路" class="headerlink" title="题解思路:"></a>题解思路:</h1><p>预处理加哈希表</p>
-<ul>
-<li><p>如果 a 和 b 重新排列后,都是同一个 2 的幂, 那么他们每个数字出现的次数应该相同,</p>
-</li>
-<li><p>利用这个结论我们可以将 1 到1e9 之间的 2 的幂的每个数字出现的次数转化成字符串全部存到set中.</p>
-</li>
-<li><p>查询即可</p>
-</li>
+<p>如果使用迭代:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">long</span> count = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> (String e : words) &#123;</span><br><span class="line">	<span class="keyword">if</span> (e.length() &gt; <span class="number">12</span>) &#123;</span><br><span class="line">		count++;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果使用流:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">long</span> count = words.Stream().filter(e -&gt; e.length() &gt; <span class="number">12</span>).count();</span><br></pre></td></tr></table></figure>
+
+<p>仅将<code>Stream</code>改为<code>parallelStream</code>就可以让流库以并行方式执行过滤和计数.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">long</span> count = words.parallelStream().filter(e -&gt; e.length() &gt; <span class="number">12</span>).count();</span><br></pre></td></tr></table></figure>
+
+<h3 id="流与集合的差距"><a href="#流与集合的差距" class="headerlink" title="流与集合的差距"></a>流与集合的差距</h3><ul>
+<li>流不存储元素, 这些元素可能存储在底层的集合中, 或者按需生成.</li>
+<li>流的操作不会改变其数据源. 例如, <code>filter</code>方法不会从流中移除元素, 而是产生一个新的流, 其中不包含被过滤掉的元素</li>
+<li>流的操作时尽可能惰性执行的, 这意味着直至需要结果时,操作才会执行,</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution_2</span> </span>&#123;</span><br><span class="line">	Set&lt;String&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">reorderedPowerOf2</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">		init();<span class="comment">// 初始化</span></span><br><span class="line">		<span class="keyword">return</span> set.contains(numsCount(n));<span class="comment">// 查询</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;<span class="comment">// 将 1 到1e9 之间的 2 的幂的每个数字出现的次数转化成字符串全部存到set中.</span></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">1e9</span>; i &lt;&lt;= <span class="number">1</span>) &#123;</span><br><span class="line">			set.add(numsCount(i));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> String <span class="title">numsCount</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;<span class="comment">// 每个数字出现的次数转化成字符串</span></span><br><span class="line">		<span class="keyword">int</span>[] numsCount = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>];</span><br><span class="line">		<span class="keyword">while</span> (num &gt; <span class="number">0</span>) &#123;</span><br><span class="line">			numsCount[num % <span class="number">10</span>]++;</span><br><span class="line">			num /= <span class="number">10</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		Arrays.sort(numsCount);</span><br><span class="line">		<span class="keyword">return</span> String.valueOf(numsCount);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>示例解释:</p>
+<p><code>Stream</code>和<code>parallelStream</code>方法会产生一个用于 words 列表的 stream . <code>filter</code>方法会返回另一个流, 其中只包含长度大于12的单词. count 方法会将这个流化简为一个结果.</p>
+<h3 id="操作流时的典型流程"><a href="#操作流时的典型流程" class="headerlink" title="操作流时的典型流程"></a>操作流时的典型流程</h3><ol>
+<li>创建一个流.</li>
+<li>指定将初始流转换成其他流的中间操作, 可能包含多个步骤.</li>
+<li>引用停止操作, 从而产生结果, 这个操作会强制执行之前的惰性操作, 从此之后, 这个流就不能用了</li>
+</ol>
+<p>实例代码:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">wordCount</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">CountLongWord</span><span class="params">(Path path)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">		String contents = <span class="keyword">new</span> String(</span><br><span class="line">				Files.readAllBytes(path), StandardCharsets.UTF_8);</span><br><span class="line">		List&lt;String&gt; words = Arrays.asList(contents.split(<span class="string">&quot;\\PL+&quot;</span>));<span class="comment">// 以非字母的字符为分隔符</span></span><br><span class="line">		<span class="keyword">long</span> count = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> (String e : words) &#123;</span><br><span class="line">			<span class="keyword">if</span> (e.length() &gt; <span class="number">5</span>) &#123;</span><br><span class="line">				count++;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(count);</span><br><span class="line">		count = words.stream().filter(e -&gt; e.length() &gt; <span class="number">5</span>).count();</span><br><span class="line">		System.out.println(count);</span><br><span class="line">		count = words.parallelStream().filter(e -&gt; e.length() &gt; <span class="number">5</span>).count();</span><br><span class="line">		System.out.println(count);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">		CountLongWord(Paths.get(<span class="string">&quot;D:\\Documents\\blog\\themes\\hexo-theme-keep\\languages\\en.yml&quot;</span>));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
         </div>
@@ -186,11 +194,11 @@
             <div class="post-copyright-info">
                 <div class="article-copyright-info-container">
     <ul>
-        <li>本文标题：leetcode10.28.869.重新排序得到 2 的幂</li>
+        <li>本文标题：Java 流</li>
         <li>本文作者：chenysh</li>
-        <li>创建时间：2021-10-28 11:30:24</li>
+        <li>创建时间：2021-10-28 14:22:05</li>
         <li>
-            本文链接：https://ischenysh.github.io/2021/10/28/leetcode10-28-869-重新排序得到-2-的幂/
+            本文链接：https://ischenysh.github.io/2021/10/28/Java-流/
         </li>
         <li>
             版权声明：本博客所有文章除特别声明外，均采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -207,13 +215,13 @@
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/2021/10/28/Java-%E6%B5%81/"
+                           href="/2021/10/28/java-io%E6%B5%81-0/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">Java 流</span>
+                                <span class="post-nav-title-item">java io流</span>
                                 <span class="post-nav-item">上一篇</span>
                             </span>
                         </a>
@@ -223,10 +231,10 @@
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/10/27/leetcode10-26-496-%E4%B8%8B%E4%B8%80%E4%B8%AA%E6%9B%B4%E5%A4%A7%E5%85%83%E7%B4%A0I/"
+                           href="/2021/10/28/leetcode10-28-869-%E9%87%8D%E6%96%B0%E6%8E%92%E5%BA%8F%E5%BE%97%E5%88%B0-2-%E7%9A%84%E5%B9%82/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">leetcode10.26_496.下一个更大元素I</span>
+                                <span class="post-nav-title-item">leetcode10.28.869.重新排序得到 2 的幂</span>
                                 <span class="post-nav-item">下一篇</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -359,7 +367,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%AA%E4%BA%BA%E6%80%9D%E8%B7%AF"><span class="nav-number">2.</span> <span class="nav-text">个人思路:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%98%E8%A7%A3%E6%80%9D%E8%B7%AF"><span class="nav-number">3.</span> <span class="nav-text">题解思路:</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#IO%E6%B5%81"><span class="nav-number">1.</span> <span class="nav-text">IO流</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8E%E8%BF%AD%E4%BB%A3%E5%88%B0%E6%B5%81%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="nav-number">1.1.</span> <span class="nav-text">从迭代到流的操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%81%E4%B8%8E%E9%9B%86%E5%90%88%E7%9A%84%E5%B7%AE%E8%B7%9D"><span class="nav-number">1.1.1.</span> <span class="nav-text">流与集合的差距</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E6%B5%81%E6%97%B6%E7%9A%84%E5%85%B8%E5%9E%8B%E6%B5%81%E7%A8%8B"><span class="nav-number">1.1.2.</span> <span class="nav-text">操作流时的典型流程</span></a></li></ol></li></ol></li></ol>
     </div>
 </div>
         </aside>
