@@ -422,4 +422,59 @@
 
 ]]></content>
   </entry>
+  <entry>
+    <title>junit入门</title>
+    <url>/2021/10/31/junit%E5%85%A5%E9%97%A8/</url>
+    <content><![CDATA[<h1 id="junit单元测试"><a href="#junit单元测试" class="headerlink" title="junit单元测试"></a>junit单元测试<span id="more"></span></h1><h2 id="测试分类"><a href="#测试分类" class="headerlink" title="测试分类"></a>测试分类</h2><ul>
+<li>黑盒测试 : 不关注具体的代码实现, 只需要关注能否得到正确结果</li>
+<li>白盒测试 : 不只要关注能否得到正确结果, 还要关注具体的代码实现</li>
+</ul>
+<h2 id="junit使用"><a href="#junit使用" class="headerlink" title="junit使用"></a>junit使用</h2><ul>
+<li><p>步骤</p>
+<ol>
+<li><p>定义一个测试类(测试用例)</p>
+<p>建议:</p>
+<ul>
+<li>测试类名 : 被测试的类 + Test</li>
+<li>包名 : 与被测试的类所在的包同级, 且取名为test <img src="https://raw.githubusercontent.com/ischenysh/images/master/junit.2wcf1jwyhj60.png" alt="junit"></li>
+</ul>
+</li>
+<li><p>定义测试方法 : <strong>可以独立运行</strong></p>
+<p>建议:</p>
+<ul>
+<li>方法名 : test + 被测试的方法名</li>
+<li>返回值 : void</li>
+<li>参数列表 : 空参</li>
+</ul>
+</li>
+</ol>
+<ol start="3">
+<li>给方法前加 <em>@test</em> 注解</li>
+<li>导入junit 依赖环境</li>
+</ol>
+</li>
+<li><p>判定结果</p>
+<ul>
+<li>红色 : 失败</li>
+<li>绿色 : 成功</li>
+<li>一般会使用断言操作</li>
+</ul>
+</li>
+<li><p>补充</p>
+<ul>
+<li><p><em>@Before</em> :</p>
+<p>被注解的方法总是在测试方法之前执行</p>
+</li>
+<li><p><em>@After</em> :</p>
+<p>被注解的方法总是在测试方法之后执行</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.chenysh.junit;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Calculator</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> a + b;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">sub</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> a - b;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.chenysh.test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.chenysh.junit.Calculator;</span><br><span class="line"><span class="keyword">import</span> org.junit.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CalculatorTest</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> Calculator calculator;</span><br><span class="line">	<span class="meta">@Before</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line"><span class="comment">//		一般用于申请资源, 总是在test方法执行之前执行</span></span><br><span class="line">		calculator = <span class="keyword">new</span> Calculator();</span><br><span class="line">		System.out.println(<span class="string">&quot;我被初始化啦!&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">  <span class="comment">/**test使用规范:</span></span><br><span class="line"><span class="comment">   *总是返回null</span></span><br><span class="line"><span class="comment">   *无参数传入</span></span><br><span class="line"><span class="comment">   **/</span></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addTest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> result = calculator.add(<span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line">		Assert.assertEquals(result, <span class="number">3</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subTest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> result = calculator.sub(<span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line">		Assert.assertEquals(result, -<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@After</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> </span>&#123;</span><br><span class="line"><span class="comment">//		一般用于清理资源, 总是在test方法执行之后执行, 不管test方法有没有正常执行完成</span></span><br><span class="line">		System.out.println(<span class="string">&quot;我被清理啦!&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+  </entry>
 </search>
