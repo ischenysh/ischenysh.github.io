@@ -163,33 +163,27 @@
 <li><p>框架 : 半成品软件, 可以在框架的基础上进行软件开发, 简化编码</p>
 </li>
 <li><p>反射 : 将类的各个组成部分封装为其他对象</p>
-<p>好处:</p>
-<ol>
-<li>可以在程序运行过程中操作这些对象</li>
-<li>可以解耦, 增强程序的拓展性</li>
-</ol>
+<p>​    好处:</p>
+<ul>
+<li><p>可以在程序运行过程中操作这些对象</p>
+</li>
+<li><p>可以解耦, 增强程序的拓展性</p>
+</li>
+</ul>
 </li>
 </ul>
 <h2 id="获取class-对象的方式"><a href="#获取class-对象的方式" class="headerlink" title="获取class 对象的方式"></a>获取class 对象的方式</h2><ol>
 <li><p><code>Class.forName(&quot;全类名&quot;)</code> : 将字节码加载进内存, 返回 class 对象</p>
-<ul>
-<li>多用于配置文件, 使类名定义在配置文件中; 通过读取文件来加载类</li>
-</ul>
+<p>多用于配置文件, 使类名定义在配置文件中; 通过读取文件来加载类</p>
 </li>
 <li><p><code>类名.class</code> : 通过类名的属性 class 获取</p>
-<ul>
-<li>用于参数的传递</li>
-</ul>
+<p>用于参数的传递</p>
 </li>
 <li><p><code>对象.getClass()</code> : getClass() 方法定义在 Object 类中</p>
-<ul>
-<li>多用于对象的获取字节码的方式</li>
-</ul>
+<p>多用于对象的获取字节码的方式</p>
 </li>
 <li><p>结论 : </p>
-<ul>
-<li>同一个字节码文件(*.class)在一次程序运行过程中只会被加载一次, 所有方式获取的Class对象都是同一个</li>
-</ul>
+<p>同一个字节码文件(*.class)在一次程序运行过程中只会被加载一次, 所有方式获取的Class对象都是同一个</p>
 </li>
 </ol>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">demo01</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		Class class1 = Class.forName(<span class="string">&quot;com.chenysh.reflect.Person&quot;</span>);</span><br><span class="line">		Class class2 = Person.class;</span><br><span class="line">		Class class3 = <span class="keyword">new</span> Person().getClass();</span><br><span class="line">		System.out.println(class1.equals(class2));</span><br><span class="line">		System.out.println(class2.equals(class3));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">	<span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(<span class="keyword">int</span> id, String name)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.id = id;</span><br><span class="line">		<span class="keyword">this</span>.name = name;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
