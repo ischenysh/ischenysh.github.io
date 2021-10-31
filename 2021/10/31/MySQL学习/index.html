@@ -270,7 +270,7 @@
 </ul>
 </li>
 </ul>
-<h3 id="操作表"><a href="#操作表" class="headerlink" title="操作表"></a>操作表</h3><ul>
+<h3 id="操作表-CRUD"><a href="#操作表-CRUD" class="headerlink" title="操作表 : CRUD"></a>操作表 : <strong>CRUD</strong></h3><ul>
 <li><p>C(Create) : 创建</p>
 <ol>
 <li><p>语法</p>
@@ -324,6 +324,170 @@
 <li><code>drop table if exists 表名;</code></li>
 </ul>
 </li>
+</ul>
+<h2 id="DML-增删改表中数据"><a href="#DML-增删改表中数据" class="headerlink" title="DML : 增删改表中数据"></a>DML : 增删改表中数据</h2><ol>
+<li><p>添加数据</p>
+<ul>
+<li><p>语法 :</p>
+<ul>
+<li><code>insert into 表名(列名1, 列名2....列名n) vaules(值1, 值2...值n);</code></li>
+</ul>
+</li>
+<li><p>注意事项 :</p>
+<ul>
+<li><p>列名和值要一一对应</p>
+</li>
+<li><p>如果表名后不定义列名, 默认给所有列复制</p>
+<p><code>insert into 表名 vaules(值1, 值2...值n);</code></p>
+</li>
+<li><p>除了数字类型, 其他类型需要引号(单双都可以)引起来</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>删除数据</p>
+<ul>
+<li><p>语法</p>
+<p>​    <code>delete from 表名 [where 条件];</code></p>
+</li>
+<li><p>注意:</p>
+<ul>
+<li>如果不加条件, 则会删除表中所有记录</li>
+<li>删除所有记录的方式<ul>
+<li><code>delete from 表名;;</code>  只删除数据不删除表的结构, 且可以回滚</li>
+<li><code>truncate 表名;</code> :  只删除数据不删除表的结构, 不可以回滚</li>
+<li><code>drop table 表名;</code>: 删除表的结构被依赖的约束(constrain)、触发器(trigger)、索引(index)；依赖于 该表的存储过程/函数将保留,但是变为 invalid 状态。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>修改数据</p>
+<ul>
+<li><p>语法:</p>
+<p><code>update 表名 set 列名1 = 值1, 列名2 = 值2,  ... [where 条件];</code></p>
+</li>
+<li><p>注意 :</p>
+<p>如果不加条件会把所有记录都修改.</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="DQL-查询表中数据"><a href="#DQL-查询表中数据" class="headerlink" title="DQL : 查询表中数据"></a>DQL : 查询表中数据</h2><ul>
+<li><p>语法 : </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span></span><br><span class="line">	字段列表</span><br><span class="line"><span class="keyword">from</span></span><br><span class="line">	表名列表</span><br><span class="line"><span class="keyword">where</span></span><br><span class="line">	条件列表</span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span></span><br><span class="line">	分组列表</span><br><span class="line"><span class="keyword">having</span></span><br><span class="line">	分组之后的条件</span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span></span><br><span class="line">	排序</span><br><span class="line">limit</span><br><span class="line">	分页限定</span><br></pre></td></tr></table></figure></li>
+<li><p>基础查询</p>
+<ul>
+<li><p>多个字段的查询</p>
+<p><code>select 字段名1, 字段名2, .... from 表名;</code></p>
+<p>注意 :  如果要查询所有字段可以用 * 来替代字段列表</p>
+</li>
+<li><p>去除重复</p>
+<p><code>select distinct 字段名1, 字段名2, .... from 表名;</code></p>
+</li>
+<li><p>计算列</p>
+<ul>
+<li><p><code>select 字段名1, ifnull(字段名2, 0) + 字段名3, .... from 表名;</code></p>
+</li>
+<li><p>一般可以使用四则运算计算一些列的值.(一般只进行数值型的运算)</p>
+</li>
+<li><p><code>ifnull(表达式1, 表达式2);</code>如果表达式1为null, 将返回表达式2, 不然返回表达式</p>
+</li>
+</ul>
+</li>
+<li><p>起别名</p>
+<p><code>select 字段名1 (as) 别名1, 字段名2 (as) 别名1, .... from 表名;</code>– <strong>as可省略</strong></p>
+</li>
+</ul>
+</li>
+<li><p>条件查询</p>
+<ul>
+<li><code>where 条件;</code></li>
+<li>运算符<ul>
+<li>‘&gt;’, &lt;, &lt;=. &lt;=, =, &lt;&gt;, !=</li>
+<li>between…and…</li>
+<li>in(集合)</li>
+<li>like<ul>
+<li>占位符 :<ul>
+<li>_ : 单个任意字符</li>
+<li>%: 任意多个字符</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>is null, is not null</li>
+<li>ans / &amp;&amp;</li>
+<li>or / ||</li>
+<li>not / !</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>排序查询</p>
+<ul>
+<li><p>语法 : </p>
+<p><code>order by 排序字段1 排序方式1, 排序字段2 排序方式2, .... </code></p>
+</li>
+<li><p>排序方式 : </p>
+<ul>
+<li>ASC : 升序(default)</li>
+<li>DESC : 降序. </li>
+</ul>
+</li>
+<li><p>注意 : </p>
+<p>排序优先级有先后之分, 只有前面的一样时才会比较后面的</p>
+</li>
+</ul>
+</li>
+<li><p>聚合函数 : 将一列数据进行计算</p>
+<ul>
+<li><p>语法 : </p>
+<p><code>select 函数名(列名) from 表名;</code></p>
+</li>
+<li><p>count : 计算个数</p>
+<ul>
+<li>一般选择非空的列 : 主键</li>
+</ul>
+</li>
+<li><p>max : 计算最大值</p>
+</li>
+<li><p>min : 计算最小值</p>
+</li>
+<li><p>sum : 计算和</p>
+</li>
+<li><p>avg : 计算平均值</p>
+</li>
+<li><p>聚合函数默认排除null值</p>
+<ul>
+<li>解决方案 : <ol>
+<li>选择非空的列</li>
+<li>ifnull函数 </li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>分组查询 : </p>
+<ul>
+<li><p>语法 :</p>
+<p><code>group by 分组字段;</code></p>
+</li>
+<li><p>注意 : </p>
+<ol>
+<li>分组之后查询字段 : 分组字段, 聚合函数1,  聚合函数2, …</li>
+<li>where 与 having 的区别<ul>
+<li>where 在分组之前进行限定, 如果不满足条件, 则不会参与分组</li>
+<li>having 在分组之后进行限定, 如果不满足条件, 贼不会被查询出来<br>```sql<br>select<br>sex, count(id) num, avg(math)<br>from student<br>where english &gt; 70<br>group by sex<br>having num &gt; 3;</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li></li>
 </ul>
 
         </div>
@@ -490,7 +654,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93-DateBase-%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">数据库(DateBase)简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SQL"><span class="nav-number">2.</span> <span class="nav-text">SQL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#DDL-%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E5%BA%93-%E8%A1%A8"><span class="nav-number">2.1.</span> <span class="nav-text">DDL : 操作数据库, 表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E5%BA%93-CRUD"><span class="nav-number">2.1.1.</span> <span class="nav-text">操作数据库 : CRUD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E8%A1%A8"><span class="nav-number">2.1.2.</span> <span class="nav-text">操作表</span></a></li></ol></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93-DateBase-%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">数据库(DateBase)简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SQL"><span class="nav-number">2.</span> <span class="nav-text">SQL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#DDL-%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E5%BA%93-%E8%A1%A8"><span class="nav-number">2.1.</span> <span class="nav-text">DDL : 操作数据库, 表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E5%BA%93-CRUD"><span class="nav-number">2.1.1.</span> <span class="nav-text">操作数据库 : CRUD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E8%A1%A8-CRUD"><span class="nav-number">2.1.2.</span> <span class="nav-text">操作表 : CRUD</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DML-%E5%A2%9E%E5%88%A0%E6%94%B9%E8%A1%A8%E4%B8%AD%E6%95%B0%E6%8D%AE"><span class="nav-number">2.2.</span> <span class="nav-text">DML : 增删改表中数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DQL-%E6%9F%A5%E8%AF%A2%E8%A1%A8%E4%B8%AD%E6%95%B0%E6%8D%AE"><span class="nav-number">2.3.</span> <span class="nav-text">DQL : 查询表中数据</span></a></li></ol></li></ol>
     </div>
 </div>
         </aside>
