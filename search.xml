@@ -509,6 +509,163 @@
 </ol>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">demo01</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		Class class1 = Class.forName(<span class="string">&quot;com.chenysh.reflect.Person&quot;</span>);</span><br><span class="line">		Class class2 = Person.class;</span><br><span class="line">		Class class3 = <span class="keyword">new</span> Person().getClass();</span><br><span class="line">		System.out.println(class1.equals(class2));</span><br><span class="line">		System.out.println(class2.equals(class3));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">	<span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(<span class="keyword">int</span> id, String name)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.id = id;</span><br><span class="line">		<span class="keyword">this</span>.name = name;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h2 id="class对象的功能"><a href="#class对象的功能" class="headerlink" title="class对象的功能"></a>class对象的功能</h2><ul>
+<li><p>获取功能</p>
+<ol>
+<li><p>获取成员变量</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Field[] getFields()</span><br><span class="line"><span class="function">Field <span class="title">getFields</span><span class="params">(String name)</span></span></span><br><span class="line"><span class="function">Field <span class="title">getDeclaredField</span><span class="params">(String name)</span></span></span><br><span class="line"><span class="function">Field[] <span class="title">getDeclaredFields</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure></li>
+<li><p>获取成员构造方法</p>
+</li>
+</ol>
+  <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">Constructor&lt;T&gt; <span class="title">getConstructor</span><span class="params">(类&lt;?&gt;... parameterTypes)</span></span></span><br><span class="line"><span class="function">Constructor&lt;?&gt;[] <span class="title">getConstructors</span><span class="params">()</span></span></span><br><span class="line"><span class="function">Constructor&lt;T&gt; <span class="title">getDeclaredConstructor</span><span class="params">(类&lt;?&gt;... parameterTypes)</span></span></span><br><span class="line"><span class="function">Constructor&lt;?&gt;[] <span class="title">getDeclaredConstructors</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li><p>获取成员方法</p>
+  <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">Method <span class="title">getMethod</span><span class="params">(String name, 类&lt;?&gt;... parameterTypes)</span> </span></span><br><span class="line"><span class="function">Method[] <span class="title">getMethods</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">Method <span class="title">getDeclaredMethod</span><span class="params">(String name, 类&lt;?&gt;... parameterTypes)</span> </span></span><br><span class="line"><span class="function">Method[] <span class="title">getDeclaredMethods</span><span class="params">()</span> </span></span><br></pre></td></tr></table></figure></li>
+<li><p>获取类名</p>
+<p><code>String getName()</code></p>
+</li>
+</ol>
+</li>
+<li><p>成员变量</p>
+<ol>
+<li><p>设置值</p>
+<p><code>void set(Object obj, Object value)</code></p>
+</li>
+<li><p>获取值</p>
+<p><code>get (Object obj)</code></p>
+</li>
+<li><p>忽略访问权限修饰符的安全检查</p>
+<p><code>setAccessible(true)</code>// 暴力反射</p>
+</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.chenysh.reflect;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.*;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">Field[] getFields()</span></span><br><span class="line"><span class="comment">Field getField(String name)</span></span><br><span class="line"><span class="comment">Field getDeclaredField(String name)</span></span><br><span class="line"><span class="comment">Field[] getDeclaredFields()</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">Constructor&lt;T&gt; getConstructor(类&lt;?&gt;... parameterTypes)</span></span><br><span class="line"><span class="comment">Constructor&lt;?&gt;[] getConstructors()</span></span><br><span class="line"><span class="comment">Constructor&lt;T&gt; getDeclaredConstructor(类&lt;?&gt;... parameterTypes)</span></span><br><span class="line"><span class="comment">Constructor&lt;?&gt;[] getDeclaredConstructors()</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">Method getMethod(String name, 类&lt;?&gt;... parameterTypes)</span></span><br><span class="line"><span class="comment">Method[] getMethods()</span></span><br><span class="line"><span class="comment">Method getDeclaredMethod(String name, 类&lt;?&gt;... parameterTypes)</span></span><br><span class="line"><span class="comment">Method[] getDeclaredMethods()</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">demo02</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		Person person = <span class="keyword">new</span> Person(<span class="number">1</span>, <span class="number">20</span>, <span class="string">&quot;man&quot;</span>, <span class="string">&quot;chenysh&quot;</span>);</span><br><span class="line">		Class class1 = Person.class;</span><br><span class="line">		Field field2 = class1.getField(<span class="string">&quot;id&quot;</span>);</span><br><span class="line">		Field[] fields = class1.getFields();</span><br><span class="line">		System.out.println(field2.get(person));</span><br><span class="line">		field2.set(person, <span class="number">2</span>);<span class="comment">// 修改字段的值</span></span><br><span class="line">		System.out.println(field2.get(person));<span class="comment">// 设置字段的值</span></span><br><span class="line">		<span class="keyword">for</span> (Field field : fields) &#123;</span><br><span class="line">			System.out.println(field);</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(<span class="string">&quot;--------------------------&quot;</span>);</span><br><span class="line">		Field field = class1.getDeclaredField(<span class="string">&quot;name&quot;</span>);</span><br><span class="line">		fields = class1.getDeclaredFields();</span><br><span class="line">		<span class="keyword">for</span> (Field field1 : fields) &#123;</span><br><span class="line">			System.out.println(field1);</span><br><span class="line">		&#125;</span><br><span class="line">		field.setAccessible(<span class="keyword">true</span>);<span class="comment">// 暴力反射</span></span><br><span class="line">		System.out.println(field.get(person));</span><br><span class="line"></span><br><span class="line">		System.out.println(<span class="string">&quot;------------------------------------&quot;</span>);</span><br><span class="line"></span><br><span class="line">		Constructor[] constructors = class1.getConstructors();</span><br><span class="line">		Constructor constructor = class1.getConstructor(<span class="keyword">int</span>.class, <span class="keyword">int</span>.class, String.class, String.class);</span><br><span class="line">		System.out.println(constructor);</span><br><span class="line">		<span class="keyword">for</span> (Constructor constructor1 : constructors) &#123;</span><br><span class="line">			System.out.println(constructor1);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		Person person1 = (Person) constructor.newInstance(<span class="number">2</span>, <span class="number">21</span>, <span class="string">&quot;yuan&quot;</span>, <span class="string">&quot;woman&quot;</span>);<span class="comment">//      全参构造</span></span><br><span class="line">		System.out.println(person1);</span><br><span class="line">		Object obj = constructors[<span class="number">1</span>].newInstance();<span class="comment">// 空参构造1</span></span><br><span class="line">		System.out.println(obj);</span><br><span class="line">		System.out.println((Person) class1.newInstance());<span class="comment">// 空参构造2</span></span><br><span class="line"></span><br><span class="line">		System.out.println(<span class="string">&quot;------------------------------------&quot;</span>);</span><br><span class="line"></span><br><span class="line">		Method method = class1.getMethod(<span class="string">&quot;eat&quot;</span>, String.class);</span><br><span class="line">		method.invoke(person, <span class="string">&quot;yuanqinakai&quot;</span>);<span class="comment">// 调用方法</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><ul>
+<li><p>需求 : 写一个”框架”, 可以帮我们创建任意类对象, 并且执行其中任意方法 </p>
+</li>
+<li><p>实现 :</p>
+<ol>
+<li>配置文件</li>
+<li>反射</li>
+</ol>
+</li>
+<li><p>步骤 : </p>
+<ol>
+<li>将需要创建的对象的全类名和需要执行的方法定义在配置文件中(配置文件放在src目录下)</li>
+<li>在程序中加载读取配置文件</li>
+<li>使用反射技术来加载类文件进内存</li>
+<li>创建对象</li>
+<li>执行方法</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.chenysh.reflect;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"><span class="keyword">import</span> java.util.Properties;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">demo03</span> </span>&#123;</span><br><span class="line"><span class="comment">//	可以帮我们创建任意类对象, 并且执行其中任意方法</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"><span class="comment">//		1. 加载配置文件</span></span><br><span class="line"><span class="comment">//		1.1 创建 Properties 对象</span></span><br><span class="line">		Properties properties = <span class="keyword">new</span> Properties();</span><br><span class="line"><span class="comment">//		1.2 加载配置文件, 转换为一个集合</span></span><br><span class="line"><span class="comment">//      1.2.1 获取class目录下的配置文件</span></span><br><span class="line">		ClassLoader classLoader = demo03.class.getClassLoader();</span><br><span class="line">		InputStream is = classLoader.getResourceAsStream(<span class="string">&quot;demo.properties&quot;</span>);</span><br><span class="line">		properties.load(is);</span><br><span class="line"></span><br><span class="line"><span class="comment">//		2. 获取配置文件中定义的数据</span></span><br><span class="line">		String className = properties.getProperty(<span class="string">&quot;className&quot;</span>);</span><br><span class="line">		String methodName = properties.getProperty(<span class="string">&quot;methodName&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//		3. 加载该类进内存</span></span><br><span class="line">		Class aClass = Class.forName(className);</span><br><span class="line"></span><br><span class="line"><span class="comment">//		4. 创建对象</span></span><br><span class="line">		Object obj = aClass.newInstance();</span><br><span class="line"></span><br><span class="line"><span class="comment">//		5.获取方法对象</span></span><br><span class="line">		Method method = aClass.getMethod(methodName);</span><br><span class="line"></span><br><span class="line"><span class="comment">//		6. 执行方法</span></span><br><span class="line">		method.invoke(obj);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+  </entry>
+  <entry>
+    <title>注解的介绍</title>
+    <url>/2021/10/31/%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BB%8B%E7%BB%8D/</url>
+    <content><![CDATA[<h1 id="注解"><a href="#注解" class="headerlink" title="注解"></a>注解<span id="more"></span></h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><ul>
+<li><p>概念 : 说明程序的, 给计算机看</p>
+</li>
+<li><p>与注释的区别 : 注释是给人看的</p>
+</li>
+<li><p>定义 : <strong>Java注解</strong>又称<strong>Java标注</strong>，是<a class="link"   href="https://zh.wikipedia.org/wiki/Java" >Java<i class="fas fa-external-link-alt"></i></a>语言<strong>5.0版本</strong>开始支持加入<a class="link"   href="https://zh.wikipedia.org/wiki/%E6%BA%90%E4%BB%A3%E7%A0%81" >源代码<i class="fas fa-external-link-alt"></i></a>的特殊语法<a class="link"   href="https://zh.wikipedia.org/wiki/%E5%85%83%E6%95%B0%E6%8D%AE" >元数据<i class="fas fa-external-link-alt"></i></a>[<a class="link"   href="https://zh.wikipedia.org/wiki/Java%E6%B3%A8%E8%A7%A3#cite_note-1" >1]<i class="fas fa-external-link-alt"></i></a>。</p>
+<p>Java语言中的类、方法、变量、参数和包等都可以被标注。和<a class="link"   href="https://zh.wikipedia.org/wiki/Javadoc" >Javadoc<i class="fas fa-external-link-alt"></i></a>不同，Java标注可以通过反射获取标注内容。在<a class="link"   href="https://zh.wikipedia.org/wiki/%E7%BC%96%E8%AF%91%E5%99%A8" >编译器<i class="fas fa-external-link-alt"></i></a>生成<a class="link"   href="https://zh.wikipedia.org/w/index.php?title=%E7%B1%BB%E6%96%87%E4%BB%B6&action=edit&redlink=1" >类文件<i class="fas fa-external-link-alt"></i></a>时，标注可以被嵌入到<a class="link"   href="https://zh.wikipedia.org/wiki/%E5%AD%97%E8%8A%82%E7%A0%81" >字节码<i class="fas fa-external-link-alt"></i></a>中。<a class="link"   href="https://zh.wikipedia.org/wiki/Java%E8%99%9A%E6%8B%9F%E6%9C%BA" >Java虚拟机<i class="fas fa-external-link-alt"></i></a>可以保留标注内容，在运行时可以获取到标注内容[<a class="link"   href="https://zh.wikipedia.org/wiki/Java%E6%B3%A8%E8%A7%A3#cite_note-2" >2]<i class="fas fa-external-link-alt"></i></a>。 当然它也支持自定义Java标注[<a class="link"   href="https://zh.wikipedia.org/wiki/Java%E6%B3%A8%E8%A7%A3#cite_note-3" >3]<i class="fas fa-external-link-alt"></i></a>。</p>
+</li>
+<li><p>使用方法 : @ + 注解名称</p>
+</li>
+<li><p>作用分类 :</p>
+<ol>
+<li><p>编写文档 : 通过代码里表识的注解生成文档 [生成文档 doc文档] 命令行 javadoc + Java源文件名</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 注解javadoc演示</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> chnysh</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@since</span> 1.5</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">demo01</span> </span>&#123;</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 计算两数之和</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> a 整数</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> b 整数</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> 两数之和</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> a + b;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>调用<em>javadoc demo01.java</em></p>
+</li>
+<li><p>代码分析 : 通过代码里的标识的注解对代码进行分析[使用反射]</p>
+</li>
+<li><p>编译检查 : 通过代码里标识的注解让编译器能够实现基本的编译检查[<em>@Override</em>]</p>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="java中预定义的注解"><a href="#java中预定义的注解" class="headerlink" title="java中预定义的注解"></a>java中预定义的注解</h2><ul>
+<li><code>@Override</code> - 检查该方法是否是重写方法。如果发现其父类，或者是引用的接口中并没有该方法时，会报编译错误。</li>
+<li><code>@Deprecated</code> - 标记过时方法。如果使用该方法，会报编译警告。</li>
+<li><code>@SuppressWarnings</code> - 指示编译器去忽略注解中声明的警告。[@SuppressWarnings(“all”)]</li>
+</ul>
+<h2 id="自定义注解"><a href="#自定义注解" class="headerlink" title="自定义注解"></a>自定义注解</h2><ul>
+<li><p>格式 :</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">元注解</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> 注解名称()&#123;</span><br><span class="line">    属性列表;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>本质 : 注解的本质就是一个接口, 该接口默认继承Annotation接口</p>
+</li>
+<li><p>属性 : 接口中定义的成员方法</p>
+<ul>
+<li><p>要求:</p>
+<ol>
+<li><p>属性的返回值类型限制 : </p>
+<ul>
+<li>基本数据类型</li>
+<li>String</li>
+<li>枚举</li>
+<li>注解</li>
+<li>以上类型的数组</li>
+</ul>
+</li>
+<li><p>定义了属性, 在使用注解时需要给其赋值</p>
+<ul>
+<li>可以使用default关键字给属性默认的初始化值, 这样在使用注解时可以选择不赋值</li>
+<li>如果只有一个属性, 且名为 value, 则 value 可以省略, 直接定义值</li>
+<li>数组赋值时要使用 {}, 如果数组中只有一个值, 则可以省略 {}</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>元注解 : 用于描述注解的注解</p>
+<ul>
+<li><p>@Target : 描述注解能够作用的位置</p>
+<p>ElementType取值: </p>
+<ul>
+<li>TYPE : 类</li>
+<li>METHOD : 方法</li>
+<li>FIELD : 成员变量</li>
+</ul>
+</li>
+<li><p>@Retention : 描述注解被保留的阶段</p>
+<p>RetentionPolicy取值</p>
+<ul>
+<li>SOURCE : 保留在源文件中</li>
+<li>CLASS : 保留到字节码中</li>
+<li>RUNTIME : 保留到字节码中, 且可以被JVM读取到 </li>
+</ul>
+</li>
+<li><p>@Documented : 描述注解是否被抽取到 api 文档中</p>
+</li>
+<li><p>@Inherited : 描述注解是否被子类继承</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="在程序中使用注解-获取注解中定义的属性值"><a href="#在程序中使用注解-获取注解中定义的属性值" class="headerlink" title="在程序中使用注解 : 获取注解中定义的属性值"></a>在程序中使用注解 : 获取注解中定义的属性值</h2><ol>
+<li><p>获取注解定义的位置类的字节码文件对象 (Class, Method, Field)</p>
+</li>
+<li><p>获取需要的注解</p>
+<p><code>getAnnotation(Class)</code></p>
+</li>
+<li><p>调用注解中的抽象方法获取配置的属性值 : <strong>本质是一个实现类实现了抽象方法</strong></p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.chenysh.annotation;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line"><span class="meta">@properties(className = &quot;com.chenysh.domain.Person&quot;, methodName = &quot;eat&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">personTest</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"><span class="comment">//		获取该类的字节码文件对象</span></span><br><span class="line">		Class personTestClass = personTest.class;</span><br><span class="line"></span><br><span class="line"><span class="comment">//		获取注解对象</span></span><br><span class="line">		properties anno = (properties) personTestClass.getAnnotation(properties.class);</span><br><span class="line">		</span><br><span class="line"><span class="comment">//		使用注解对象的属性</span></span><br><span class="line">		Class aClass = Class.forName(anno.className());</span><br><span class="line">		Object obj = aClass.newInstance();</span><br><span class="line">		Method method = aClass.getMethod(anno.methodName());</span><br><span class="line">		method.invoke(obj);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ol>
+<li>大多数只要会使用注解即可</li>
+<li>注解不是程序的一部分, 可以理解为一个标签</li>
+</ol>
 ]]></content>
   </entry>
 </search>
