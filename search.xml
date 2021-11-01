@@ -1371,4 +1371,32 @@
 </ol>
 ]]></content>
   </entry>
+  <entry>
+    <title>JDBC学习</title>
+    <url>/2021/11/01/JDBC%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h1 id="JDBC"><a href="#JDBC" class="headerlink" title="JDBC"></a>JDBC</h1><ol>
+<li><p>概念 : JDBC（Java DataBase Connectivity,java数据库连接）是一种用于执行SQL语句的Java API<span id="more"></span>，可以为多种关系数据库提供统一访问，它由一组用<a class="link"   href="https://link.jianshu.com/?t=https://baike.baidu.com/item/Java%E8%AF%AD%E8%A8%80" >Java语言<i class="fas fa-external-link-alt"></i></a>编写的类和接口组成。JDBC提供了一种基准，据此可以构建更高级的工具和接口，使数据库开发人员能够编写数据库应用程序。</p>
+</li>
+<li><p>快速入门:</p>
+<ul>
+<li><p>步骤 :</p>
+<ol>
+<li>导入驱动 jar 包</li>
+<li>注册驱动</li>
+<li>获取数据库连接对象 Connection</li>
+<li>定义sql</li>
+<li>获取执行 sql 语句的对象 Statement</li>
+<li>执行sql, 接受返回结果</li>
+<li>处理结果</li>
+<li>释放资源</li>
+</ol>
+</li>
+<li><p>代码实现 :</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//		1. 导入驱动 jar 包</span></span><br><span class="line"><span class="comment">//		2. 注册驱动</span></span><br><span class="line">		Class.forName(<span class="string">&quot;com.mysql.cj.jdbc.Driver&quot;</span>);</span><br><span class="line"><span class="comment">//		3. 获取数据库连接对象 Connection</span></span><br><span class="line">		Connection condition = DriverManager.getConnection(</span><br><span class="line">				<span class="string">&quot;jdbc:mysql://localhost:3306/school&quot;</span>,</span><br><span class="line">				<span class="string">&quot;root&quot;</span>, <span class="string">&quot;123456&quot;</span>);</span><br><span class="line"><span class="comment">//		4. 定义sql</span></span><br><span class="line">		String sql = <span class="string">&quot;update teacher set name = &#x27;chen&#x27; where id = 2&quot;</span>;</span><br><span class="line"><span class="comment">//		5. 获取执行 sql 语句的对象 Statement</span></span><br><span class="line">		Statement statement = condition.createStatement();</span><br><span class="line"><span class="comment">//		6. 执行sql, 接受返回结果</span></span><br><span class="line">		<span class="keyword">int</span> count = statement.executeUpdate(sql);</span><br><span class="line"><span class="comment">//		7. 处理结果</span></span><br><span class="line">		System.out.println(count);</span><br><span class="line"><span class="comment">//		8. 释放资源</span></span><br><span class="line">		statement.close();</span><br><span class="line">		condition.close();</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li></li>
+</ol>
+]]></content>
+  </entry>
 </search>
