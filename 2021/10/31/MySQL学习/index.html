@@ -265,7 +265,7 @@
 <p><code>use 数据库名称;</code></p>
 </li>
 <li><p>查询当前正在使用的数据库名称</p>
-<p><code>select database;</code></p>
+<p><code>select database();</code></p>
 </li>
 </ul>
 </li>
@@ -480,15 +480,383 @@
 <li>分组之后查询字段 : 分组字段, 聚合函数1,  聚合函数2, …</li>
 <li>where 与 having 的区别<ul>
 <li>where 在分组之前进行限定, 如果不满足条件, 则不会参与分组</li>
-<li>having 在分组之后进行限定, 如果不满足条件, 贼不会被查询出来<br>```sql<br>select<br>sex, count(id) num, avg(math)<br>from student<br>where english &gt; 70<br>group by sex<br>having num &gt; 3;</li>
+<li>having 在分组之后进行限定, 如果不满足条件, 则不会被查询出来<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> </span><br><span class="line">	sex, <span class="built_in">count</span>(id) num, <span class="built_in">avg</span>(math) </span><br><span class="line">	<span class="keyword">from</span> student </span><br><span class="line">	<span class="keyword">where</span> english <span class="operator">&gt;</span> <span class="number">70</span> </span><br><span class="line">	<span class="keyword">group</span> <span class="keyword">by</span> sex </span><br><span class="line">	<span class="keyword">having</span> num <span class="operator">&gt;</span> <span class="number">3</span>;</span><br></pre></td></tr></table></figure></li>
 </ul>
 </li>
 </ol>
 </li>
 </ul>
 </li>
-<li></li>
+<li><p>分页查询</p>
+<ul>
+<li><p>语法 : </p>
+<p><code>imit 开始的索引, 每页显示的条数;</code></p>
+</li>
+<li><p>开始的索引 = (要查询的页码 - 1) * 每页显示的条数;</p>
+</li>
+<li><p>只在MySQL中可用</p>
+</li>
 </ul>
+</li>
+</ul>
+<h2 id="DCL-管理用户-授权"><a href="#DCL-管理用户-授权" class="headerlink" title="DCL : 管理用户, 授权"></a>DCL : 管理用户, 授权</h2><ol>
+<li><p>管理用户</p>
+<ol>
+<li><p>添加用户 : </p>
+<ul>
+<li>语法 :<code> CREATE USER &#39;用户名&#39;@&#39;主机名&#39; IDENTIFIED BY &#39;密码&#39;;</code></li>
+</ul>
+</li>
+<li><p>删除用户 :</p>
+<ul>
+<li>语法 : <code>DROP USER &#39;用户名&#39;@&#39;主机名&#39;;</code></li>
+</ul>
+</li>
+<li><p>修改用户密码 :</p>
+<ul>
+<li><code>UPDATE USER SET PASSWORD = PASSWORD(新密码) WHERE USER = &#39;用户名&#39;;</code></li>
+<li><code>SET PASSWORD FOR &#39;用户名&#39;@&#39;主机名&#39; = PASSWORD = PASSWORD(新密码);</code></li>
+</ul>
+</li>
+<li><p>查询用户 :</p>
+<ol>
+<li><p>切换到mysql数据库</p>
+</li>
+<li><p>查询 user 表</p>
+</li>
+</ol>
+<ul>
+<li>通配符 : % 表示可以在任意主机上使用用户登录数据库</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>授权</p>
+<ol>
+<li><p>查询权限 :</p>
+<p><code>SHOW GRANTS FOR &#39;用户名&#39;@&#39;主机名&#39;;</code></p>
+</li>
+<li><p>授予权限</p>
+<p><code>GRANT 权限列表 ON 数据库名.表名 TO &#39;用户名&#39;@&#39;主机名&#39;;</code></p>
+<p>ALL 代表所有权限或所有库</p>
+</li>
+<li><p>撤销权限</p>
+<p><code>REVOKE 权限列表 ON 数据库名.表名 FROM &#39;用户名&#39;@&#39;主机名&#39;;</code></p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h2><ul>
+<li><p>概念 :  对表中数据进行限定, 保证数据的准确性, 有效性和完整性.</p>
+</li>
+<li><p>分类 : </p>
+<ol>
+<li><p>主键约束 : primary key</p>
+<ul>
+<li><p>注意 :</p>
+<ol>
+<li>含义 : 非空且唯一.</li>
+<li>一张表只能有一个主键</li>
+<li>主键就是表中记录的唯一标识</li>
+</ol>
+</li>
+<li><p>创建时添加约束</p>
+<p><code>列名1 数据类型 PRIMARY KEY</code></p>
+</li>
+<li><p>创建后添加约束</p>
+<p><code>ALTER TABLE 表名 MODIFY 列名 新数据类型 PRIMARY KEY;</code></p>
+</li>
+<li><p>删除约束</p>
+<p><code>ALTER TABLE 表名 DROP PRIMARY KEY;</code></p>
+</li>
+<li><p>自动增长</p>
+<ul>
+<li><p>概念 : 如果一列是数据类型的, 使用 auto_increment可以完成值的自dongle增长(从上一行的值增加)</p>
+</li>
+<li><p>创建时添加自动增长</p>
+<p><code>列名1 数据类型 AUTO_INCREMENT</code></p>
+</li>
+<li><p>创建后添加自动增长</p>
+<p><code>ALTER TABLE 表名 MODIFY 列名 新数据类型 AUTO_INCREMENT;</code></p>
+</li>
+<li><p>删除自动增长</p>
+<p><code>ALTER TABLE 表名 MODIFY 列名 新数据类型;</code></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>非空约束 : not null</p>
+<ul>
+<li><p>创建时添加约束</p>
+<p><code>列名1 数据类型 NOT NULL</code></p>
+</li>
+<li><p>创建后添加约束</p>
+<p><code>ALTER TABLE 表名 MODIFY 列名 新数据类型 NOT NULL;</code></p>
+</li>
+<li><p>删除约束</p>
+<p>  <code>ALTER TABLE 表名 MODIFY 列名 新数据类型;</code></p>
+</li>
+</ul>
+</li>
+<li><p>唯一约束 : unique</p>
+<ul>
+<li><p>创建时添加约束</p>
+<p><code>列名1 数据类型 UNIQUE</code></p>
+</li>
+<li><p>创建后添加约束</p>
+<p><code>ALTER TABLE 表名 MODIFY 列名 新数据类型 UNIQUE;</code></p>
+</li>
+<li><p>删除约束</p>
+<p><code>ALTER TABLE 表名 DROP INDEX 列名;</code></p>
+</li>
+</ul>
+</li>
+<li><p>外键约束 : foreign key</p>
+<ul>
+<li><p>创建时添加约束</p>
+<p><code>constraint 外键名称 foreign key (外键列名称) reference 主表名称(主表列名称)</code></p>
+</li>
+<li><p>创建后添加约束</p>
+<p><code>ALTER TABLE 表名称 ADD constraint 外键名称 foreign key (外键列名称) reference 主表名称(主表列名称);</code></p>
+</li>
+<li><p>删除约束</p>
+<p><code>ALTER TABLE 表名称 DROP FOREIGN KEY 外键名称;</code></p>
+</li>
+<li><p>级联操作</p>
+<ul>
+<li>语法 : <code>constraint 外键名称 foreign key (外键列名称) reference 主表名称(主表列名称) ON UPDATE CASCADE ON DELETE CASCADE</code></li>
+<li>分类 :<ol>
+<li>级联更新 : ON UPDATE CASCADE</li>
+<li>级联删除 : ON DELETE CASCADE`</li>
+</ol>
+</li>
+<li>注意 : 要谨慎使用</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="数据库的设计"><a href="#数据库的设计" class="headerlink" title="数据库的设计"></a>数据库的设计</h2><ol>
+<li><p>多表之间的关系</p>
+<ol>
+<li><p>分类</p>
+<ol>
+<li>一对一 : e.g : 人和身份证</li>
+<li>一对多 (多对一) : e.g : 部门和员工</li>
+<li>多对多 :  e.g : 学生和课程</li>
+</ol>
+</li>
+<li><p>实现方式 :</p>
+<ol>
+<li><p>一对一 : </p>
+<p>在任意一方添加<strong>唯一</strong>外键指向另一方的主键.</p>
+</li>
+<li><p>一对多(多对一) :</p>
+<p>在多的一方建立外键指向一的一方.</p>
+</li>
+<li><p>多对多 :</p>
+<p>借助第三张中间表, 中间表至少包含两个字段, 分别指向两张表的主键</p>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>数据库的设计范式 :</p>
+<ul>
+<li><p>概念 :设计关系<a class="link"   target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%95%B0%E6%8D%AE%E5%BA%93/103728" >数据库<i class="fas fa-external-link-alt"></i></a>时，遵从不同的规范<a class="link"   target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E8%A6%81%E6%B1%82/3598753" >要求<i class="fas fa-external-link-alt"></i></a>，设计出合理的<a class="link"   target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93/8999831" >关系型数据库<i class="fas fa-external-link-alt"></i></a>，这些不同的规范要求被称为不同的范式，各种范式呈递次规范，越高的范式数据库冗余越小。</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93/1237340" >关系数据库<i class="fas fa-external-link-alt"></i></a>有六种范式：第一范式（1NF）、第二范式（2NF）、<a class="link"   target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%AC%AC%E4%B8%89%E8%8C%83%E5%BC%8F/3193798" >第三范式<i class="fas fa-external-link-alt"></i></a>（3NF）、巴斯-科德范式（BCNF）、<a class="link"   target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%AC%AC%E5%9B%9B%E8%8C%83%E5%BC%8F/3193985" >第四范式<i class="fas fa-external-link-alt"></i></a>(4NF）和<a class="link"   target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%AC%AC%E4%BA%94%E8%8C%83%E5%BC%8F/5025271" >第五范式<i class="fas fa-external-link-alt"></i></a>（5NF，又称完美范式）。</p>
+</li>
+<li><p>前置知识 :</p>
+<ol>
+<li>函数依赖 : A –&gt; B, 如果通过A属性(属性组)的值, 可以唯一确定唯一B属性的值, 则称B依赖于A</li>
+<li>完全函数依赖 : A –&gt; B, 如果要唯一确定B属性的值, 要借助A属性组的<strong>所有值</strong>, 则称B依赖于A</li>
+<li>部分函数依赖 : A –&gt; B, 如果要唯一确定B属性的值, <strong>只</strong>要借助A属性组的<strong>部分值</strong>, 则称B依赖于A</li>
+<li>传递函数依赖 : A–&gt; B, B –&gt; C, 如果B依赖于A, C依赖于B, 则称C依赖于A.</li>
+<li>码 : 如果在一张表中, 一个属性(属性组)被<strong>其他所有</strong>属性完全依赖, 则称这个属性(属性组)为该表的码</li>
+</ol>
+</li>
+<li><p>分类 :</p>
+<ol>
+<li><p>第一范式 (1NF) : </p>
+<p>数据库表的每一列都是不可分割的原子数据项</p>
+</li>
+<li><p>第二范式 (2NF) : </p>
+<p>在1NF的基础上，非码属性必须完全依赖于候选码（在1NF基础上<strong>消除</strong>非主属性对主码的<strong>部分函数依赖</strong>.</p>
+</li>
+<li><p>第三范式 (3NF) : </p>
+<p>在2NF基础上，任何非主<a class="link"   target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%B1%9E%E6%80%A7" >属性<i class="fas fa-external-link-alt"></i></a>不依赖于其它非主属性（在2NF基础上<strong>消除传递依赖</strong>）</p>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="数据库的备份与还原"><a href="#数据库的备份与还原" class="headerlink" title="数据库的备份与还原"></a>数据库的备份与还原</h2><ol>
+<li><p>命令行 :</p>
+<ul>
+<li>语法 :<ol>
+<li>备份 : mysqldump -u用户名 -p密码 要备份的数据库名 &gt; 保存的路径</li>
+<li>还原 :<ol>
+<li>登录数据库</li>
+<li>创建数据库</li>
+<li>使用数据库</li>
+<li>执行文件<code>source 文件路径;</code><h2 id="多表查询"><a href="#多表查询" class="headerlink" title="多表查询"></a>多表查询</h2></li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li><p>查询语法 : </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span></span><br><span class="line">	字段列表</span><br><span class="line"><span class="keyword">from</span></span><br><span class="line">	表名列表;</span><br></pre></td></tr></table></figure></li>
+<li><p>笛卡尔积 : </p>
+<p>笛卡尔乘积是指在数学中，两个集合X和Y的笛卡尔积（Cartesian product），又称直积，表示为X × Y，第一个对象是X的成员而第二个对象是Y的所有可能有序对的其中一个成员 </p>
+</li>
+<li><p>分类 :</p>
+<ul>
+<li><p>内连接查询</p>
+<ol>
+<li>隐式内连接 : 使用 where 条件 来清除无用的数据</li>
+<li>显示内连接 : <ul>
+<li>语法 : <code>select 字段列表 from 表名1 [inner] join 表名2 on 条件;</code></li>
+<li>查询两表的交集部分</li>
+</ul>
+</li>
+<li>明确要求 :<ol>
+<li>要从那些表中查询数据</li>
+<li>条件是什么</li>
+<li>要查询哪些字段</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>外连接查询</p>
+<ol>
+<li>左外连接 : <ul>
+<li>语法 : <code>select 字段列表 from 表名1 left [outer] join 表名2 on 条件;</code></li>
+<li>查询的是左表的所有数据以及其交集部分</li>
+</ul>
+</li>
+<li>右外连接<ul>
+<li>语法 : <code>select 字段列表 from 表名1 right [outer] join 表名2 on 条件;</code></li>
+<li>查询的是右表的所有数据以及其交集部分</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>子查询</p>
+<ul>
+<li><p>概念 : 在查询中嵌套查询, 则称嵌套查询为子查询.</p>
+</li>
+<li><p>子查询的不同种情况 :</p>
+<ol>
+<li><p>子查询的结果是单行单列的 :</p>
+<p>子查询可以作为条件, 使用运算符(&gt;, &lt;, =…)进行判断</p>
+</li>
+<li><p>子查询的结果是单行多列的 :</p>
+<p>子查询可以作为条件, 使用运算符 <em>in</em> 进行判断</p>
+</li>
+<li><p>子查询的结果是多行多列的 :</p>
+<p>子查询可以作为一张虚拟表参与查询</p>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><ol>
+<li><p>事务的基本介绍</p>
+<ol>
+<li><p>概念 :</p>
+<ul>
+<li>如果一个包含多个步骤的业务操作, 被事务管理, 那么这些操作要么同时成功, 要么同时失败.</li>
+</ul>
+</li>
+<li><p>操作 :</p>
+<ol>
+<li><p>开启事务 : <code>start transaction;</code></p>
+</li>
+<li><p>回滚 :<code>roll back;</code></p>
+</li>
+<li><p>提交 : <code>commit;</code></p>
+</li>
+<li><p>MySQL数据库中事务默认自动提交</p>
+<ul>
+<li>事务提交的两种方式<ol>
+<li>自动提交 : 一条DML(增删改)语句会自动提交一次事务</li>
+<li>手动提交 : 需要先开启事务再提交, Oracle数据库默认手动提交</li>
+</ol>
+</li>
+<li>修改事务的默认提交方式 :<ul>
+<li>查看事务的默认提交方式 : <code>SELECT @@autocommit;</code>– 0为手动, 1为自动</li>
+<li>修改事务的默认提交方式 : <code>SET @@autocommit = 0;</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>事务的四大特征 :</p>
+<ol>
+<li>原子性 : 是不可分割的最小操作单位, 要么同时成功, 要么同时失败</li>
+<li>持久性 : 当事务提交或回滚后, 数据库会持久化的保留数据.</li>
+<li>隔离性 : 多个事务之间相互独立</li>
+<li>一致性 : 事务操作前后, 数据总量不变</li>
+</ol>
+</li>
+<li><p>事务的隔离级别</p>
+<ul>
+<li><p>概念 : 如果多个事务同时操作同一批数据,, 则会引发一些问题, 需要设置不同的隔离级别来解决这些问题</p>
+</li>
+<li><p>存在问题种类 :</p>
+<ol>
+<li>脏读 : 一个事务读取到另一个事务没有提交的数据</li>
+<li>不可重复读(虚读) : 在同一个事务中, 两次读取到的数据不一样 </li>
+<li>幻读 : 一个事务操作(DML)数据表中所有数据, 另一个事务添加了一条数据, 则第一个事务查询不到自己的修改.</li>
+</ol>
+</li>
+<li><p>隔离级别</p>
+<ol>
+<li>read uncommitted : 读未提交<ul>
+<li>产生的问题 : 脏读, 虚读,幻读</li>
+</ul>
+</li>
+<li>read commited : 读已提交(Oracle默认级别)<ul>
+<li>产生的问题 : 虚读,幻读</li>
+</ul>
+</li>
+<li>repeatable read : 可重复读(MySQL默认级别)<ul>
+<li>产生的问题 :幻读</li>
+</ul>
+</li>
+<li>serializable : 串行化<ul>
+<li>可以解决所有问题</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li><p>注意 : 隔离级别安全性越高, 效率越低</p>
+</li>
+<li><p>数据库查询隔离级别</p>
+<p><code>select @@tx_isolation;</code></p>
+</li>
+<li><p>数据库设置隔离级别</p>
+<p><code>select global transaction isolation level 级别字符串;</code></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
 
         </div>
 
@@ -654,7 +1022,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93-DateBase-%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">数据库(DateBase)简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SQL"><span class="nav-number">2.</span> <span class="nav-text">SQL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#DDL-%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E5%BA%93-%E8%A1%A8"><span class="nav-number">2.1.</span> <span class="nav-text">DDL : 操作数据库, 表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E5%BA%93-CRUD"><span class="nav-number">2.1.1.</span> <span class="nav-text">操作数据库 : CRUD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E8%A1%A8-CRUD"><span class="nav-number">2.1.2.</span> <span class="nav-text">操作表 : CRUD</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DML-%E5%A2%9E%E5%88%A0%E6%94%B9%E8%A1%A8%E4%B8%AD%E6%95%B0%E6%8D%AE"><span class="nav-number">2.2.</span> <span class="nav-text">DML : 增删改表中数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DQL-%E6%9F%A5%E8%AF%A2%E8%A1%A8%E4%B8%AD%E6%95%B0%E6%8D%AE"><span class="nav-number">2.3.</span> <span class="nav-text">DQL : 查询表中数据</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93-DateBase-%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">数据库(DateBase)简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SQL"><span class="nav-number">2.</span> <span class="nav-text">SQL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#DDL-%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E5%BA%93-%E8%A1%A8"><span class="nav-number">2.1.</span> <span class="nav-text">DDL : 操作数据库, 表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E5%BA%93-CRUD"><span class="nav-number">2.1.1.</span> <span class="nav-text">操作数据库 : CRUD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E8%A1%A8-CRUD"><span class="nav-number">2.1.2.</span> <span class="nav-text">操作表 : CRUD</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DML-%E5%A2%9E%E5%88%A0%E6%94%B9%E8%A1%A8%E4%B8%AD%E6%95%B0%E6%8D%AE"><span class="nav-number">2.2.</span> <span class="nav-text">DML : 增删改表中数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DQL-%E6%9F%A5%E8%AF%A2%E8%A1%A8%E4%B8%AD%E6%95%B0%E6%8D%AE"><span class="nav-number">2.3.</span> <span class="nav-text">DQL : 查询表中数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DCL-%E7%AE%A1%E7%90%86%E7%94%A8%E6%88%B7-%E6%8E%88%E6%9D%83"><span class="nav-number">2.4.</span> <span class="nav-text">DCL : 管理用户, 授权</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%A6%E6%9D%9F"><span class="nav-number">2.5.</span> <span class="nav-text">约束</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="nav-number">2.6.</span> <span class="nav-text">数据库的设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%A4%87%E4%BB%BD%E4%B8%8E%E8%BF%98%E5%8E%9F"><span class="nav-number">2.7.</span> <span class="nav-text">数据库的备份与还原</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E8%A1%A8%E6%9F%A5%E8%AF%A2"><span class="nav-number">2.8.</span> <span class="nav-text">多表查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1"><span class="nav-number">2.9.</span> <span class="nav-text">事务</span></a></li></ol></li></ol>
     </div>
 </div>
         </aside>
