@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="chenysh">
+    
+    <title>
+        
+            xml学习 |
+        
+        chenysh&#39;s blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/logo.svg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"zh-CN","path":"search.xml"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"https://raw.githubusercontent.com/ischenysh/images/master/touxiang.5suj3kmb2xg0.png","favicon":"/images/logo.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":true},"first_screen":{"enable":true,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.3"};
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 月前","year":"%s 年前"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                chenysh&#39;s blog
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                首页
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                归档
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">首页</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">归档</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">xml学习</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://raw.githubusercontent.com/ischenysh/images/master/touxiang.5suj3kmb2xg0.png">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">chenysh</span>
+                        
+                            <span class="author-label">学生</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-11-03 13:32:15
+    </span>
+    
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h2 id="XML"><a href="#XML" class="headerlink" title="XML"></a>XML</h2><ol>
+<li><p>概念 : Extensible Markup Language 可扩展标记语言<span id="more"></span></p>
+<ul>
+<li><p>可拓展 : 标签都可以自定义</p>
+</li>
+<li><p>功能 :</p>
+<ul>
+<li><p>存储数据</p>
+<ul>
+<li><p>配置文件</p>
+</li>
+<li><p>在网路中传输</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>xml与html的区别</p>
+<ul>
+<li>xml标签都是自定义的, html标签都是预定义的.</li>
+<li>xml语法严格, html语法松散</li>
+<li>xml用来存储数据, html用来展示数据</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>语法 :</p>
+<ul>
+<li><p>基本语法 :</p>
+<ol>
+<li>xml的后缀名为.xml</li>
+<li>xml第一行必须为文档声明</li>
+<li>xml有且只有一个根标签</li>
+<li>属性值必须由引号(单双都行)引起来</li>
+<li>标签必须正确关闭</li>
+<li>xml标签名称区分大小写</li>
+</ol>
+</li>
+<li><p>快速入门 :</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">users</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">user</span> <span class="attr">id</span> = <span class="string">&#x27;1&#x27;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>chenysh<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">age</span>&gt;</span>20<span class="tag">&lt;/<span class="name">age</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">gender</span>&gt;</span>male<span class="tag">&lt;/<span class="name">gender</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">user</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">user</span> <span class="attr">id</span> = <span class="string">&#x27;2&#x27;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>lisi<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">age</span>&gt;</span>19<span class="tag">&lt;/<span class="name">age</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">gender</span>&gt;</span>female<span class="tag">&lt;/<span class="name">gender</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">user</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">users</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>组成部分 :</p>
+<ol>
+<li>文档声明 :<ol>
+<li>格式: <? xml 属性列表 ?></li>
+<li>属性列表 :<ol>
+<li>version : 版本号(必须的属性)</li>
+<li>encoding : 编码方式 告知解析引擎当前文档使用的字符集.默认值ISO*-8859-1</li>
+<li>standalong : 是否独立</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>指令(不需要了解)</li>
+<li>标签 : 标签名称自定义</li>
+</ol>
+<ul>
+<li>规则<ul>
+<li>名称可以包含字母数字以及其他字符</li>
+<li>名称不能以标点符号开始</li>
+<li>名称不能以xml(大小写都不行)开始</li>
+<li>名称中不能有空格</li>
+</ul>
+</li>
+</ul>
+<ol start="4">
+<li>属性 :<ul>
+<li>id属性唯一</li>
+</ul>
+</li>
+<li>文本</li>
+</ol>
+<ul>
+<li>CDATA区 : 在该区域中的数据会被原样展示</li>
+<li>格式<![CDATA[ 数据 ]]></li>
+</ul>
+</li>
+<li><p>约束</p>
+<ul>
+<li>规定框架的使用者(程序员) :<ol>
+<li>能够在xml中引入约束文档</li>
+<li>能够简单的读懂约束文档</li>
+</ol>
+</li>
+<li>分类 :<ol>
+<li>DTD : 一种简单的约束技术</li>
+<li>Schema : 一种复杂的约束技术</li>
+</ol>
+</li>
+<li>DTD :<ul>
+<li>引入dtd文档到xml文档中<ul>
+<li>内部DTD : 将约束规则定义在xml文档中(不常用)</li>
+<li>外部DTD : 将约束规则定义在外部的DTD文件中<ul>
+<li>本地 : <!DOCTYPE 根标签名 SYSYEM "DTD文件的位置"></li>
+<li>网络 : <!DOCTYPE 根标签名 PUBLIC "DTD文件名"  "DTD文件的位置URL"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Schema : <ul>
+<li>引入 :<ul>
+<li>填写xml文档的根元素</li>
+<li>引入xsi前缀 , xmlns:xsi=”<a class="link"   target="_blank" rel="noopener" href="http://www.w3.org/2001/XMLSchema-instance&quot;" >http://www.w3.org/2001/XMLSchema-instance&quot;<i class="fas fa-external-link-alt"></i></a></li>
+<li>引入命名空间和xsd文件. xsi:schemaLocation=”<a class="link"   target="_blank" rel="noopener" href="http://www.itcast.cn/xml(%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4)" >http://www.itcast.cn/xml(命名空间)<i class="fas fa-external-link-alt"></i></a> student.xsd(xsd文件)”</li>
+<li>为每一个xsd约束声明一个前缀, 作为标识 xmlns:前缀名(如果省略则无前缀) = “<a class="link"   target="_blank" rel="noopener" href="http://www.itcast.cn/xml&quot;" >http://www.itcast.cn/xml&quot;<i class="fas fa-external-link-alt"></i></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="解析xml-操作xml文档-将文档中数据读取到内存中"><a href="#解析xml-操作xml文档-将文档中数据读取到内存中" class="headerlink" title="解析xml :操作xml文档, 将文档中数据读取到内存中"></a>解析xml :操作xml文档, 将文档中数据读取到内存中</h2><ul>
+<li><p>操作xml文档</p>
+<ol>
+<li>解析(读取) : 将文档中的数据读取到内存中</li>
+<li>写入 : 将内存中的数据保存到xml文件中, 持久化的存储(不常用)</li>
+</ol>
+</li>
+<li><p>解析xml的方式</p>
+<ol>
+<li>DOM 将标记语言文档一次性加载进内存, 在内存中形成一颗DOM树<ul>
+<li>优点 : 操作方便, 可以对文档进行CRUD的全部操作</li>
+<li>缺点 : 占内存</li>
+</ul>
+</li>
+<li>SAX 逐行读取, 基于事件驱动<ul>
+<li>优点 : 不占内存</li>
+<li>缺点 : 只能读取, 不能修改</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>xml常见的解析器</p>
+<ol>
+<li>JAXP : sun公司提供的解析器, 支持dom和sax(性能不行)</li>
+<li>DOM4J : 一款非常优秀的解析器</li>
+<li>Jsoup : 是一款Java 的HTML解析器，可直接解析某个URL地址、HTML文本内容。它提供了一套非常省力的API，可通过DOM，CSS以及类似于jQuery的操作方法来取出和操作数据。</li>
+<li>PULL:Android操作系统内置的解析器, 支持sax方式</li>
+</ol>
+</li>
+<li><p>jsoup</p>
+<ul>
+<li>快速入门 :<ul>
+<li>步骤 :<ol>
+<li>导入jar包</li>
+<li>获取Document对象</li>
+<li>获取对应的标签Elemen对象</li>
+<li>获取数据</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//		1. 导入jar包</span></span><br><span class="line"><span class="comment">//		2. 获取Document对象</span></span><br><span class="line">		String path = demo01.class.getClassLoader().getResource(<span class="string">&quot;student.xml&quot;</span>).getPath();</span><br><span class="line">		Document document = Jsoup.parse(<span class="keyword">new</span> File(path), <span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line"><span class="comment">//		3. 获取对应的标签Elemen对象</span></span><br><span class="line">		Elements elements = document.getElementsByTag(<span class="string">&quot;name&quot;</span>);</span><br><span class="line">		System.out.println(elements.size());</span><br><span class="line">		Element element = elements.get(<span class="number">0</span>);</span><br><span class="line"><span class="comment">//		4. 获取数据</span></span><br><span class="line">		String name = element.text();</span><br><span class="line">		System.out.println(name);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>对象的使用</p>
+<ol>
+<li><p>Jsoup : 工具类, 可以解析html或xml文档, 返回Document对象</p>
+<ul>
+<li>parse方法 : 解析html或xml文档, 返回Document对象<ul>
+<li>parse(File in, String charsetName) : 解析xml或html文件</li>
+<li>parse(String html) : 解析xml或html字符串(不常用)</li>
+<li>parse(URL url, int timeoutMillis) : 通过url来获取xml或html文件并解析</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Document : 文档对象. 代表内存中DOM树</p>
+<ul>
+<li><p>获取Element对象</p>
+<ul>
+<li><p>getElementById(String id) : 根据id获取element对象</p>
+</li>
+<li><p>getElementsByTag(String tagName) : 根据标签名获取Element集合</p>
+</li>
+<li><p>getElementsByAttribute(String key) : 根据标签名获取Element集合</p>
+</li>
+<li><p>getElementsByAttributeValue(String key) : 根据属性名对应的属性值来获取Element集合</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Elements : 元素Element对象的集合, 可以当作ArrayList来使用</p>
+</li>
+<li><p>Element : 元素对象</p>
+<ol>
+<li><p>获取子元素对象</p>
+<ul>
+<li><p>getElementById(String id) : 根据id获取element对象</p>
+</li>
+<li><p>getElementsByTag(String tagName) : 根据标签名获取Element集合</p>
+</li>
+<li><p>getElementsByAttribute(String key) : 根据标签名获取Element集合</p>
+</li>
+<li><p>getElementsByAttributeValue(String key) : 根据属性名对应的属性值来获取Element集合</p>
+</li>
+</ul>
+</li>
+<li><p>获取属性值</p>
+<ul>
+<li>String attr(String key) : 根据属性名称获取属性值</li>
+</ul>
+</li>
+<li><p>获取文本内容</p>
+<ul>
+<li>String text() : 获取所有子标签的文本内容</li>
+<li>String html() : 获取标签体内的所有内容, 包括字标签</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>Node : 节点对象</p>
+<ul>
+<li>是Document和Element父类</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="快捷查询方式"><a href="#快捷查询方式" class="headerlink" title="快捷查询方式"></a>快捷查询方式</h2><ol>
+<li>selector : 选择器<ul>
+<li>使用的方法 : Elements select(String cssQuery)</li>
+<li>语法参考Selector类中定义的语法</li>
+</ul>
+</li>
+<li>Xpath : <strong>XPath</strong>即为<a class="link"   target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/XML" >XML<i class="fas fa-external-link-alt"></i></a>路径语言（XML Path Language），它是一种用来确定XML文档中某部分位置的<a class="link"   target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%AD%E8%A8%80" >计算机语言<i class="fas fa-external-link-alt"></i></a>。<ul>
+<li>使用Jsoup的Xpath需要额外导入jar包</li>
+<li>查询w3cschool参考手册来了解Xpath的语法进行查询</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Xpath学习</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">demo06</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException, XpathSyntaxErrorException </span>&#123;</span><br><span class="line">		String path = demo01.class.getClassLoader().getResource(<span class="string">&quot;student.xml&quot;</span>).getPath();</span><br><span class="line">		Document document = Jsoup.parse(<span class="keyword">new</span> File(path), <span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line"></span><br><span class="line">		JXDocument jxDocument = <span class="keyword">new</span> JXDocument(document);</span><br><span class="line">		List&lt;JXNode&gt; list = jxDocument.selN(<span class="string">&quot;//student&quot;</span>);</span><br><span class="line">		System.out.println(list);</span><br><span class="line">		System.out.println(<span class="string">&quot;----------------------------&quot;</span>);</span><br><span class="line"></span><br><span class="line">		list = jxDocument.selN(<span class="string">&quot;//student/name&quot;</span>);</span><br><span class="line">		System.out.println(list);</span><br><span class="line">		System.out.println(<span class="string">&quot;----------------------------&quot;</span>);</span><br><span class="line"></span><br><span class="line">		list = jxDocument.selN(<span class="string">&quot;//student/name[@size]&quot;</span>);</span><br><span class="line">		System.out.println(list);</span><br><span class="line">		System.out.println(<span class="string">&quot;----------------------------&quot;</span>);</span><br><span class="line"></span><br><span class="line">		list = jxDocument.selN(<span class="string">&quot;//student/name[@size = &#x27;3&#x27;]&quot;</span>);</span><br><span class="line">		System.out.println(list);</span><br><span class="line">		System.out.println(<span class="string">&quot;----------------------------&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>本文标题：xml学习</li>
+        <li>本文作者：chenysh</li>
+        <li>创建时间：2021-11-03 13:32:15</li>
+        <li>
+            本文链接：https://ischenysh.github.io/2021/11/03/xml学习/
+        </li>
+        <li>
+            版权声明：本博客所有文章除特别声明外，均采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> 许可协议。转载请注明出处！
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/11/01/JDBC%E5%AD%A6%E4%B9%A0/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">JDBC学习</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;评论</i>
+    </div>
+    
+
+        
+            
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>
+              -
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">chenysh</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.3</a>
+        </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#XML"><span class="nav-number">1.</span> <span class="nav-text">XML</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E6%9E%90xml-%E6%93%8D%E4%BD%9Cxml%E6%96%87%E6%A1%A3-%E5%B0%86%E6%96%87%E6%A1%A3%E4%B8%AD%E6%95%B0%E6%8D%AE%E8%AF%BB%E5%8F%96%E5%88%B0%E5%86%85%E5%AD%98%E4%B8%AD"><span class="nav-number">2.</span> <span class="nav-text">解析xml :操作xml文档, 将文档中数据读取到内存中</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BF%AB%E6%8D%B7%E6%9F%A5%E8%AF%A2%E6%96%B9%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">快捷查询方式</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+
+    
+<script src="/js/code-copy.js"></script>
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+</body>
+</html>
