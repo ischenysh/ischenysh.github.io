@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="chenysh">
+    
+    <title>
+        
+            JSP学习 |
+        
+        chenysh&#39;s blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/logo.svg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"zh-CN","path":"search.xml"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"https://raw.githubusercontent.com/ischenysh/images/master/touxiang.5suj3kmb2xg0.png","favicon":"/images/logo.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":true},"first_screen":{"enable":true,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.3"};
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 月前","year":"%s 年前"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                chenysh&#39;s blog
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                首页
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                归档
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">首页</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">归档</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">JSP学习</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://raw.githubusercontent.com/ischenysh/images/master/touxiang.5suj3kmb2xg0.png">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">chenysh</span>
+                        
+                            <span class="author-label">学生</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-11-08 21:15:55
+    </span>
+    
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h2 id="JSP"><a href="#JSP" class="headerlink" title="JSP"></a>JSP</h2><pre><code>1. 指令
+    * 作用 : 用于配置JSP页面, 导入资源文件
+    * 格式 : 
+        &lt;%@ 指令名称 属性名1=属性值1 属性名2=属性值2... %&gt;
+    * 分类 : 
+        1. page    : 配置JSP页面
+            * contentType : 等同于reponse.setContentType()
+                1. 设置响应体的mime类型以及字符集
+                2. 设置当前JSP页面的编码(只适用于高级的开发工具)
+            * import         : 导包
+            * errorPage     :当前页面发生异常后会自动跳转到的页面
+            * isErrorPage     : 标识当前页面是否为错误页面(默认为false)
+        2. include : 让页面包含指定的页面. 即导入页面的资源文件
+            * &lt;%@include file=&quot;top.jsp&quot;%&gt;
+        3. taglib  : 导入资源
+            * &lt;%@ taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/jstl/core&quot; %&gt;
+                * prefix : 自定义前缀
+2. 注解
+    1. html注释 :
+        * &lt;!-- --&gt;     : 只能注释html代码片段
+    2. JSP注释 : 推荐使用
+        * &lt;%-- --%&gt; : 可以注释所有内容
+
+3. 内置对象
+    * 在JSP页面中不需要创建, 可以直接使用
+    * 一共有九个 : 
+            变量名                真实类型                        作用
+        * pageContext            PageContext                    当前页面共享数据 还可以获得其他八个内部对象
+        * request                HttpServletRequest            一次请求访问的多个资源间
+        * session                HttpSession                    一个会话的多次请求间
+        * application            ServletContext                所有用户间共享数据
+        * response                HttpServletResponse            响应对象
+        * page                    Object                        当前页面(Serclet)的对象 this
+        * out                    JspWriter                    输出对象, 将数据输出到页面
+        * config                ServletConfig                Servlet的配置对象
+        * exception                Throwable                    异常对象
+</code></pre>
+<h2 id="MVC开发模式"><a href="#MVC开发模式" class="headerlink" title="MVC开发模式"></a>MVC开发模式</h2><p><img src="https://raw.githubusercontent.com/ischenysh/images/master/image.1tbmqz2yj7k0.png" alt="image"></p>
+<pre><code>1. MVC : 
+    1. M : Model, 模型. JavaBean
+        * 完成具体的业务操作, 如 : 查询数据库, 封装对象
+    2. V : View, 视图, JSP
+        * 展示数据
+    3. C : Controller : 控制器, Servlet
+        * 获取用户输入
+        * 调用模型
+        * 将数据交给视图进行展示
+    
+    * 优缺点 : 
+        1. 优点 : 
+            1. 耦合度低, 方便维护, 可以利于分工协作
+            2. 重用性高
+        2. 缺点 : 
+            1. 使得项目结构变得复杂, 对开发人员要求变高
+</code></pre>
+<h2 id="EL表达式"><a href="#EL表达式" class="headerlink" title="EL表达式"></a>EL表达式</h2><pre><code>1. 概念 : Expression Language 表达式语言
+2. 作用 : 替换和简化jsp页面中java代码的编写
+3. 语法 : $&#123;表达式&#125;
+4. 注意 : 
+    * jsp默认支持el表达式, 如果要忽略el表达式
+        1. 设置jsp的page指令中 : isELIgnored=&quot;true&quot; 忽略当前页面的所有el表达式
+        2. \$&#123;表达式&#125; : 忽略当前这个el表达式
+
+5. 使用 : 
+    1. 运算 : 
+        * 运算符 : 
+            1. 算数运算符
+            2. 比较运算符
+            3. 逻辑运算符
+            4. 空运算符 : empty
+                * 功能 : 用于判断字符串, 集合, 数组对象是否为null或长度为0
+
+    2. 获取值
+        1. el表达式只能从域对象获取值
+        2. 语法 :
+            1. $&#123;域名称.键名&#125; : 从指定域中获取指定键的值
+                * 域名称 : 
+                    1. pageScope            ---&gt;        pageContext
+                    2. requestScope            ---&gt;        request
+                    3. sessionScope            ---&gt;        session
+                    4. applicationScope        ---&gt;        application(ServletContext)
+
+            2. $&#123;键名&#125; : 表示依次从最小的域开始查询是否有该键对应的值, 直到找到位置
+            3. 获取对象, List集合, Map集合的值
+                1. 对象 : $&#123;域名称.键名,属性名&#125;
+                    * 本质会去调用对象的getter方法
+
+                2. List集合 : $&#123;域名称.键名[索引]&#125;
+                3. Map集合 : $&#123;域名称.键名[&quot;key名称&quot;]&#125;
+
+    3. 隐式对象 : 
+        * el表达式中有11个隐式对象
+        * pageContext : 
+            * 获取jsp其他的八个内置对象
+                * $&#123;pageContext.request.contextPath&#125; : 动态获取虚拟目录
+</code></pre>
+<h2 id="JSPL标签"><a href="#JSPL标签" class="headerlink" title="JSPL标签"></a>JSPL标签</h2><pre><code>1. 概念 : JavaServer Page Tag Library JSP标准标签库
+    * 是由Apache组织提供的开源的免费的jsp标签
+
+2. 作用 : 用于简化和替换jsp页面上的java代码
+
+
+3. 使用步骤 : 
+    1. 导入jstl相关的jar包
+    2. 导入标签库 &lt;%@ taglib %&gt;
+    3. 使用标签
+
+4. 常用的JSTL标签
+    1. if : 相当与java代码中的if语句
+        1. 属性 : 
+            * test为必须属性, 接收boolean表达式
+                * 如果表达式结果为true, 则显示if标签体的内容, 反之则不显示
+                * 一般情况下与el表达式一起使用
+
+        2. 注意 :
+            * if标签没有else, 需要再定义一个c:if标签
+
+    2. choose : 相当于java代码中的switch语句
+        1. 使用choose标签声明                    相当于switch声明
+        2. 使用when标签做判断                    相当于case
+        3. 使用otherwise标签做其他情况的说明    相当于default
+
+
+    3. foreach : 相当于java代码的for语句
+        1. 完成重复性的操作
+            * 属性 :
+                * begin : 开始值
+                * end     : 结束值
+                * var     : 临时变量
+                * steps : 步长
+                * varStatus : 循环状态对象
+                    * index : 容器中元素的索引, 从0开始
+                    * count : 循环次数, 从1开始
+
+        2. 遍历容器 : 
+            * 属性 : 
+                * items : 容器对象
+                * var     : 容器中元素的临时变量
+                * varStatus : 循环状态对象
+                    * index : 容器中元素的索引, 从0开始
+                    * count : 循环次数, 从1开始
+</code></pre>
+<h2 id="三层架构"><a href="#三层架构" class="headerlink" title="三层架构"></a>三层架构</h2><p><img src="https://raw.githubusercontent.com/ischenysh/images/master/image.4w8xrr0s34a0.png" alt="image"><br>    1. 界面层(表示层) : 用户看的页面, 用户可以通过界面上的组件与服务器进行交互<br>    2. 业务逻辑层 : 处理业务逻辑<br>    3. 数据访问层 : 操作数据存储文件</p>
+<h2 id="案例-用户信息列表展示"><a href="#案例-用户信息列表展示" class="headerlink" title="案例 : 用户信息列表展示"></a>案例 : 用户信息列表展示</h2><pre><code>1. 需求 : 用户信息的CRUD
+2. 设计 : 
+    1. 技术选型 : servlet+JSP+MySQL+JDBCTemplet+Duird+BeanUtils+tomcat 
+    2. 数据库的设计
+        create table user(
+          id int primary key auto_increment,
+          name varchar(30) not null,
+          gender varchar(5),
+          age int,
+          address varchar(50),
+          qq varchar(20),
+          email varchar(20)
+        );
+
+
+3. 开发 :
+    1. 环境搭建 :
+        1. 创建数据库环境
+        2. 城创建项目, 导入需要的jar包
+
+    2. 编码
+
+4. 测试
+5. 部署运维
+</code></pre>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>本文标题：JSP学习</li>
+        <li>本文作者：chenysh</li>
+        <li>创建时间：2021-11-08 21:15:55</li>
+        <li>
+            本文链接：https://ischenysh.github.io/2021/11/08/JSP学习/
+        </li>
+        <li>
+            版权声明：本博客所有文章除特别声明外，均采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> 许可协议。转载请注明出处！
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/11/07/%E4%BC%9A%E8%AF%9D%E6%8A%80%E6%9C%AF%E4%B8%8EJSP%E5%AD%A6%E4%B9%A0/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">会话技术与JSP学习</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;评论</i>
+    </div>
+    
+
+        
+            
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>
+              -
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">chenysh</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.3</a>
+        </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JSP"><span class="nav-number">1.</span> <span class="nav-text">JSP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MVC%E5%BC%80%E5%8F%91%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">MVC开发模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EL%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">EL表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSPL%E6%A0%87%E7%AD%BE"><span class="nav-number">4.</span> <span class="nav-text">JSPL标签</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E5%B1%82%E6%9E%B6%E6%9E%84"><span class="nav-number">5.</span> <span class="nav-text">三层架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B-%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF%E5%88%97%E8%A1%A8%E5%B1%95%E7%A4%BA"><span class="nav-number">6.</span> <span class="nav-text">案例 : 用户信息列表展示</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+
+    
+<script src="/js/code-copy.js"></script>
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+</body>
+</html>
