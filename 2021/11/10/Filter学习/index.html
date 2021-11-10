@@ -9,7 +9,7 @@
     
     <title>
         
-            JSP学习 |
+            Filter学习 |
         
         chenysh&#39;s blog
     </title>
@@ -124,7 +124,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">JSP学习</span>
+            <span class="title-hover-animation">Filter学习</span>
         </div>
 
         
@@ -142,7 +142,7 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-11-08 21:15:55
+        <i class="fas fa-edit"></i>&nbsp;2021-11-10 20:15:12
     </span>
     
     
@@ -159,173 +159,110 @@
         
 
         <div class="article-content markdown-body">
-            <h2 id="JSP"><a href="#JSP" class="headerlink" title="JSP"></a>JSP</h2><pre><code>1. 指令
-    * 作用 : 用于配置JSP页面, 导入资源文件
-    * 格式 : 
-        &lt;%@ 指令名称 属性名1=属性值1 属性名2=属性值2... %&gt;
-    * 分类 : 
-        1. page    : 配置JSP页面
-            * contentType : 等同于reponse.setContentType()
-                1. 设置响应体的mime类型以及字符集
-                2. 设置当前JSP页面的编码(只适用于高级的开发工具)
-            * import         : 导包
-            * errorPage     :当前页面发生异常后会自动跳转到的页面
-            * isErrorPage     : 标识当前页面是否为错误页面(默认为false)
-        2. include : 让页面包含指定的页面. 即导入页面的资源文件
-            * &lt;%@include file=&quot;top.jsp&quot;%&gt;
-        3. taglib  : 导入资源
-            * &lt;%@ taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/jstl/core&quot; %&gt;
-                * prefix : 自定义前缀
-2. 注解
-    1. html注释 :
-        * &lt;!-- --&gt;     : 只能注释html代码片段
-    2. JSP注释 : 推荐使用
-        * &lt;%-- --%&gt; : 可以注释所有内容
+            <h1 id="Fileter-过滤器"><a href="#Fileter-过滤器" class="headerlink" title="Fileter : 过滤器"></a>Fileter : 过滤器</h1><pre><code>1. 概念
+    * 当访问服务器的资源时, 过滤器可以将请求拦截下来, 完成一些特殊的功能.
+    * 过滤器的作用 : 
+        * 一般用于完成通用的操作. 如: 登陆验证, 统一编码处理, 敏感字符过滤...
+2. 快速入门 :     
+    1. 步骤 : 
+        1. 定义一个类, 实现Filter接口
+        2. 复写方法
+        3. 配置拦截路径
+            1. web.xml
+            2. 注解
 
-3. 内置对象
-    * 在JSP页面中不需要创建, 可以直接使用
-    * 一共有九个 : 
-            变量名                真实类型                        作用
-        * pageContext            PageContext                    当前页面共享数据 还可以获得其他八个内部对象
-        * request                HttpServletRequest            一次请求访问的多个资源间
-        * session                HttpSession                    一个会话的多次请求间
-        * application            ServletContext                所有用户间共享数据
-        * response                HttpServletResponse            响应对象
-        * page                    Object                        当前页面(Serclet)的对象 this
-        * out                    JspWriter                    输出对象, 将数据输出到页面
-        * config                ServletConfig                Servlet的配置对象
-        * exception                Throwable                    异常对象
+    2. 代码 : 
+        @WebFilter(&quot;/index.jsp&quot;)// 访问index.jsp之前, 会执行该过滤器
+        public class FilterDemo01 implements Filter &#123;
+            @Override
+            public void init(FilterConfig filterConfig) throws ServletException &#123;
+            &#125;
+        
+            @Override
+            public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException &#123;
+                System.out.println(&quot;我被执行了!&quot;);
+                // 放行
+                filterChain.doFilter(servletRequest, servletResponse);
+            &#125;
+        
+            @Override
+            public void destroy() &#123;
+            &#125;
+        &#125;
+
+3. 过滤器细节 :
+    1. web.xml的配置    
+            &lt;filter&gt;
+            &lt;filter-name&gt;demo01&lt;/filter-name&gt;
+            &lt;filter-class&gt;com.chenysh.web.filter.FilterDemo01&lt;/filter-class&gt;
+        &lt;/filter&gt;
+        &lt;filter-mapping&gt;
+            &lt;filter-name&gt;demo01&lt;/filter-name&gt;
+            &lt;!--拦截路径--&gt;
+            &lt;url-pattern&gt;/index.jsp&lt;/url-pattern&gt;
+        &lt;/filter-mapping&gt;
+    2. 过滤器的执行流程
+        1. 执行过滤器
+        2. 执行放行后的资源
+        3. 继续执行下面的代码
+    3. 过滤器的生命周期方法
+        1. init:在服务器启动后, 会创建Filter对象, 然后调用init方法, 只执行一次, 用于加载资源
+        2. doFilter:每次请求被拦截后, 都会执行
+        3. destroy:在服务器正常关闭之前执行, 用于释放资源
+    4. 过滤器配置详解
+        * 拦截路径配置 :
+            1. 具体资源路径: /index.jsp  只有访问index.jsp资源时, 过滤器才执行
+            2. 目录拦截: /user/*         访问/user目录下的所有资源, 过滤器都会执行
+            3. 后缀名拦截: *.jsp            访问后缀名为jsp的资源, 过滤器都会执行
+            4. 拦截所有资源: /*             访问所有的资源, 过滤器都会执行
+        * 拦截方式配置 : 
+            * 注解配置 :
+                * 设置dispatcherTypes属性
+                    1. REQUEST : 默认值. 浏览器直接请求资源
+                    2. FORWARD : 转发访问资源
+                    3. INCLUDE : 包含访问资源
+                    4. ERROR   : 错误跳转资源
+                    5. ASYNC   : 异步访问资源
+                * web.xml配置
+                    * 设置&lt;dispatcher&gt;&lt;/dispatcher&gt;标签即可
+
+    5. 过滤器链(配置多个过滤器)    
+        * 执行顺序 : 如果有两个过滤器 : 过滤器1与过滤器2
+            1. 过滤器1
+            2. 过滤器2
+            3. 资源执行
+            4. 过滤器2
+            5. 过滤器1
+        
+        * 过滤器执行先后问题 : 
+            1. 注解配置: 按照**类名**的字符串比较规则, 小的先执行
+                * FilterDemo01比FilterDemo02先执行
+            2. web.xml配置 : &lt;filter-mapping&gt;的定义顺序决定, 谁在上面谁先执行
 </code></pre>
-<h2 id="MVC开发模式"><a href="#MVC开发模式" class="headerlink" title="MVC开发模式"></a>MVC开发模式</h2><p><img src="https://raw.githubusercontent.com/ischenysh/images/master/image.1tbmqz2yj7k0.png" alt="image"></p>
-<pre><code>1. MVC : 
-    1. M : Model, 模型. JavaBean
-        * 完成具体的业务操作, 如 : 查询数据库, 封装对象
-    2. V : View, 视图, JSP
-        * 展示数据
-    3. C : Controller : 控制器, Servlet
-        * 获取用户输入
-        * 调用模型
-        * 将数据交给视图进行展示
-    
-    * 优缺点 : 
-        1. 优点 : 
-            1. 耦合度低, 方便维护, 可以利于分工协作
-            2. 重用性高
-        2. 缺点 : 
-            1. 使得项目结构变得复杂, 对开发人员要求变高
-</code></pre>
-<h2 id="EL表达式"><a href="#EL表达式" class="headerlink" title="EL表达式"></a>EL表达式</h2><pre><code>1. 概念 : Expression Language 表达式语言
-2. 作用 : 替换和简化jsp页面中java代码的编写
-3. 语法 : $&#123;表达式&#125;
-4. 注意 : 
-    * jsp默认支持el表达式, 如果要忽略el表达式
-        1. 设置jsp的page指令中 : isELIgnored=&quot;true&quot; 忽略当前页面的所有el表达式
-        2. \$&#123;表达式&#125; : 忽略当前这个el表达式
-
-5. 使用 : 
-    1. 运算 : 
-        * 运算符 : 
-            1. 算数运算符
-            2. 比较运算符
-            3. 逻辑运算符
-            4. 空运算符 : empty
-                * 功能 : 用于判断字符串, 集合, 数组对象是否为null或长度为0
-
-    2. 获取值
-        1. el表达式只能从域对象获取值
-        2. 语法 :
-            1. $&#123;域名称.键名&#125; : 从指定域中获取指定键的值
-                * 域名称 : 
-                    1. pageScope            ---&gt;        pageContext
-                    2. requestScope            ---&gt;        request
-                    3. sessionScope            ---&gt;        session
-                    4. applicationScope        ---&gt;        application(ServletContext)
-
-            2. $&#123;键名&#125; : 表示依次从最小的域开始查询是否有该键对应的值, 直到找到位置
-            3. 获取对象, List集合, Map集合的值
-                1. 对象 : $&#123;域名称.键名,属性名&#125;
-                    * 本质会去调用对象的getter方法
-
-                2. List集合 : $&#123;域名称.键名[索引]&#125;
-                3. Map集合 : $&#123;域名称.键名[&quot;key名称&quot;]&#125;
-
-    3. 隐式对象 : 
-        * el表达式中有11个隐式对象
-        * pageContext : 
-            * 获取jsp其他的八个内置对象
-                * $&#123;pageContext.request.contextPath&#125; : 动态获取虚拟目录
-</code></pre>
-<h2 id="JSPL标签"><a href="#JSPL标签" class="headerlink" title="JSPL标签"></a>JSPL标签</h2><pre><code>1. 概念 : JavaServer Page Tag Library JSP标准标签库
-    * 是由Apache组织提供的开源的免费的jsp标签
-
-2. 作用 : 用于简化和替换jsp页面上的java代码
+<h1 id="Listener：监听器"><a href="#Listener：监听器" class="headerlink" title="Listener：监听器"></a>Listener：监听器</h1><pre><code>* 概念：web的三大组件之一。
+    * 事件监听机制
+        * 事件    ：一件事情
+        * 事件源 ：事件发生的地方
+        * 监听器 ：一个对象
+        * 注册监听：将事件、事件源、监听器绑定在一起。 当事件源上发生某个事件后，执行监听器代码
 
 
-3. 使用步骤 : 
-    1. 导入jstl相关的jar包
-    2. 导入标签库 &lt;%@ taglib %&gt;
-    3. 使用标签
+* ServletContextListener:监听ServletContext对象的创建和销毁
+    * 方法：
+        * void contextDestroyed(ServletContextEvent sce) ：ServletContext对象被销毁之前会调用该方法
+        * void contextInitialized(ServletContextEvent sce) ：ServletContext对象创建后会调用该方法
+    * 步骤：
+        1. 定义一个类，实现ServletContextListener接口
+        2. 复写方法
+        3. 配置
+            1. web.xml
+                    &lt;listener&gt;
+                      &lt;listener-class&gt;cn.itcast.web.listener.ContextLoaderListener&lt;/listener-class&gt;
+                    &lt;/listener&gt;
 
-4. 常用的JSTL标签
-    1. if : 相当与java代码中的if语句
-        1. 属性 : 
-            * test为必须属性, 接收boolean表达式
-                * 如果表达式结果为true, 则显示if标签体的内容, 反之则不显示
-                * 一般情况下与el表达式一起使用
-
-        2. 注意 :
-            * if标签没有else, 需要再定义一个c:if标签
-
-    2. choose : 相当于java代码中的switch语句
-        1. 使用choose标签声明                    相当于switch声明
-        2. 使用when标签做判断                    相当于case
-        3. 使用otherwise标签做其他情况的说明    相当于default
-
-
-    3. foreach : 相当于java代码的for语句
-        1. 完成重复性的操作
-            * 属性 :
-                * begin : 开始值
-                * end     : 结束值
-                * var     : 临时变量
-                * steps : 步长
-                * varStatus : 循环状态对象
-                    * index : 容器中元素的索引, 从0开始
-                    * count : 循环次数, 从1开始
-
-        2. 遍历容器 : 
-            * 属性 : 
-                * items : 容器对象
-                * var     : 容器中元素的临时变量
-                * varStatus : 循环状态对象
-                    * index : 容器中元素的索引, 从0开始
-                    * count : 循环次数, 从1开始
-</code></pre>
-<h2 id="三层架构"><a href="#三层架构" class="headerlink" title="三层架构"></a>三层架构</h2><p><img src="https://raw.githubusercontent.com/ischenysh/images/master/image.4w8xrr0s34a0.png" alt="image"><br>    1. 界面层(表示层) : 用户看的页面, 用户可以通过界面上的组件与服务器进行交互<br>    2. 业务逻辑层 : 处理业务逻辑<br>    3. 数据访问层 : 操作数据存储文件</p>
-<h2 id="案例-用户信息列表展示"><a href="#案例-用户信息列表展示" class="headerlink" title="案例 : 用户信息列表展示"></a>案例 : 用户信息列表展示</h2><pre><code>1. 需求 : 用户信息的CRUD
-2. 设计 : 
-    1. 技术选型 : servlet+JSP+MySQL+JDBCTemplet+Duird+BeanUtils+tomcat 
-    2. 数据库的设计
-        create table user(
-          id int primary key auto_increment,
-          name varchar(30) not null,
-          gender varchar(5),
-          age int,
-          address varchar(50),
-          qq varchar(20),
-          email varchar(20)
-        );
-
-
-3. 开发 :
-    1. 环境搭建 :
-        1. 创建数据库环境
-        2. 城创建项目, 导入需要的jar包
-
-    2. 编码
-
-4. 测试
-5. 部署运维
+                    * 指定初始化参数&lt;context-param&gt;
+            2. 注解：
+                * @WebListener
 </code></pre>
 
         </div>
@@ -334,11 +271,11 @@
             <div class="post-copyright-info">
                 <div class="article-copyright-info-container">
     <ul>
-        <li>本文标题：JSP学习</li>
+        <li>本文标题：Filter学习</li>
         <li>本文作者：chenysh</li>
-        <li>创建时间：2021-11-08 21:15:55</li>
+        <li>创建时间：2021-11-10 20:15:12</li>
         <li>
-            本文链接：https://ischenysh.github.io/2021/11/08/JSP学习/
+            本文链接：https://ischenysh.github.io/2021/11/10/Filter学习/
         </li>
         <li>
             版权声明：本博客所有文章除特别声明外，均采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -352,29 +289,14 @@
         
             <div class="article-nav">
                 
-                    <div class="article-prev">
-                        <a class="prev"
-                           rel="prev"
-                           href="/2021/11/10/Filter%E5%AD%A6%E4%B9%A0/"
-                        >
-                            <span class="left arrow-icon flex-center">
-                              <i class="fas fa-chevron-left"></i>
-                            </span>
-                            <span class="title flex-center">
-                                <span class="post-nav-title-item">Filter学习</span>
-                                <span class="post-nav-item">上一篇</span>
-                            </span>
-                        </a>
-                    </div>
-                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/11/07/%E4%BC%9A%E8%AF%9D%E6%8A%80%E6%9C%AF%E4%B8%8EJSP%E5%AD%A6%E4%B9%A0/"
+                           href="/2021/11/08/JSP%E5%AD%A6%E4%B9%A0/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">会话技术与JSP学习</span>
+                                <span class="post-nav-title-item">JSP学习</span>
                                 <span class="post-nav-item">下一篇</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -507,7 +429,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JSP"><span class="nav-number">1.</span> <span class="nav-text">JSP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MVC%E5%BC%80%E5%8F%91%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">MVC开发模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EL%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">EL表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSPL%E6%A0%87%E7%AD%BE"><span class="nav-number">4.</span> <span class="nav-text">JSPL标签</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E5%B1%82%E6%9E%B6%E6%9E%84"><span class="nav-number">5.</span> <span class="nav-text">三层架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B-%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF%E5%88%97%E8%A1%A8%E5%B1%95%E7%A4%BA"><span class="nav-number">6.</span> <span class="nav-text">案例 : 用户信息列表展示</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Fileter-%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">Fileter : 过滤器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Listener%EF%BC%9A%E7%9B%91%E5%90%AC%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text">Listener：监听器</span></a></li></ol>
     </div>
 </div>
         </aside>
