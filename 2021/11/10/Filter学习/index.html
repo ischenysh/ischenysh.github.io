@@ -159,86 +159,13 @@
         
 
         <div class="article-content markdown-body">
-            <h1 id="Fileter-过滤器"><a href="#Fileter-过滤器" class="headerlink" title="Fileter : 过滤器"></a>Fileter : 过滤器</h1><pre><code>1. 概念
-    * 当访问服务器的资源时, 过滤器可以将请求拦截下来, 完成一些特殊的功能.
-    * 过滤器的作用 : 
-        * 一般用于完成通用的操作. 如: 登陆验证, 统一编码处理, 敏感字符过滤...
-2. 快速入门 :     
-    1. 步骤 : 
-        1. 定义一个类, 实现Filter接口
-        2. 复写方法
-        3. 配置拦截路径
-            1. web.xml
-            2. 注解
+            <h1 id="Fileter-过滤器"><a href="#Fileter-过滤器" class="headerlink" title="Fileter : 过滤器"></a>Fileter : 过滤器</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">1. 概念</span><br><span class="line">	* 当访问服务器的资源时, 过滤器可以将请求拦截下来, 完成一些特殊的功能.</span><br><span class="line">	* 过滤器的作用 : </span><br><span class="line">		* 一般用于完成通用的操作. 如: 登陆验证, 统一编码处理, 敏感字符过滤...</span><br><span class="line">2. 快速入门 : 	</span><br><span class="line">	1. 步骤 : </span><br><span class="line">		1. 定义一个类, 实现Filter接口</span><br><span class="line">		2. 复写方法</span><br><span class="line">		3. 配置拦截路径</span><br><span class="line">			1. web.xml</span><br><span class="line">			2. 注解</span><br><span class="line"></span><br><span class="line">	2. 代码 : </span><br><span class="line">		@WebFilter(&quot;/index.jsp&quot;)// 访问index.jsp之前, 会执行该过滤器</span><br><span class="line">		public class FilterDemo01 implements Filter &#123;</span><br><span class="line">			@Override</span><br><span class="line">			public void init(FilterConfig filterConfig) throws ServletException &#123;</span><br><span class="line">			&#125;</span><br><span class="line">		</span><br><span class="line">			@Override</span><br><span class="line">			public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException &#123;</span><br><span class="line">				System.out.println(&quot;我被执行了!&quot;);</span><br><span class="line">				// 放行</span><br><span class="line">				filterChain.doFilter(servletRequest, servletResponse);</span><br><span class="line">			&#125;</span><br><span class="line">		</span><br><span class="line">			@Override</span><br><span class="line">			public void destroy() &#123;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">3. 过滤器细节 :</span><br><span class="line">	1. web.xml的配置	</span><br><span class="line">		    &lt;filter&gt;</span><br><span class="line">	        &lt;filter-name&gt;demo01&lt;/filter-name&gt;</span><br><span class="line">	        &lt;filter-class&gt;com.chenysh.web.filter.FilterDemo01&lt;/filter-class&gt;</span><br><span class="line">	    &lt;/filter&gt;</span><br><span class="line">	    &lt;filter-mapping&gt;</span><br><span class="line">	        &lt;filter-name&gt;demo01&lt;/filter-name&gt;</span><br><span class="line">	        &lt;!--拦截路径--&gt;</span><br><span class="line">	        &lt;url-pattern&gt;/index.jsp&lt;/url-pattern&gt;</span><br><span class="line">	    &lt;/filter-mapping&gt;</span><br><span class="line">	2. 过滤器的执行流程</span><br><span class="line">		1. 执行过滤器</span><br><span class="line">		2. 执行放行后的资源</span><br><span class="line">		3. 继续执行下面的代码</span><br><span class="line">	3. 过滤器的生命周期方法</span><br><span class="line">		1. init:在服务器启动后, 会创建Filter对象, 然后调用init方法, 只执行一次, 用于加载资源</span><br><span class="line">		2. doFilter:每次请求被拦截后, 都会执行</span><br><span class="line">		3. destroy:在服务器正常关闭之前执行, 用于释放资源</span><br><span class="line">	4. 过滤器配置详解</span><br><span class="line">		* 拦截路径配置 :</span><br><span class="line">			1. 具体资源路径: /index.jsp  只有访问index.jsp资源时, 过滤器才执行</span><br><span class="line">			2. 目录拦截: /user/*         访问/user目录下的所有资源, 过滤器都会执行</span><br><span class="line">			3. 后缀名拦截: *.jsp			访问后缀名为jsp的资源, 过滤器都会执行</span><br><span class="line">			4. 拦截所有资源: /* 			访问所有的资源, 过滤器都会执行</span><br><span class="line">		* 拦截方式配置 : </span><br><span class="line">			* 注解配置 :</span><br><span class="line">				* 设置dispatcherTypes属性</span><br><span class="line">					1. REQUEST : 默认值. 浏览器直接请求资源</span><br><span class="line">					2. FORWARD : 转发访问资源</span><br><span class="line">					3. INCLUDE : 包含访问资源</span><br><span class="line">					4. ERROR   : 错误跳转资源</span><br><span class="line">					5. ASYNC   : 异步访问资源</span><br><span class="line">				* web.xml配置</span><br><span class="line">					* 设置&lt;dispatcher&gt;&lt;/dispatcher&gt;标签即可</span><br><span class="line"></span><br><span class="line">	5. 过滤器链(配置多个过滤器)	</span><br><span class="line">		* 执行顺序 : 如果有两个过滤器 : 过滤器1与过滤器2</span><br><span class="line">			1. 过滤器1</span><br><span class="line">			2. 过滤器2</span><br><span class="line">			3. 资源执行</span><br><span class="line">			4. 过滤器2</span><br><span class="line">			5. 过滤器1</span><br><span class="line">		</span><br><span class="line">		* 过滤器执行先后问题 : </span><br><span class="line">			1. 注解配置: 按照**类名**的字符串比较规则, 小的先执行</span><br><span class="line">				* FilterDemo01比FilterDemo02先执行</span><br><span class="line">			2. web.xml配置 : &lt;filter-mapping&gt;的定义顺序决定, 谁在上面谁先执行</span><br></pre></td></tr></table></figure>
 
-    2. 代码 : 
-        @WebFilter(&quot;/index.jsp&quot;)// 访问index.jsp之前, 会执行该过滤器
-        public class FilterDemo01 implements Filter &#123;
-            @Override
-            public void init(FilterConfig filterConfig) throws ServletException &#123;
-            &#125;
-        
-            @Override
-            public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException &#123;
-                System.out.println(&quot;我被执行了!&quot;);
-                // 放行
-                filterChain.doFilter(servletRequest, servletResponse);
-            &#125;
-        
-            @Override
-            public void destroy() &#123;
-            &#125;
-        &#125;
 
-3. 过滤器细节 :
-    1. web.xml的配置    
-            &lt;filter&gt;
-            &lt;filter-name&gt;demo01&lt;/filter-name&gt;
-            &lt;filter-class&gt;com.chenysh.web.filter.FilterDemo01&lt;/filter-class&gt;
-        &lt;/filter&gt;
-        &lt;filter-mapping&gt;
-            &lt;filter-name&gt;demo01&lt;/filter-name&gt;
-            &lt;!--拦截路径--&gt;
-            &lt;url-pattern&gt;/index.jsp&lt;/url-pattern&gt;
-        &lt;/filter-mapping&gt;
-    2. 过滤器的执行流程
-        1. 执行过滤器
-        2. 执行放行后的资源
-        3. 继续执行下面的代码
-    3. 过滤器的生命周期方法
-        1. init:在服务器启动后, 会创建Filter对象, 然后调用init方法, 只执行一次, 用于加载资源
-        2. doFilter:每次请求被拦截后, 都会执行
-        3. destroy:在服务器正常关闭之前执行, 用于释放资源
-    4. 过滤器配置详解
-        * 拦截路径配置 :
-            1. 具体资源路径: /index.jsp  只有访问index.jsp资源时, 过滤器才执行
-            2. 目录拦截: /user/*         访问/user目录下的所有资源, 过滤器都会执行
-            3. 后缀名拦截: *.jsp            访问后缀名为jsp的资源, 过滤器都会执行
-            4. 拦截所有资源: /*             访问所有的资源, 过滤器都会执行
-        * 拦截方式配置 : 
-            * 注解配置 :
-                * 设置dispatcherTypes属性
-                    1. REQUEST : 默认值. 浏览器直接请求资源
-                    2. FORWARD : 转发访问资源
-                    3. INCLUDE : 包含访问资源
-                    4. ERROR   : 错误跳转资源
-                    5. ASYNC   : 异步访问资源
-                * web.xml配置
-                    * 设置&lt;dispatcher&gt;&lt;/dispatcher&gt;标签即可
+<h1 id="增强对象的功能"><a href="#增强对象的功能" class="headerlink" title="增强对象的功能"></a>增强对象的功能</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">* 设计模式:一些通用的解决固定问题的方式</span><br><span class="line">	1.	装饰模式</span><br><span class="line">	2.	代理模式</span><br><span class="line">		* 概念 : </span><br><span class="line">			1. 真实对象 : 被代理的对象</span><br><span class="line">			2. 代理对象</span><br><span class="line">			3. 代理模式 : 代理对象代理真实对象, 达到增强真实对象功能的目的</span><br><span class="line">		* 实现方式 :</span><br><span class="line">			1. 静态代理 : 有一个类文件描述代理模式</span><br><span class="line">			2. 动态代理 : 在内存中形成代理类</span><br><span class="line">			</span><br><span class="line">				* 实现步骤 : </span><br><span class="line">					1. 代理对象和真实对象实现同样的接口</span><br><span class="line">					2. 代理对象 = Proxy.newProxyInstance();</span><br><span class="line">					3. 使用代理对象调用方法</span><br><span class="line">					4. 增强方法</span><br><span class="line">				* 增强方式</span><br><span class="line">					1. 增强参数列表</span><br><span class="line">					2. 增强返回值类型</span><br><span class="line">					3. 增强方法体执行逻辑</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">* 示例代码 :</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"><span class="comment">//		1. 创建真实对象</span></span><br><span class="line">	Lenovo lenovo = <span class="keyword">new</span> Lenovo();</span><br><span class="line"><span class="comment">//		2. 动态代理增强lenovo对象</span></span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	三个参数 : </span></span><br><span class="line"><span class="comment">		1. 类加载器 : 真实对象.getClass().getClassLoader()</span></span><br><span class="line"><span class="comment">		2. 接口数组 : 真实对象.getClass().getInterfaces()</span></span><br><span class="line"><span class="comment">		3. 处理器  :  new InvocationHandler()</span></span><br><span class="line"><span class="comment">		</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	SaleComputer proxy_lenovo = (SaleComputer) Proxy.newProxyInstance(lenovo.getClass().getClassLoader(), lenovo.getClass().getInterfaces(), <span class="keyword">new</span> InvocationHandler() &#123;</span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">		<span class="comment">/**</span></span><br><span class="line"><span class="comment">		 * 代理逻辑编写的方法: 道代理对象调用的所有方法都会触发此方法执行</span></span><br><span class="line"><span class="comment">		 * <span class="doctag">@param</span> proxy 代理对象</span></span><br><span class="line"><span class="comment">		 * <span class="doctag">@param</span> method 代理对象调用的方法被封装成的方法对象</span></span><br><span class="line"><span class="comment">		 * <span class="doctag">@param</span> args 调用方法时的传参</span></span><br><span class="line"><span class="comment">		 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">		 * <span class="doctag">@throws</span> Throwable</span></span><br><span class="line"><span class="comment">		 */</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line"><span class="comment">//				判断此方法是否为要增强的方法</span></span><br><span class="line">			<span class="keyword">if</span> (method.getName().equals(<span class="string">&quot;sale&quot;</span>)) &#123;</span><br><span class="line"><span class="comment">//				    1. 增强参数</span></span><br><span class="line">				<span class="keyword">double</span> money = (<span class="keyword">double</span>) args[<span class="number">0</span>];</span><br><span class="line">				money *= <span class="number">1.25</span>;</span><br><span class="line"><span class="comment">//					2. 增强返回值</span></span><br><span class="line">				String value = (String) method.invoke(lenovo, money) + <span class="string">&quot; 鼠标&quot;</span>;</span><br><span class="line"><span class="comment">//					3. 增强方法体执行逻辑</span></span><br><span class="line">				System.out.println(<span class="string">&quot;热情服务&quot;</span>);</span><br><span class="line">				<span class="keyword">return</span> value;</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line"><span class="comment">//			    真实对象调用method方法</span></span><br><span class="line">				Object o = method.invoke(lenovo, args);</span><br><span class="line"><span class="comment">//				method的返回值</span></span><br><span class="line">				<span class="keyword">return</span> o;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;);</span><br><span class="line">	System.out.println(proxy_lenovo.sale(<span class="number">8000</span>));</span><br><span class="line">	proxy_lenovo.show();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    5. 过滤器链(配置多个过滤器)    
-        * 执行顺序 : 如果有两个过滤器 : 过滤器1与过滤器2
-            1. 过滤器1
-            2. 过滤器2
-            3. 资源执行
-            4. 过滤器2
-            5. 过滤器1
-        
-        * 过滤器执行先后问题 : 
-            1. 注解配置: 按照**类名**的字符串比较规则, 小的先执行
-                * FilterDemo01比FilterDemo02先执行
-            2. web.xml配置 : &lt;filter-mapping&gt;的定义顺序决定, 谁在上面谁先执行
-</code></pre>
+
 <h1 id="Listener：监听器"><a href="#Listener：监听器" class="headerlink" title="Listener：监听器"></a>Listener：监听器</h1><pre><code>* 概念：web的三大组件之一。
     * 事件监听机制
         * 事件    ：一件事情
@@ -288,6 +215,21 @@
 
         
             <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/11/11/redis%E5%AD%A6%E4%B9%A0/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">redis学习</span>
+                                <span class="post-nav-item">上一篇</span>
+                            </span>
+                        </a>
+                    </div>
                 
                 
                     <div class="article-next">
@@ -429,7 +371,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Fileter-%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">Fileter : 过滤器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Listener%EF%BC%9A%E7%9B%91%E5%90%AC%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text">Listener：监听器</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Fileter-%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">Fileter : 过滤器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A2%9E%E5%BC%BA%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="nav-number">2.</span> <span class="nav-text">增强对象的功能</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Listener%EF%BC%9A%E7%9B%91%E5%90%AC%E5%99%A8"><span class="nav-number">3.</span> <span class="nav-text">Listener：监听器</span></a></li></ol>
     </div>
 </div>
         </aside>

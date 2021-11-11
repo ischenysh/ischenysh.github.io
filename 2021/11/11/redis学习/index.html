@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="chenysh">
+    
+    <title>
+        
+            redis学习 |
+        
+        chenysh&#39;s blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/logo.svg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"zh-CN","path":"search.xml"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"https://raw.githubusercontent.com/ischenysh/images/master/touxiang.5suj3kmb2xg0.png","favicon":"/images/logo.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":true},"first_screen":{"enable":true,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.3"};
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 月前","year":"%s 年前"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                chenysh&#39;s blog
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                首页
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                归档
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">首页</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">归档</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">redis学习</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://raw.githubusercontent.com/ischenysh/images/master/touxiang.5suj3kmb2xg0.png">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">chenysh</span>
+                        
+                            <span class="author-label">学生</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-11-11 18:59:45
+    </span>
+    
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><pre><code>1. 概念 : redis是一款高性能的NOSQL系列的非关系型数据库
+
+2. 下载安装
+
+    * redis.windows.conf : 配置文件
+        * redis-cli.exe : redis的客户端
+        * redis-server.exe : redis的服务器端
+
+3. 命令操作
+    1. redis的数据结构 : 
+         * redis存储的是 : key/value格式的数据. 其中key都是字符串, value有5种不同的数据结构
+             * value的数据结构
+                 1. 字符串类型  String
+                 2. 哈希类型  hash  :   map格式
+                 3. 列表类型 list       : linkedlist格式
+                 4. 集合类型 set      : hashset格式
+                 5. 有序集合类型     : sortedset 
+     2. 字符串类型 String
+         1. 存储 : `set key value`
+        2. 获取 : `get key`
+        3. 删除 : `del key`
+     
+     3. 哈希类型  hash  :   map格式
+        1. 存储 : `hset key filed value`
+        2. 获取 : 
+               1. 获取指定的filed对应的value : `hget key filed ` 
+            2. 获取所有的filed和value : `hgetall key`
+            3. 删除 : `hdel key filed`
+     
+     4. 列表类型 list : linkedlist格式
+        1. 添加 : 
+             1. `lpush key value`: 将元素加入到列表左侧
+            2. `rpush key value`: 将元素加入到列表右侧       
+          2. 获取 : `lrange key start end` : 范围获取(start从0开始代表左边第一个, end从-1开始表示右边第一个)
+        3. 删除 : 
+            1. `lpop key`: 将最左边元素删除并返回
+            2. `rpop key`: 将最右边元素删除并返回
+         
+
+      5. 集合类型 set : hashset格式
+          1. 存储 : sadd key value
+          2. 获取 : smembers key : 获取set集合中的所有元素
+          3. 删除 : srem key value : 删除set集合中的某个元素
+
+    6. 有序集合类型 : sortedset (按照score升序)
+        1. 存储 : zadd key score value
+          2. 获取 : zrange key start end
+          3. 删除 : srem key value 
+
+    7. 通用命令
+        1. key * : 查询所有的键名
+        2. type key : 获取键对应的value的类型
+        3. del key : 删除指定的key value
+4. 持久化
+    1. redis是一个内存数据库, 当服务器重启后, 数据将会丢失, 我们可以将redis内存中的数据持久化保存到硬盘的文件中
+    2. redis的持久化机制 :
+        1.  RDB : 默认方式, 不需要配置, 默认就使用这种机制
+            * 在一定的间隔时间中, 检测key的变化情况, 然后持久化数据
+            1. 编辑redis.windows.conf文件
+                #   In the example below the behaviour will be to save:
+                #   after 900 sec (15 min) if at least 1 key changed
+                save 900 1
+                #   after 300 sec (5 min) if at least 10 keys changed
+                save 300 10
+                #   after 60 sec if at least 10000 keys changed
+                save 60  10000
+            2. 重启redis服务器, 并指定配置文件名称
+                redis-server.exe redis.Windows.conf
+
+        2. AOF : 日志记录的方式, 可以记录每一条命令的操作, 可以每一次命令操作后, 持久化数据
+            1. 编辑redis.windows.conf文件
+                appendonly no 关闭 yes 开启
+
+                # appendfsync always     每一次操作都进行一次持久化
+                appendfsync everysec     每秒钟进行一次持久化
+                # appendfsync no        不进行持久化
+
+5. Java客户端 Jedis
+    * Jedis: 一款Java操作redis数据库的工具
+    * 使用步骤 : 
+        1.    导入jar包
+        2.    使用
+            //    1. 获取连接
+            Jedis jedis = new Jedis(&quot;localhost&quot;, 6379);
+            //    2. 操作
+            jedis.set(&quot;name&quot;, &quot;chenysh&quot;);
+            //    3. 关闭
+            jedis.close();
+    * jedis操作各种redis中的数据结构
+        1. 字符串类型  String
+            * set
+            * get
+            //    1. 获取连接
+            Jedis jedis = new Jedis(&quot;localhost&quot;, 6379);
+            //    2. 操作
+            jedis.set(&quot;name&quot;, &quot;chenysh&quot;);
+            String name = jedis.get(&quot;name&quot;);
+            System.out.println(name);
+            jedis.setex(&quot;checkCode&quot;, 20, &quot;320595&quot;);// 存储右时限的数据
+            String checkCode = jedis.get(&quot;checkCode&quot;);
+            System.out.println(checkCode);
+            //    3. 关闭
+            jedis.close();
+         2. 哈希类型  hash : map格式
+             * hset
+             * hget
+             * hgetAll
+            //    1. 获取连接
+            Jedis jedis = new Jedis();// 如果使用空参构造, 则默认为&quot;localhost&quot; 6379
+            //    2. 操作
+            jedis.hset(&quot;user&quot;, &quot;name&quot;, &quot;zhangsan&quot;);
+            jedis.hset(&quot;user&quot;, &quot;age&quot;, &quot;21&quot;);
+            jedis.hset(&quot;user&quot;, &quot;gender&quot;, &quot;male&quot;);
+    
+            String username = jedis.hget(&quot;user&quot;, &quot;name&quot;);
+            System.out.println(username);
+    
+            Map&lt;String, String&gt; users = jedis.hgetAll(&quot;user&quot;);
+            Set&lt;Map.Entry&lt;String, String&gt;&gt; entries = users.entrySet();
+            for (Map.Entry&lt;String, String&gt; entry : entries) &#123;
+                System.out.println(entry.getKey() + &quot;:&quot; + entry.getValue());
+            &#125;
+            //        3. 关闭
+            jedis.close();
+        3. 列表类型 list : linkedlist格式
+            * lpush/rpush
+            * lpop/rpop
+            * lrange
+            //    1. 获取连接
+            Jedis jedis = new Jedis();// 如果使用空参构造, 则默认为&quot;localhost&quot; 6379
+            //    2. 操作
+            jedis.lpush(&quot;list&quot;, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;);
+            jedis.rpush(&quot;list&quot;, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;);
+    
+            List&lt;String&gt; list = jedis.lrange(&quot;list&quot;, 0, -1);
+            System.out.println(list);
+    
+            System.out.println(jedis.lpop(&quot;list&quot;));
+            System.out.println(jedis.rpop(&quot;list&quot;));
+    
+            list = jedis.lrange(&quot;list&quot;, 0, -1);
+            System.out.println(list);
+            //    3. 关闭
+            jedis.close();
+        4. 集合类型 set : hashset格式
+            * sadd
+            * smembers
+            //        1. 获取连接
+            Jedis jedis = new Jedis();// 如果使用空参构造, 则默认为&quot;localhost&quot; 6379
+            //        2. 操作
+            jedis.sadd(&quot;set&quot;, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;);
+            jedis.sadd(&quot;set&quot;, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;);
+    
+            Set&lt;String&gt; set = jedis.smembers(&quot;set&quot;);
+            System.out.println(set);
+            //        3. 关闭
+            jedis.close();
+        5. 有序集合类型 : sortedset 
+            * zadd
+            * zrange
+            //    1. 获取连接
+            Jedis jedis = new Jedis();// 如果使用空参构造, 则默认为&quot;localhost&quot; 6379
+            //    2. 操作
+            jedis.zadd(&quot;sortedset&quot;, 10, &quot;a&quot;);
+            jedis.zadd(&quot;sortedset&quot;, 80, &quot;b&quot;);
+            jedis.zadd(&quot;sortedset&quot;, 70, &quot;c&quot;);
+    
+            Set&lt;String&gt; sortedset = jedis.zrange(&quot;sortedset&quot;, 0, -1);
+            System.out.println(sortedset);
+            //    3. 关闭
+            jedis.close();
+    * jedis连接池JedisPool
+        * 使用 : 
+            //    1. 创建配置对象
+            JedisPoolConfig config = new JedisPoolConfig();
+            config.setMaxTotal(50);// 最大连接数
+            config.setMaxIdle(10);// 最大空闲数
+            //    2. 创建连接池对象
+            JedisPool jedisPool = new JedisPool(config, &quot;localhost&quot;, 6379);
+            //  3. 从连接池获取连接
+            Jedis jedis = jedisPool.getResource();// 如果使用空参构造, 则默认为&quot;localhost&quot; 6379
+            //    4. 操作
+            jedis.zadd(&quot;sortedset&quot;, 10, &quot;a&quot;);
+            jedis.zadd(&quot;sortedset&quot;, 80, &quot;b&quot;);
+            jedis.zadd(&quot;sortedset&quot;, 70, &quot;c&quot;);
+    
+            Set&lt;String&gt; sortedset = jedis.zrange(&quot;sortedset&quot;, 0, -1);
+            System.out.println(sortedset);
+            //    5. 关闭, 返还给连接池
+            jedis.close();
+        * JedisPool工具类
+            public class JedisPoolUtils &#123;
+                private static JedisPool pool;
+            
+                public static Jedis getJedis() &#123;
+                    return pool.getResource();
+                &#125;
+            
+                public static JedisPool getJedisPool() &#123;
+                    return pool;
+                &#125;
+            
+                static &#123;
+                    try &#123;
+                        InputStream is = JedisPoolUtils.class.getClassLoader().getResourceAsStream(&quot;jedis.properties&quot;);
+                        Properties properties = new Properties();
+                        properties.load(is);
+                        JedisPoolConfig config = new JedisPoolConfig();
+                        config.setMaxTotal(Integer.parseInt(properties.getProperty(&quot;redis.pool.maxTotal&quot;)));
+                        config.setMaxIdle(Integer.parseInt(properties.getProperty(&quot;redis.pool.maxIdle&quot;)));
+                        pool = new JedisPool(config, properties.getProperty(&quot;redis.ip&quot;), Integer.parseInt(properties.getProperty(&quot;redis.port&quot;)));
+                        is.close();
+                    &#125; catch (IOException e) &#123;
+                        e.printStackTrace();
+                    &#125;
+                &#125;
+            &#125;
+    * 注意 : 使用redis缓存一些不经常变化的数据
+        * 数据库的数据一旦发生改变, 则需要更新缓存
+            * 数据库的表执行增删改的相关操作时, 需要将数据库的数据再次缓存到redis中
+</code></pre>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>本文标题：redis学习</li>
+        <li>本文作者：chenysh</li>
+        <li>创建时间：2021-11-11 18:59:45</li>
+        <li>
+            本文链接：https://ischenysh.github.io/2021/11/11/redis学习/
+        </li>
+        <li>
+            版权声明：本博客所有文章除特别声明外，均采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> 许可协议。转载请注明出处！
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/11/10/Filter%E5%AD%A6%E4%B9%A0/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Filter学习</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;评论</i>
+    </div>
+    
+
+        
+            
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>
+              -
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">chenysh</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.3</a>
+        </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis"><span class="nav-number">1.</span> <span class="nav-text">Redis</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+
+    
+<script src="/js/code-copy.js"></script>
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+</body>
+</html>
