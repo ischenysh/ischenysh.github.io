@@ -3119,29 +3119,29 @@
              * value的数据结构
                  1. 字符串类型  String
                  2. 哈希类型  hash  :   map格式
-                 3. 列表类型 list       : linkedlist格式
-                 4. 集合类型 set      : hashset格式
-                 5. 有序集合类型     : sortedset 
+                 3. 列表类型 list   : linkedlist格式
+                 4. 集合类型 set    : hashset格式
+                 5. 有序集合类型        : sortedset 
      2. 字符串类型 String
          1. 存储 : `set key value`
-        2. 获取 : `get key`
-        3. 删除 : `del key`
+         2. 获取 : `get key`
+         3. 删除 : `del key`
      
      3. 哈希类型  hash  :   map格式
         1. 存储 : `hset key filed value`
         2. 获取 : 
-               1. 获取指定的filed对应的value : `hget key filed ` 
-            2. 获取所有的filed和value : `hgetall key`
-            3. 删除 : `hdel key filed`
+               1. 获取指定的filed对应的value : `hget key filed `
+               2. 获取所有的filed和value : `hgetall key`
+               3. 删除 : `hdel key filed`
      
      4. 列表类型 list : linkedlist格式
         1. 添加 : 
-             1. `lpush key value`: 将元素加入到列表左侧
-            2. `rpush key value`: 将元素加入到列表右侧       
-          2. 获取 : `lrange key start end` : 范围获取(start从0开始代表左边第一个, end从-1开始表示右边第一个)
+            1. `lpush key value`: 将元素加入到列表左侧
+            2. `rpush key value`: 将元素加入到列表右侧 
+        2. 获取 : `lrange key start end` : 范围获取(start从0开始代表左边第一个, end从-1开始表示右边第一个)
         3. 删除 : 
             1. `lpop key`: 将最左边元素删除并返回
-            2. `rpop key`: 将最右边元素删除并返回
+            2. `rpop key`: 将最右边元素删除并返回   
          
 
       5. 集合类型 set : hashset格式
