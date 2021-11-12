@@ -3328,4 +3328,114 @@
 </code></pre>
 ]]></content>
   </entry>
+  <entry>
+    <title>html学习</title>
+    <url>/2021/11/12/html%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h1 id="web概念概述"><a href="#web概念概述" class="headerlink" title="web概念概述"></a>web概念概述</h1><pre><code>* Java Web : 
+    * Java Web，是用Java技术来解决相关web互联网领域的技术栈。
+* 软件架构 :
+    1. C/S : client/Server 客户端/服务器端
+        * 在客户本地有一个客户端程序, 在远程有一个服务器端程序
+        * 如 : qq
+        * 优点 : 
+            1. 用户体验好
+        * 缺点 : 
+            1. 开发, 安装, 部署, 维护麻烦
+    2. B/S : Browse/Server 浏览器/服务器端
+        * 只需要一个浏览器, 客户通过不同的网站(URL), 客户访问不同的服务器端程序
+        * 优点 : 
+            1. 开发, 安装, 部署, 维护简单
+        * 缺点 : 
+            1. 如果应用较大, 用户体验不好
+            2. 对硬件要求高
+
+* B/S架构详解
+    * 资源分类 : 
+        1. 静态资源 : 
+            * 使用静态网页开发技术发布的资源
+            * 特点 : 
+                * 所有用户访问, 得到的结果一样
+                * 如 : 文本, 图片, 视频, html, css, javascript
+                * 如果用户请求的是静态资源, 服务器将会直接将静态资源发送给浏览器, 浏览器使用自带的解析引擎解析并展示
+        2. 动态资源 : 
+            * 使用动态网页开发技术发布的资源
+            * 特点 : 
+                * 所有用户访问, 得到的结果可能不同
+                * 如 : jsp, servlet, php
+                * 如果用户请求的是动态资源, 服务器将会直接将动态资源转换成静态资源发送给浏览器
+    * 静态资源 : 
+        * HTML : 用于搭建基础网页, 展示页面的内容
+        * CSS : 用于美化页面, 布局页面
+        * JavaScript : 控制页面的元素, 让页面有一些动态的效果
+</code></pre>
+<h1 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h1><pre><code>1. 概念 : 最基础的网页开发语言
+    * Hyper Text Markup Language 超文本标记语言
+        * 超文本 (Hyper Text) : 
+            * 超文本是用超链接的方法, 将各种不同空间的文字信息, 组织在一起的网状文本
+        * 标记语言 (Markup Language) : 
+            * 由标签构成的语言. &lt;标签名&gt; 如HTML XML
+            * 标记语言不是编程语言
+
+2. 快速入门
+    * 语法
+        1. html文档后缀名 .html / .htm
+        2. 标签分为 : 
+            1. 围堵标签 : 有开始和结束标签       &lt;html&gt;&lt;/html&gt;
+            2. 自闭和标签 : 开始和结束标签在一起  &lt;br/&gt;
+        3. 标签可以嵌套 : &lt;a&gt;&lt;b&gt;&lt;/b&gt;&lt;/a&gt;
+        4. 在开始标签中可以定义属性, 属性由键值对组成, 值需要用引号(单双都行)引起来;
+        5. html的标签不区分大小写, 但推荐使用小写
+
+3. 标签学习 : 
+    1. 文件标签 : 构成html最基本的标签
+        * html : html文档的根标签
+        * head : 头标签, 用于指定html文档的一些属性, 引入外部的资源
+        * title : 标题标签
+        * body : 体标签
+        * &lt;!DOCTYPE html&gt; : 定义文档类型。
+    2. 文本标签 : 
+        * &lt;h1&gt; to &lt;h6&gt;    定义 HTML 标题。
+        * &lt;p&gt;    定义段落。
+        * &lt;br&gt;    定义简单的换行。
+        * &lt;hr&gt;    定义水平线。
+        * &lt;!--...--&gt;    定义注释。
+        * &lt;b&gt;    定义粗体文本。
+        * &lt;i&gt;    定义斜体文本。
+
+    3. 图片标签 : 
+        * &lt;img&gt;    定义图像。&lt;img src=&quot;/i/eg_tulip.jpg&quot;  alt=&quot;上海鲜花港 - 郁金香&quot; /&gt;
+
+    4. 列表标签 : 
+        * 有序列表 : 
+            * ol
+            * li
+        * 无序列表 : 
+            * ul
+            * li
+
+    5. 链接标签 : 
+        * &lt;a&gt;    定义超链接。&lt;a href=&quot;图片标签.html&quot;&gt;珈乐可爱捏&lt;/a&gt;
+
+    6. 样式和语义标签 : 样式: 联合CSS 语义 : 让程序容易阅读
+        * &lt;div&gt;        定义文档中的节。会换行
+        * &lt;span&gt;    定义文档中的节。不会换行
+        * &lt;header&gt;    定义 section 或 page 的页眉。
+        * &lt;footer&gt;    定义 section 或 page 的页脚。
+
+    7. 表格标签 : 
+        * &lt;table&gt;    定义表格
+            * cellpadding    规定单元边沿与其内容之间的空白。
+            * cellspacing   规定单元格之间的空白。
+        * &lt;caption&gt;    定义表格标题。
+        * &lt;th&gt;    定义表格中的表头单元格。
+        * &lt;tr&gt;    定义表格中的行。
+        * &lt;td&gt;    定义表格中的单元。
+            * rowspan    number    规定单元格可横跨的行数。
+            * colspan    number    规定单元格可横跨的列数。
+        * &lt;thead&gt;    定义表格中的表头内容。
+        * &lt;tbody&gt;    定义表格中的主体内容。
+        * &lt;tfoot&gt;    定义表格中的表注内容（脚注）。
+</code></pre>
+]]></content>
+  </entry>
 </search>
