@@ -213,7 +213,7 @@
         3. 标签可以嵌套 : &lt;a&gt;&lt;b&gt;&lt;/b&gt;&lt;/a&gt;
         4. 在开始标签中可以定义属性, 属性由键值对组成, 值需要用引号(单双都行)引起来;
         5. html的标签不区分大小写, 但推荐使用小写
-
+ 
 3. 标签学习 : 
     1. 文件标签 : 构成html最基本的标签
         * html : html文档的根标签
@@ -231,7 +231,7 @@
         * &lt;i&gt;    定义斜体文本。
 
     3. 图片标签 : 
-        * &lt;img&gt;    定义图像。&lt;img src=&quot;/i/eg_tulip.jpg&quot;  alt=&quot;上海鲜花港 - 郁金香&quot; /&gt;
+        * &lt;img&gt;    定义图像。&lt;img src=&quot;./img/珈乐.jpg&quot;  alt=&quot;珈乐&quot; /&gt;
 
     4. 列表标签 : 
         * 有序列表 : 
@@ -263,6 +263,617 @@
         * &lt;thead&gt;    定义表格中的表头内容。
         * &lt;tbody&gt;    定义表格中的主体内容。
         * &lt;tfoot&gt;    定义表格中的表注内容（脚注）。
+
+    8. 表单标签
+        * 表单 : 
+            * 概念 : 表单用于向服务器传输数据。
+            * 表单能够包含 input 元素，比如文本字段、复选框、单选框、提交按钮等等。
+            * &lt;form&gt; 
+                * &lt;form&gt;标签用于为用户输入创建 HTML 表单。可以定义一个范围, 范围代表采集用户输入的范围
+                * 属性 : 
+                    * action    URL    规定当提交表单时向何处发送表单数据。
+                    * method    规定用于发送 form-data 的 HTTP 方法。
+                        * get
+                            1. 请求参数会在地址栏中显示, 会封装到请求行中
+                            2. 请求参数大小有限制
+                            3. 不太安全
+                        * post
+                            1. 请求参数不会在地址栏中显示, 会封装到请求体中
+                            2. 请求参数大小没有限制
+                            3. 相对安全
+
+
+            * 表单项中的数据要想被提交, 必须指定其name属性
+        * 表单项标签
+            * &lt;input&gt; : &lt;input&gt; 标签用于搜集用户信息。根据不同的 type 属性值，输入字段拥有很多种形式。
+                * type属性 : 
+                    * text : 文本输入框, 默认值
+                        * placeholder : 指定输入框的提示信息, 但输入框内容发生变化时, 将自动清空
+
+                    * password : 密码输入框
+
+
+                    * radio : 单选框 
+                        * 要实现多个单选框只能选择一个, 则其name属性必须一致
+                        * 一般要提供value属性, 来指定选中后提交的内容
+                        * checked属性, 可以指定默认选中
+
+
+                    * checkbox : 复选框
+                        * 一般要提供value属性, 来指定选中后提交的内容
+                        * checked属性, 可以指定默认选中
+
+                    * file : 文件选择框
+                    * hidden : 隐藏域, 用于提交一些信息
+                    * 按钮 : 
+                        * submit : 提交按钮, 可以提交表单
+                        * button : 普通按钮
+                        * image : 图片提交按钮, 通过src属性指定文件路径
+
+                * &lt;label&gt; : 指定输入项的文字描述信息, 当其for属性与input的id属性对应时, 点击label区域将自动定位到输入框 
+            * &lt;select&gt; : 下拉列表
+                * 子元素 : &lt;option&gt;, 指定列表项
+
+            * textarea : 文本域
+                * cols : 指定列数
+                * rows : 默认行数
+4. 案例 : 注册页面 
+    &lt;!DOCTYPE html&gt;
+    &lt;html lang=&quot;en&quot;&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;UTF-8&quot;&gt;
+        &lt;title&gt;注册页面&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+    &lt;table cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;1&quot; align=&quot;center&quot;&gt;
+        &lt;tr&gt;
+            &lt;td&gt;&lt;label for=&quot;username&quot;&gt;用户名&lt;/label&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;username&quot; id=&quot;username&quot; placeholder=&quot;请输入用户名&quot;&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;&lt;label for=&quot;password&quot;&gt;密码&lt;/label&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;input type=&quot;password&quot; name=&quot;password&quot; id=&quot;password&quot; placeholder=&quot;请输入密码&quot;&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;&lt;label for=&quot;Email&quot;&gt;Email&lt;/label&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;input type=&quot;Email&quot; name=&quot;Email&quot; id=&quot;Email&quot;&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;&lt;label for=&quot;name&quot;&gt;姓名&lt;/label&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;name&quot; id=&quot;name&quot;&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;&lt;label for=&quot;tel&quot;&gt;手机号&lt;/label&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;tel&quot; id=&quot;tel&quot;&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;性别&lt;/td&gt;
+            &lt;td&gt;&lt;input type=&quot;radio&quot; name=&quot;gender&quot; value=&quot;male&quot;&gt;男
+                &lt;input type=&quot;radio&quot; name=&quot;gender&quot; value=&quot;female&quot;&gt;女
+            &lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;&lt;label for=&quot;birthday&quot;&gt;出生日期&lt;/label&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;input type=&quot;date&quot; name=&quot;birthday&quot; id=&quot;birthday&quot;&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;&lt;label for=&quot;checkCode&quot;&gt;验证码&lt;/label&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;checkCode&quot; id=&quot;checkCode&quot;&gt;
+                &lt;img src=&quot;珈乐.jpg&quot;&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td colspan=&quot;2&quot; align=&quot;center&quot;&gt;&lt;input type=&quot;submit&quot; value=&quot;注册&quot;&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/table&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;
+</code></pre>
+<h1 id="CSS-页面美化和布局控制"><a href="#CSS-页面美化和布局控制" class="headerlink" title="CSS : 页面美化和布局控制"></a>CSS : 页面美化和布局控制</h1><pre><code>1. 概念 : Cascading Style Sheets : 层叠样式表
+    * 层叠 : 多个样式可以作用在同一个html的元素上, 同时生效
+
+2. 好处 : 
+    1. 功能强大
+    2. 将内容展示和样式控制分离
+        * 降低耦合度, 解耦
+        * 让分工协作更加容易
+        * 提高开发效率
+
+3. CSS的使用 : CSS和html的结合方式
+    1. 内联样式
+        * 在标签内使用style属性指定css代码
+        * 如 : &lt;div style=&quot;color: aqua&quot;&gt;Hello, CSS!&lt;/div&gt;
+    2. 内部样式
+        * 在head标签内. 定义style标签. style标签的标签体内容就是css代码
+        * 如 : 
+            &lt;style&gt;
+                div &#123;
+                    color: green;
+                &#125;
+            &lt;/style&gt;
+    3. 外部样式
+        1. 定义css资源文件
+        2. 在head标签内, 定义link标签, 引入外部的资源文件
+        * 如 : 
+            * a.css文件 : 
+                div &#123;
+                    color: blue;
+                &#125;
+
+            &lt;link rel=&quot;stylesheet&quot; href=&quot;./css/a.css&quot;&gt;
+    * 注意 : 
+        * 1, 2, 3种方式, css作用范围越来越大
+        * 1方式不作用, 后期常用2, 3
+        * 3格式可以写为 : 
+            &lt;style&gt;
+                @import &quot;./css/a.css&quot;;
+            &lt;/style&gt;
+4. CSS语法 : 
+    * 格式 : 
+        选择器 &#123;
+            属性名1:属性值1;
+            属性名2:属性值2;
+            ...
+        &#125;
+    * 选择器 : 筛选具有相似特征的元素
+    * 注意 : 
+        * 每一对属性需要用&quot;;&quot;隔开, 最后一个可以不加
+
+5. 选择器
+    * 分类 :
+        1. 基础选择器
+            1. id选择器
+                * 语法 : #id属性值&#123;&#125;
+            2. 元素选择器
+                * 语法 : 标签名称&#123;&#125;
+                * 优先级低于类选择器
+            3. 类选择器
+                * .class属性值&#123;&#125;
+                * 优先级低于id选择器
+
+        2. 扩展选择器
+            1. 选择所有元素
+                * 语法 : *&#123;&#125;
+            2. 并集选择器  : 
+                * 语法 : 选择器1, 选择器2 &#123;&#125;
+            3. 子选择器 : 筛选选择器1元素下的选择器2元素
+                * 语法 : 选择器1 选择器2 &#123;&#125;
+            4. 父选择器 : 筛选选择器1元素下的选择器2元素
+                * 语法 : 选择器1&gt;选择器2 &#123;&#125;
+            5. 属性选择器 : 选择属性名称, 属性名=属性值的元素
+                * 语法 : 标签名称[属性名=&quot;属性值&quot;] &#123;&#125;
+            6. 伪类选择器 : 选择一些元素具有的状态 
+                * 语法 : 标签名称:状态 &#123;&#125;
+                * a:link    &#123;color:blue;&#125;
+                * a:visited &#123;color:blue;&#125;
+                * a:hover   &#123;color:red;&#125;
+                * a:active  &#123;color:yellow;&#125;
+6. 属性
+    1. 字体, 文本
+        * font-size : 字体大小
+        * color : 文本颜色
+        * text-align : 对齐方式
+        * line-height : 行高
+
+    2. 背景
+        * background
+
+    3. 边框 : 
+        * border : 设置边框, 复合属性
+
+    4. 尺寸
+        * width
+        * height
+
+    5. 盒子模型 : 控制布局
+        * margin : 外边框
+        * padding : 内边距
+            * 默认情况下, 内边距会影响整个盒子的大小
+            * box-sizing : border-box; 设置盒子的属性, 让width和height就是最终盒子的大小
+
+        * float : 浮动
+            * left
+            * right
+</code></pre>
+<h1 id="JavaScript"><a href="#JavaScript" class="headerlink" title="JavaScript"></a>JavaScript</h1><pre><code>* 概念 : 一门客户端脚本语言
+    * 运行在客户端浏览器中, 每一个浏览器都有Javascript的解析引擎
+    * 脚本语言 : 不需要编译, 直接就可以被浏览器解析运行
+
+* 功能 : 
+    * 可以增强用户和html1页面的交互过程, 可以来控制html元素, 让页面有一些动态的效果, 增强用户的体验
+
+* JavaScript = ECMAScript + JavaScript自己特有的东西(BOM + DOM)
+* ECMAScript : 客户端脚本语言的标准
+    1. 基本语法
+        1. 与html结合方式
+            1. 内部JS
+                * 定义&lt;script&gt;, 标签体内容就是js代码
+                 &lt;script&gt;
+                       alert(&quot;Hello, JavaScript!&quot;);
+                 &lt;/script&gt;
+            2. 外部JS
+                * 定义&lt;script&gt;, 通过src属性引入外部的js文件
+                    &lt;script src=&quot;./js/a.js&quot;&gt;&lt;/script&gt;
+            * 注意 : 
+                1. &lt;script&gt;可以定义在任意位置, 但位置会影响执行顺序
+                2. &lt;script&gt;可以定义多个
+        2. 注释
+            1. 单行注释 : // 注释内容
+            2. 多行注释 : /*注释内容*/
+        3. 数据类型
+            1. 原始数据类型(基本数据类型):
+                1. number : 数字. 整数/小数/NaN(Not a number)
+                2. string : 字符串. &quot;abc&quot; &#39;abc&#39; &#39;a&#39;
+                3. boolean : true和false
+                4. null : 对象为空的占位符
+                5. undefined : 一个对象未初始化, 则默认为undefined
+            2. 引用数据类型
+        4. 变量
+            * 变量 : 一块存储数据的内存空间
+            * Java语言是强类型语言, 而Javascript是弱类型语言
+                * 强类型 : 在开辟变量存储空间时, 定义了空间将来存储的数据的数据类型, 只能存储固定类型的数据
+                * 弱类型 : 在开辟变量存储空间时, 不定义了空间将来存储的数据的数据类型, 可以存储任意类型的数据
+            * 语法 : 
+                * var 变量名 = 初始化值;// 常量
+                * let 变量名 = 初始化值;// 局部变量
+        5. 运算符
+            1. 一元运算符
+                * +(-) : 正负号
+                * 注意 : 在JS中, 如果运算数不是运算符所要求的类型, 那么JS引擎会自动的将运算数进行类型转换
+                    * 其他类型转number:
+                        * string转number: 字面值转换, 如果字面不是数字, 则为NaN
+                        * boolean转number : true : 1, false : 0;
+            2. 算数运算符
+            3. 赋值运算符
+            4. 比较运算符
+                * == : 先进行类型强转再比较
+                * ===(全等于), 类型不同直接false
+            5. 逻辑运算符
+                * 其他类型转boolean :
+                    1. number : 0为false, 其余都是true
+                    2. string : 空字符串(&quot;&quot;)为false, 其余为true
+                    3. null, undefined : false
+                    4. 对象 : true
+            6. 三元运算符
+        6. 流程控制语句
+            1. if-else
+            2. switch
+                * 在JS中, switch可以接受所有原始数据类型
+            3. while
+            4. do-while
+            5. for
+    2. 基本对象
+        1. function : 函数(方法)对象
+            1. 创建 : 
+                1. var fun = new Function(形参列表, 方法体);// 不常用
+                2. function 方法名称 (形参列表) &#123;方法体&#125;
+                3. var 方法名称 = function (形参列表) &#123;方法体&#125;
+            2. 属性 : 
+                * length : 代表形参个数
+            3. 特点 : 
+                1. 方法定义时, 形参的类型和返回值类型不需要写
+                2. 方法是一个对象, 如果方法名相同, 会覆盖
+                3. 在JS中, 没有函数重载, 只与方法名称有关
+                4. 在方法声明中有一个隐藏的内置对象(数组), arguments, 封装所有的实际参数
+            4. 调用 : 
+                * 方法名称(实际参数列表);
+        2. Array : 数组对象
+            1. 创建
+                1. var arr = new Array(元素列表);
+                2. var arr = new Array(默认长度);
+                3. var arr = [元素列表];
+            2. 方法
+                * join(分隔符)    将数组的所有元素按照指定的分隔符连接成一个字符串。
+                * push()    将新元素添加到数组的末尾，并返回新的长度。
+            3. 属性
+                   * length : 数组的长度
+            4. 特点 : 
+                1. 在JS中, 数组元素的类型可变
+                2. 在JS中, 数组长度可变
+        3. Boolean
+        4. Classe
+        5. Date
+            1. 创建 : 
+                * var date = new Date();
+            2. 方法 : 
+                * toLocalString() : 返回当前date对象对应的时间的本地字符串格式
+                * getTime(), 时间戳, 返回从1970.1.1零点到现在的毫秒数
+        6. Math
+            1. 创建 : 
+                * 特点 : 不需要创建直接使用 Math.方法名()
+            2. 方法  :
+                1. random(): 返回[0, 1)的随机数
+                2. ceil(x) : 向上取整
+                3. floor(x) : 向下取整
+                4. round(x) : 四舍五入为一个整数
+        7. Number
+        8. RegExp : 正则表达式对象
+            1. 正则表达式 : 定义字符串的组成规则
+                1. 单个字符 : []
+                    如 : [a] [a-z] [a-zA-Z0-9_]
+                    * 特殊符号代表特殊含义的单个字符
+                        * \d : 单个数字字符 [0-9]
+                        * \w : 单个单词字符 [a-zA-Z0-9_]
+                2. 量词符号 : 
+                    * ? : 表示出现0次或1次
+                    * * : 表示出现0次或多次
+                    * + : 表示出现1次或多次
+                    * &#123;m, n&#125; : m &lt;= 出现次数 &lt;= n  // m, n可缺省
+                3. 开始结束符号
+                    1. ^ : 开始
+                    2. $ : 结束
+            2. 正则对象 : 
+                1. 创建 : 
+                    1. var reg = new RegExp(&quot;正则表达式&quot;);(要使用转义字符\\来代替\)
+                    2. var reg = /正则表达式/;
+                2. 方法 :
+                    1. test(参数) : 验证指定的字符串是否符合正则定义的规范
+        9. Global
+            1. 特点 : 全局对象, 这个Global中封装的方法不需要对象就可以直接调用.  方法名();
+            2. 方法 : 
+                * encodeURI() : url编码
+                * decodeURI() : url解码
+                * encodeURIComponent() : url编码
+                * decodeURIComponent() : url解码
+                * parseInt() : 将字符串转为数字
+                    * 逐一判断每个字符是否是数字, 直到不是数字为止
+                * isNaN() : 判断一个值是否是NaN(NaN不能使用==, 因为结果都为false)
+                * eval() : 将字符串当成代码执行
+        10. 自定义对象
+            1. 创建
+                1. var 对象名称 = &#123;
+                                属性名称1:属性值1,
+                                属性名称2:属性值2,
+                                ...
+                                函数名称:function(形参列表)&#123;&#125;
+                            &#125;
+                            
+                            
+* DOM : Document Object Model
+    * 概念 : Document Object Model 文档对象模型
+        * 将标记语言文档的各个组成部分, 封装为对象, 可以使用这些对象, 对标记语言进行CRUD的动态操作
+    * W3C DOM 标准被分成三个不同的部分 : 
+        * 核心DOM - 针对任何结构化文档的标准模型
+            * Document : 文档对象
+            * Element : 元素对象
+            * Attribute : 属性对象
+            * Text : 文本对象
+            * COmment : 注释对象
+            * Node : 节点对象, 是以上五个对象的父对象
+        * XML DOM : 针对XML文档的标准模型
+        * HTML DOM : 针对HTML文档的标准模型
+
+
+    * 核心DOM - 针对任何结构化文档的标准模型
+        * Document : 文档对象
+            1. 创建(获取) : 在HTML DOM模型中使用Window对象获取
+                1. window.document
+                2. document
+            2. 方法 :     
+                1. 获取Element对象 : 
+                    * getElementById()    返回对拥有指定 id 的第一个对象的引用。
+                    * getElementsByName()    返回带有指定名称的对象集合。
+                    * getElementsByTagName()    返回带有指定标签名的对象集合。
+                    * getElementsByClassName()    返回带有指定标签名的对象集合。
+                2. 创建其他DOM对象:
+                    * creatAttribute()
+                    * creatComment()
+                    * creatElement()
+                    * creatTextNode()
+            3. 属性
+        * Element : 元素对象
+            1. 创建(获取) : 使用Document对象获取
+            2. 方法 : 
+                * removeAttribute() : 删除属性
+                * setAttribute() : 设置属性
+        * Node : 节点对象, 是以上五个对象的父对象
+            1. 特点 : 所有的DOM对象都可以认为是一个节点
+            2. 方法 : 
+                * CRUD DOM树
+                    * appendChild()        向节点的子节点列表的结尾添加新的子节点。
+                    * removeChild()        删除（并返回）当前节点的指定子节点。
+                    * replaceChild()    用新节点替换一个子节点。
+
+            3. 属性
+                * parentNode    返回节点的父节点。
+        * 案例 : 动态表格
+            &lt;!DOCTYPE html&gt;
+            &lt;html lang=&quot;en&quot;&gt;
+            &lt;head&gt;
+                &lt;meta charset=&quot;UTF-8&quot;&gt;
+                &lt;title&gt;动态表格&lt;/title&gt;
+            
+                &lt;style&gt;
+                    table &#123;
+                        border: 1px solid;
+                        margin: auto;
+                        width: 500px;
+                    &#125;
+            
+                    td, th &#123;
+                        text-align: center;
+                        border: 1px solid;
+                    &#125;
+            
+                    div &#123;
+                        text-align: center;
+                        margin: 50px;
+                    &#125;
+                &lt;/style&gt;
+            
+            &lt;/head&gt;
+            &lt;body&gt;
+            
+            &lt;div&gt;
+                &lt;input type=&quot;text&quot; id=&quot;id&quot; placeholder=&quot;请输入编号&quot;&gt;
+                &lt;input type=&quot;text&quot; id=&quot;name&quot; placeholder=&quot;请输入姓名&quot;&gt;
+                &lt;input type=&quot;text&quot; id=&quot;gender&quot; placeholder=&quot;请输入性别&quot;&gt;
+                &lt;input type=&quot;button&quot; value=&quot;添加&quot; id=&quot;btn_add&quot;&gt;
+            &lt;/div&gt;
+</code></pre>
+<p>​<br>                <table><br>                    <caption>学生信息表</caption><br>                    <tr><br>                        <th>编号</th><br>                        <th>姓名</th><br>                        <th>性别</th><br>                        <th>操作</th><br>                    </tr><br>                </table><br>                <script><br>                    let btn_add = document.getElementById("btn_add");<br>                    btn_add.onclick = function () {<br>                        let id = document.getElementById("id").value;<br>                        let name = document.getElementById("name").value;<br>                        let gender = document.getElementById("gender").value;<br>                        let table = document.getElementsByTagName("table")[0];<br>                        table.innerHTML += "    <tr>\n" +<br>                            "        <td>" + id + "</td>\n" +<br>                            "        <td>" + name + "</td>\n" +<br>                            "        <td>" + gender + "</td>\n" +<br>                            "        <td><a href='javascript:void(0)' onclick='del(this)'>删除</a></td>\n" +<br>                            "    </tr>"<br>                    }</p>
+<pre><code>                function del(obj) &#123;
+                    let td = obj.parentNode.parentNode;
+                    let table = td.parentNode;
+                    table.removeChild(td);
+                &#125;
+            &lt;/script&gt;
+            &lt;/body&gt;
+            &lt;/html&gt;
+
+
+
+    * HTML DOM : 针对HTML文档的标准模型
+        1. 标签体的设置和获取 : innerHTML
+        2. 使用html元素对象的属性
+        3. 控制元素样式
+            1. 使用元素的style属性来设置
+                如 : 
+                    div1.style.border = &quot;1px solid red&quot;;
+            2. 提前定义好类选择器的样式, 通过元素的className属性来设置其属性值
+
+* 事件 
+    * 功能 : 某些组件被执行了某些操作后, 触发某些代码的执行
+    * 绑定事件方法
+        1. 直接在html标签上, 指定事件的属性(操作), 属性值就是JS代码
+            1. 事件 : onclick -------- 单击事件
+
+        2. 通过JS获取元素对象, 指定事件属性, 设置一个函数
+
+    * 案例 : 电灯开关
+        &lt;body&gt;
+        &lt;img src=&quot;./img/off.gif&quot; id=&quot;light&quot;&gt;
+        &lt;script&gt;
+            let light = document.getElementById(&quot;light&quot;);
+            let flag = false;
+            light.onclick = function () &#123;
+                if (flag) &#123;
+                    light.src = &quot;./img/on.gif&quot;;
+                &#125; else &#123;
+                    light.src = &quot;./img/off.gif&quot;;
+                &#125;
+                flag = !flag;
+            &#125;
+        &lt;/script&gt;
+        &lt;/body&gt;
+* BOM : Browser Object Moadel
+    1. 概念 : Browser Object Moadel 浏览器对象模型
+        * 将浏览器的各个组成部分封装成对象
+    2. 组成
+        * Window : 窗口对象
+        * Navigator : 浏览器对象
+        * Screen : 显示器屏幕对象
+        * History : 历史记录对象
+        * Location : 地址栏对象
+
+    3. Window : 窗口对象
+        1. 创建
+        2. 方法
+            1. 与弹出窗口有关的方法
+                * alert()    显示带有一段消息和一个确认按钮的警告框。
+                * confirm()    显示带有一段消息以及确认按钮和取消按钮的对话框。
+                    * 如果点击确定则返回true, 反之返回false
+                * prompt()    显示可提示用户输入的对话框。
+                    * 返回值为用户输入的内容
+            2. 与打开关闭有关的方法
+                * open()    打开一个新的浏览器窗口或查找一个已命名的窗口。
+                    * 返回一个新的Window对象
+                * close()    关闭浏览器窗口。
+                    * 谁调用关谁
+            3. 与定时器有关的方法
+                * setTimeout()    在指定的毫秒数后调用函数或计算表达式。
+                    * 参数 : 
+                        1. JS代码或者方法对象
+                        2. 毫秒值
+                    * 返回值 : 唯一标识, 用于取消计时
+                * clearInterval()    取消由 setInterval() 设置的 timeout。
+
+                * setInterval()    按照指定的周期（以毫秒计）来调用函数或计算表达式。
+                * clearTimeout()    取消由 setTimeout() 方法设置的 timeout。
+
+        3. 属性
+            1. 获取其他BOM对象
+                * Navigator : 浏览器对象
+                * Screen : 显示器屏幕对象
+                * History : 历史记录对象
+                * Location : 地址栏对象
+            2. 获取DOM对象
+                * document
+        4. 特点
+            * Window对象不需要创建可以直接使用, window.方法名();
+            * window也可以省略 : 方法名();
+        5. 案例 : 轮播图 
+            &lt;body&gt;
+            &lt;img src=&quot;img/珈乐1.jpg&quot; id=&quot;slideshow&quot;&gt;
+            &lt;script&gt;
+            
+                let flag = true;
+            
+                function fun() &#123;
+                    let slideshow = document.getElementById(&quot;slideshow&quot;);
+                    if (flag) &#123;
+                        slideshow.src = &quot;./img/珈乐2.jpg&quot;;
+                    &#125; else &#123;
+                        slideshow.src = &quot;./img/珈乐1.jpg&quot;;
+                    &#125;
+                    flag = !flag;
+                &#125;
+            
+                setInterval(fun, 3000);
+            &lt;/script&gt;
+            &lt;/body&gt;
+4. Localtion : 地址栏对象
+    1. 创建(获取):
+        * window.location
+        * localtion
+    2. 方法 : 
+        * reload() 重新加载当前文档, 刷新
+    3. 属性 : 
+        * href 设置或访问完整的URL
+
+    4. 案例 : 自动跳转首页
+        &lt;head&gt;
+            &lt;meta charset=&quot;UTF-8&quot;&gt;
+            &lt;title&gt;自动跳转&lt;/title&gt;
+            &lt;style&gt;
+                p &#123;
+                    text-align: center;
+                &#125;
+        
+                span &#123;
+                    color: red;
+                &#125;
+            &lt;/style&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+        &lt;p&gt;
+            &lt;span id=&quot;time&quot;&gt;5&lt;/span&gt;秒后, 自动跳转首页
+        &lt;/p&gt;
+        &lt;script&gt;
+            let time = document.getElementById(&quot;time&quot;);
+            setInterval(fun, 1000);
+            let count = 5;
+        
+            function fun() &#123;
+                count--;
+                time.innerText = count + &quot;&quot;;
+                if (count == 0) &#123;
+                    location.href = &quot;./轮播图.html&quot;
+                &#125;
+            &#125;
+        &lt;/script&gt;
+5. History : 历史记录对象
+    1. 创建
+        * window.history
+        * history
+    2. 方法 : 
+        * back()    加载 history 列表中的前一个 URL。
+        * forward()    加载 history 列表中的下一个 URL。
+        * go()        加载 history 列表中的某个具体页面。
+            * 参数 : 
+                * 正数 : 前进几个历史记录
+                * 负数 : 后退几个历史记录
+    3. 属性 : 
+        * length    返回浏览器历史列表(当前窗口)中的 URL 数量。
 </code></pre>
 
         </div>
@@ -429,7 +1040,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#web%E6%A6%82%E5%BF%B5%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">web概念概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HTML"><span class="nav-number">2.</span> <span class="nav-text">HTML</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#web%E6%A6%82%E5%BF%B5%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">web概念概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HTML"><span class="nav-number">2.</span> <span class="nav-text">HTML</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS-%E9%A1%B5%E9%9D%A2%E7%BE%8E%E5%8C%96%E5%92%8C%E5%B8%83%E5%B1%80%E6%8E%A7%E5%88%B6"><span class="nav-number">3.</span> <span class="nav-text">CSS : 页面美化和布局控制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript"><span class="nav-number">4.</span> <span class="nav-text">JavaScript</span></a></li></ol>
     </div>
 </div>
         </aside>
