@@ -626,24 +626,9 @@
                                 ...
                                 函数名称:function(形参列表)&#123;&#125;
                             &#125;
-                            
-                            
-* DOM : Document Object Model
-    * 概念 : Document Object Model 文档对象模型
-        * 将标记语言文档的各个组成部分, 封装为对象, 可以使用这些对象, 对标记语言进行CRUD的动态操作
-    * W3C DOM 标准被分成三个不同的部分 : 
-        * 核心DOM - 针对任何结构化文档的标准模型
-            * Document : 文档对象
-            * Element : 元素对象
-            * Attribute : 属性对象
-            * Text : 文本对象
-            * COmment : 注释对象
-            * Node : 节点对象, 是以上五个对象的父对象
-        * XML DOM : 针对XML文档的标准模型
-        * HTML DOM : 针对HTML文档的标准模型
-
-
-    * 核心DOM - 针对任何结构化文档的标准模型
+</code></pre>
+<p>​<br>    * DOM : Document Object Model<br>        * 概念 : Document Object Model 文档对象模型<br>            * 将标记语言文档的各个组成部分, 封装为对象, 可以使用这些对象, 对标记语言进行CRUD的动态操作<br>        * W3C DOM 标准被分成三个不同的部分 :<br>            * 核心DOM - 针对任何结构化文档的标准模型<br>                * Document : 文档对象<br>                * Element : 元素对象<br>                * Attribute : 属性对象<br>                * Text : 文本对象<br>                * COmment : 注释对象<br>                * Node : 节点对象, 是以上五个对象的父对象<br>            * XML DOM : 针对XML文档的标准模型<br>            * HTML DOM : 针对HTML文档的标准模型</p>
+<pre><code>    * 核心DOM - 针对任何结构化文档的标准模型
         * Document : 文档对象
             1. 创建(获取) : 在HTML DOM模型中使用Window对象获取
                 1. window.document
@@ -710,19 +695,8 @@
                 &lt;input type=&quot;button&quot; value=&quot;添加&quot; id=&quot;btn_add&quot;&gt;
             &lt;/div&gt;
 </code></pre>
-<p>​<br>                <table><br>                    <caption>学生信息表</caption><br>                    <tr><br>                        <th>编号</th><br>                        <th>姓名</th><br>                        <th>性别</th><br>                        <th>操作</th><br>                    </tr><br>                </table><br>                <script><br>                    let btn_add = document.getElementById("btn_add");<br>                    btn_add.onclick = function () {<br>                        let id = document.getElementById("id").value;<br>                        let name = document.getElementById("name").value;<br>                        let gender = document.getElementById("gender").value;<br>                        let table = document.getElementsByTagName("table")[0];<br>                        table.innerHTML += "    <tr>\n" +<br>                            "        <td>" + id + "</td>\n" +<br>                            "        <td>" + name + "</td>\n" +<br>                            "        <td>" + gender + "</td>\n" +<br>                            "        <td><a href='javascript:void(0)' onclick='del(this)'>删除</a></td>\n" +<br>                            "    </tr>"<br>                    }</p>
-<pre><code>                function del(obj) &#123;
-                    let td = obj.parentNode.parentNode;
-                    let table = td.parentNode;
-                    table.removeChild(td);
-                &#125;
-            &lt;/script&gt;
-            &lt;/body&gt;
-            &lt;/html&gt;
-
-
-
-    * HTML DOM : 针对HTML文档的标准模型
+<p>​<br>​                <table><br>​                    <caption>学生信息表</caption><br>​                    <tr><br>​                        <th>编号</th><br>​                        <th>姓名</th><br>​                        <th>性别</th><br>​                        <th>操作</th><br>​                    </tr><br>​                </table><br>​                <script><br>​                    let btn_add = document.getElementById("btn_add");<br>​                    btn_add.onclick = function () {<br>​                        let id = document.getElementById("id").value;<br>​                        let name = document.getElementById("name").value;<br>​                        let gender = document.getElementById("gender").value;<br>​                        let table = document.getElementsByTagName("table")[0];<br>​                        table.innerHTML += "    <tr>\n" +<br>​                            "        <td>" + id + "</td>\n" +<br>​                            "        <td>" + name + "</td>\n" +<br>​                            "        <td>" + gender + "</td>\n" +<br>​                            "        <td><a href='javascript:void(0)' onclick='del(this)'>删除</a></td>\n" +<br>​                            "    </tr>"<br>​                    }<br>​<br>                    function del(obj) {<br>                        let td = obj.parentNode.parentNode;<br>                        let table = td.parentNode;<br>                        table.removeChild(td);<br>                    }<br>                </script><br>                </body><br>                </html></p>
+<pre><code>    * HTML DOM : 针对HTML文档的标准模型
         1. 标签体的设置和获取 : innerHTML
         2. 使用html元素对象的属性
         3. 控制元素样式
@@ -731,30 +705,6 @@
                     div1.style.border = &quot;1px solid red&quot;;
             2. 提前定义好类选择器的样式, 通过元素的className属性来设置其属性值
 
-* 事件 
-    * 功能 : 某些组件被执行了某些操作后, 触发某些代码的执行
-    * 绑定事件方法
-        1. 直接在html标签上, 指定事件的属性(操作), 属性值就是JS代码
-            1. 事件 : onclick -------- 单击事件
-
-        2. 通过JS获取元素对象, 指定事件属性, 设置一个函数
-
-    * 案例 : 电灯开关
-        &lt;body&gt;
-        &lt;img src=&quot;./img/off.gif&quot; id=&quot;light&quot;&gt;
-        &lt;script&gt;
-            let light = document.getElementById(&quot;light&quot;);
-            let flag = false;
-            light.onclick = function () &#123;
-                if (flag) &#123;
-                    light.src = &quot;./img/on.gif&quot;;
-                &#125; else &#123;
-                    light.src = &quot;./img/off.gif&quot;;
-                &#125;
-                flag = !flag;
-            &#125;
-        &lt;/script&gt;
-        &lt;/body&gt;
 * BOM : Browser Object Moadel
     1. 概念 : Browser Object Moadel 浏览器对象模型
         * 将浏览器的各个组成部分封装成对象
@@ -875,6 +825,148 @@
     3. 属性 : 
         * length    返回浏览器历史列表(当前窗口)中的 URL 数量。
 </code></pre>
+<h2 id="事件监听机制"><a href="#事件监听机制" class="headerlink" title="事件监听机制"></a>事件监听机制</h2><pre><code>* 概念 : 某些组件被执行了某些操作后, 触发某些代码的执行
+    * 事件 : 某些操作, 如 单击. 双击
+    * 事件源  : 组件. 如 : 按钮, 文本输入框
+    * 监听器 : 代码
+    * 注册监听 : 将事件, 事件源, 监听器结合在一起, 当事件源发生了某个事件, 则触发执行某个监听器代码
+    * 绑定事件方法
+        1. 直接在html标签上, 指定事件的属性(操作), 属性值就是JS代码
+            1. 事件 : onclick -------- 单击事件
+        2. 通过JS获取元素对象, 指定事件属性, 设置一个函数
+    * 事件监听 : JavaScript可以在事件被侦测到时执行代码 
+    * 常见事件 : 
+        * onclick
+        * onblur : 失去焦点
+        * onfocus : 获得焦点
+        * onload : 一张页面或一幅图像加载完成
+        * onsubmit : return false; 不提交 return true; 提交
+        * onkeydown
+
+    * 案例 : 电灯开关
+        &lt;body&gt;
+        &lt;img src=&quot;./img/off.gif&quot; id=&quot;light&quot;&gt;
+        &lt;script&gt;
+            let light = document.getElementById(&quot;light&quot;);
+            let flag = false;
+            light.onclick = function () &#123;
+                if (flag) &#123;
+                    light.src = &quot;./img/on.gif&quot;;
+                &#125; else &#123;
+                    light.src = &quot;./img/off.gif&quot;;
+                &#125;
+                flag = !flag;
+            &#125;
+        &lt;/script&gt;
+        &lt;/body&gt;
+    * 案例 : 表格全选
+        &lt;!DOCTYPE html&gt;
+        &lt;html lang=&quot;en&quot;&gt;
+        &lt;head&gt;
+            &lt;meta charset=&quot;UTF-8&quot;&gt;
+            &lt;title&gt;表格全选&lt;/title&gt;
+            &lt;style&gt;
+                table &#123;
+                    border: 1px solid;
+                    width: 500px;
+                    margin-left: 30%;
+                &#125;
+        
+                td, th &#123;
+                    text-align: center;
+                    border: 1px solid;
+                &#125;
+        
+                div &#123;
+                    margin-top: 10px;
+                    margin-left: 30%;
+                &#125;
+        
+                .over &#123;
+                    background-color: bisque;
+                &#125;
+        
+                .out &#123;
+                    background-color: white;
+                &#125;
+            &lt;/style&gt;
+        
+            &lt;script&gt;
+                window.onload = function () &#123;
+                    let checkboxs = document.getElementsByClassName(&quot;checkbox&quot;);
+                    let trs = document.getElementsByTagName(&quot;tr&quot;);
+                    document.getElementById(&quot;selectAll&quot;).onclick = function () &#123;
+                        for (let i = 0; i &lt; checkboxs.length; i++) &#123;
+                            checkboxs[i].checked = true;
+                        &#125;
+                    &#125;
+                    document.getElementById(&quot;unSelectAll&quot;).onclick = function () &#123;
+                        for (let i = 0; i &lt; checkboxs.length; i++) &#123;
+                            checkboxs[i].checked = false;
+                        &#125;
+                    &#125;
+                    document.getElementById(&quot;selectRev&quot;).onclick = function () &#123;
+                        for (let i = 0; i &lt; checkboxs.length; i++) &#123;
+                            checkboxs[i].checked = !checkboxs[i].checked;
+                        &#125;
+                    &#125;
+                    for (let i = 0; i &lt; trs.length; i++) &#123;
+                        trs[i].onmouseover = function () &#123;
+                            this.className = &quot;over&quot;;
+                        &#125;
+                        trs[i].onmouseout = function () &#123;
+                            this.className = &quot;out&quot;;
+                        &#125;
+                    &#125;
+                &#125;
+            &lt;/script&gt;
+        
+        &lt;/head&gt;
+        &lt;body&gt;
+        
+        &lt;table&gt;
+            &lt;caption&gt;学生信息表&lt;/caption&gt;
+            &lt;tr&gt;
+                &lt;th&gt;&lt;input type=&quot;checkbox&quot; class=&quot;checkbox&quot;&gt;&lt;/th&gt;
+                &lt;th&gt;编号&lt;/th&gt;
+                &lt;th&gt;姓名&lt;/th&gt;
+                &lt;th&gt;性别&lt;/th&gt;
+                &lt;th&gt;操作&lt;/th&gt;
+            &lt;/tr&gt;
+        
+            &lt;tr&gt;
+                &lt;td&gt;&lt;input type=&quot;checkbox&quot; class=&quot;checkbox&quot;&gt;&lt;/td&gt;
+                &lt;td&gt;1&lt;/td&gt;
+                &lt;td&gt;令狐冲&lt;/td&gt;
+                &lt;td&gt;男&lt;/td&gt;
+                &lt;td&gt;&lt;a href=&quot;javascript:void(0);&quot;&gt;删除&lt;/a&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+        
+            &lt;tr&gt;
+                &lt;td&gt;&lt;input type=&quot;checkbox&quot; class=&quot;checkbox&quot;&gt;&lt;/td&gt;
+                &lt;td&gt;2&lt;/td&gt;
+                &lt;td&gt;任我行&lt;/td&gt;
+                &lt;td&gt;男&lt;/td&gt;
+                &lt;td&gt;&lt;a href=&quot;javascript:void(0);&quot;&gt;删除&lt;/a&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+        
+            &lt;tr&gt;
+                &lt;td&gt;&lt;input type=&quot;checkbox&quot; class=&quot;checkbox&quot;&gt;&lt;/td&gt;
+                &lt;td&gt;3&lt;/td&gt;
+                &lt;td&gt;岳不群&lt;/td&gt;
+                &lt;td&gt;?&lt;/td&gt;
+                &lt;td&gt;&lt;a href=&quot;javascript:void(0);&quot;&gt;删除&lt;/a&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+        
+        &lt;/table&gt;
+        &lt;div&gt;
+            &lt;input type=&quot;button&quot; id=&quot;selectAll&quot; value=&quot;全选&quot;&gt;
+            &lt;input type=&quot;button&quot; id=&quot;unSelectAll&quot; value=&quot;全不选&quot;&gt;
+            &lt;input type=&quot;button&quot; id=&quot;selectRev&quot; value=&quot;反选&quot;&gt;
+        &lt;/div&gt;
+        &lt;/body&gt;
+        &lt;/html&gt;
+</code></pre>
 
         </div>
 
@@ -899,6 +991,21 @@
 
         
             <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/11/14/Bootstrap/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Bootstrap</span>
+                                <span class="post-nav-item">上一篇</span>
+                            </span>
+                        </a>
+                    </div>
                 
                 
                     <div class="article-next">
@@ -1040,7 +1147,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#web%E6%A6%82%E5%BF%B5%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">web概念概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HTML"><span class="nav-number">2.</span> <span class="nav-text">HTML</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS-%E9%A1%B5%E9%9D%A2%E7%BE%8E%E5%8C%96%E5%92%8C%E5%B8%83%E5%B1%80%E6%8E%A7%E5%88%B6"><span class="nav-number">3.</span> <span class="nav-text">CSS : 页面美化和布局控制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript"><span class="nav-number">4.</span> <span class="nav-text">JavaScript</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#web%E6%A6%82%E5%BF%B5%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">web概念概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HTML"><span class="nav-number">2.</span> <span class="nav-text">HTML</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS-%E9%A1%B5%E9%9D%A2%E7%BE%8E%E5%8C%96%E5%92%8C%E5%B8%83%E5%B1%80%E6%8E%A7%E5%88%B6"><span class="nav-number">3.</span> <span class="nav-text">CSS : 页面美化和布局控制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript"><span class="nav-number">4.</span> <span class="nav-text">JavaScript</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC%E6%9C%BA%E5%88%B6"><span class="nav-number">4.1.</span> <span class="nav-text">事件监听机制</span></a></li></ol></li></ol>
     </div>
 </div>
         </aside>

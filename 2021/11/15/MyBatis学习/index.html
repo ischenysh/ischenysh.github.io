@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="chenysh">
+    
+    <title>
+        
+            MyBatis学习 |
+        
+        chenysh&#39;s blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/logo.svg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"zh-CN","path":"search.xml"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"https://raw.githubusercontent.com/ischenysh/images/master/touxiang.5suj3kmb2xg0.png","favicon":"/images/logo.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":true},"first_screen":{"enable":true,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.3"};
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 月前","year":"%s 年前"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                chenysh&#39;s blog
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                首页
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                归档
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">首页</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">归档</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">MyBatis学习</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://raw.githubusercontent.com/ischenysh/images/master/touxiang.5suj3kmb2xg0.png">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">chenysh</span>
+                        
+                            <span class="author-label">学生</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-11-15 18:58:17
+    </span>
+    
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="MyBatis"><a href="#MyBatis" class="headerlink" title="MyBatis"></a>MyBatis</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><ul>
+<li></li>
+<li>持久层<ul>
+<li>负责将数据保存到数据库的那一层代码</li>
+<li>JavaEE三层架构 : 表现层, 业务层, 持久层</li>
+</ul>
+</li>
+<li>框架 : <ul>
+<li>框架就是一个半成品软件. 是一套可重用的, 通用的, 代码基础代码模型</li>
+<li>在框架的基础上构建软件编写更加高效, 规范, 通用, 可扩展</li>
+</ul>
+</li>
+</ul>
+<h2 id="Mybatis快速入门"><a href="#Mybatis快速入门" class="headerlink" title="Mybatis快速入门"></a>Mybatis快速入门</h2><ul>
+<li>查询user表中所有数据<ol>
+<li>创建 user 表</li>
+<li>创建模块, 导入坐标</li>
+<li>编写 MyBatis 核心配置文件 —&gt;替换连接信息</li>
+<li>编写 SQL 映射文件    —–&gt;统一管理sql语句, 解决硬编码问题</li>
+<li>编码 : <ol>
+<li>定义POJO类</li>
+<li>加载核心配置文件, 获取 SqlSessionFactory 对象</li>
+<li>获取 SqlSession 对象, 执行 SQL 语句</li>
+<li>释放资源</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="Mapper代理开发"><a href="#Mapper代理开发" class="headerlink" title="Mapper代理开发"></a>Mapper代理开发</h2><ul>
+<li>使用Mapper代理方式完成入门案例<ol>
+<li>定义与SQL映射文件同名的Mapper接口, 并将接口与SQL映射文件放在同一目录下</li>
+<li>设置SQL映射文件的namespace属性为Mapper接口全限定名</li>
+<li>在Mapper接口中定义方法, 方法名为SQL映射文件中sql语句的id, 并保持参数类型与返回值类型一致</li>
+<li>编码<ol>
+<li>通过SqlSession的getMapper方法获取Mapper接口的代理对象</li>
+<li>调用对应方法完成sql的执行</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="Mapper核心配置文件"><a href="#Mapper核心配置文件" class="headerlink" title="Mapper核心配置文件"></a>Mapper核心配置文件</h2><p><img src="https://raw.githubusercontent.com/ischenysh/images/master/image.6n03go6q1ng0.png" alt="image"></p>
+<ul>
+<li><p>要严格按照顺序配置</p>
+</li>
+<li><p>类型别名 :</p>
+<ul>
+<li>```xml  <typeAliases>
+      <package name="com.chenysh.pojo"/>
+  </typeAliases>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">```xml</span><br><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span><br><span class="line">&lt;!DOCTYPE configuration</span><br><span class="line">        PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot;</span><br><span class="line">        &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;</span><br><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;typeAliases&gt;</span><br><span class="line">        &lt;package name=&quot;com.chenysh.pojo&quot;/&gt;</span><br><span class="line">    &lt;/typeAliases&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!--配置数据库的连接环境信息, 可以配置多个environment 通过default属性切换不同的environment--&gt;</span><br><span class="line">    &lt;environments default=&quot;development&quot;&gt;</span><br><span class="line">        &lt;environment id=&quot;development&quot;&gt;</span><br><span class="line">            &lt;transactionManager type=&quot;JDBC&quot;/&gt;</span><br><span class="line">            &lt;dataSource type=&quot;POOLED&quot;&gt;</span><br><span class="line">                &lt;!--数据库连接信息--&gt;</span><br><span class="line">                &lt;property name=&quot;driver&quot; value=&quot;com.mysql.cj.jdbc.Driver&quot;/&gt;</span><br><span class="line">                &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql:///db1?useSSL=false&quot;/&gt;</span><br><span class="line">                &lt;property name=&quot;username&quot; value=&quot;root&quot;/&gt;</span><br><span class="line">                &lt;property name=&quot;password&quot; value=&quot;123456&quot;/&gt;</span><br><span class="line">            &lt;/dataSource&gt;</span><br><span class="line">        &lt;/environment&gt;</span><br><span class="line"></span><br><span class="line">        &lt;environment id=&quot;test&quot;&gt;</span><br><span class="line">            &lt;transactionManager type=&quot;JDBC&quot;/&gt;</span><br><span class="line">            &lt;dataSource type=&quot;POOLED&quot;&gt;</span><br><span class="line">                &lt;!--数据库连接信息--&gt;</span><br><span class="line">                &lt;property name=&quot;driver&quot; value=&quot;com.mysql.cj.jdbc.Driver&quot;/&gt;</span><br><span class="line">                &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql:///db1?useSSL=false&quot;/&gt;</span><br><span class="line">                &lt;property name=&quot;username&quot; value=&quot;root&quot;/&gt;</span><br><span class="line">                &lt;property name=&quot;password&quot; value=&quot;123456&quot;/&gt;</span><br><span class="line">            &lt;/dataSource&gt;</span><br><span class="line">        &lt;/environment&gt;</span><br><span class="line">    &lt;/environments&gt;</span><br><span class="line">    &lt;mappers&gt;</span><br><span class="line">        &lt;!--加载sql映射文件--&gt;</span><br><span class="line">        &lt;!--&lt;mapper resource=&quot;com/chenysh/Mapper/UserMapper.xml&quot;/&gt;--&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!--Mapper代理方式 : 包扫描--&gt;</span><br><span class="line">        &lt;package name=&quot;com.chenysh.mapper&quot;/&gt;</span><br><span class="line">    &lt;/mappers&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h2 id="配置文件完成CRUD"><a href="#配置文件完成CRUD" class="headerlink" title="配置文件完成CRUD"></a>配置文件完成CRUD</h2><ul>
+<li>数据库表 tb_brand</li>
+<li>实体类Brand</li>
+<li>测试用例</li>
+</ul>
+<ul>
+<li><p>CRUD的步骤 : </p>
+<ol>
+<li><p>编写接口方法</p>
+</li>
+<li><p>编写sql</p>
+</li>
+<li><p>执行方法</p>
+</li>
+</ol>
+</li>
+<li><p>数据库表的字段名称 和 实体类的属性名称 不一样, 则不能自动封装数据</p>
+<ul>
+<li>解决方法 :<ol>
+<li>起别名</li>
+<li>sql片段</li>
+<li>resultMap :<ol>
+<li>定义resultMap标签</li>
+<li>在<select>标签中, 使用resultMap属性 替换 resultType属性</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mapper</span> <span class="attr">namespace</span>=<span class="string">&quot;com.chenysh.mapper.BrandMapper&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">       数据库表的字段名称 和 实体类的属性名称 不一样, 则不能自动封装数据</span></span><br><span class="line"><span class="comment">            解决方法 :</span></span><br><span class="line"><span class="comment">                1. 起别名</span></span><br><span class="line"><span class="comment">                2. sql片段</span></span><br><span class="line"><span class="comment">                3. resultMap :</span></span><br><span class="line"><span class="comment">                    1. 定义resultMap标签</span></span><br><span class="line"><span class="comment">                    2. 在&lt;select&gt;标签中, 使用resultMap属性 替换 resultType属性</span></span><br><span class="line"><span class="comment">    --&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">        id : 唯一标识</span></span><br><span class="line"><span class="comment">        type : 映射的类型, 支持别名</span></span><br><span class="line"><span class="comment">    --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">resultMap</span> <span class="attr">id</span>=<span class="string">&quot;brandResultMap&quot;</span> <span class="attr">type</span>=<span class="string">&quot;brand&quot;</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">            id : 完成主键映射</span></span><br><span class="line"><span class="comment">            result : 完成一般字段映射</span></span><br><span class="line"><span class="comment">        --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">&quot;brand_name&quot;</span> <span class="attr">property</span>=<span class="string">&quot;brandName&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">&quot;company_name&quot;</span> <span class="attr">property</span>=<span class="string">&quot;companyName&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">resultMap</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;selectAll&quot;</span> <span class="attr">resultMap</span>=<span class="string">&quot;brandResultMap&quot;</span>&gt;</span></span><br><span class="line">        select *</span><br><span class="line">        from tb_brand;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mapper</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>参数占位符</p>
+<ul>
+<li>#{} : 会将其替换 为 ? , 可以防止sql注入</li>
+<li>&amp;{} : 拼sql, 会发生sql注入<ul>
+<li>使用时机 :<ul>
+<li>参数传递时 : #{} </li>
+<li>表名或列名不固定时 : &amp;{}(很少用到)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>参数类型 : parameterType(可省略</li>
+<li>sql语句特殊字符处理<ul>
+<li>转义字符 : &lt;</li>
+<li>CDATA区 : <![CDATA[ < ]]> (打CD自动提示)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>参数接收</p>
+<ol>
+<li>散装参数 : 需要使用@(Param)(“SQL中参数占位符的名称”)</li>
+<li>实体类封装参数 : <ul>
+<li>需要保证SQL中的参数名与实体类的参数名对应上</li>
+</ul>
+</li>
+<li>map集合<ul>
+<li>需要保证SQL中的参数名与map的键值对应上</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>动态SQL : SQL语句会随着用户的输入或外部条件的变化而变化, </p>
+<ul>
+<li>MyBatis 对动态SQL的支持<ul>
+<li>if</li>
+<li>choose(when, otherwise)</li>
+<li>trim(where, set)</li>
+<li>foreach</li>
+</ul>
+</li>
+<li>if : 用于判断参数是否有值, 使用test属性进行条件判断<ul>
+<li>存在的问题 : 第一个条件不需要逻辑运算符<ul>
+<li>解决方法 : <ul>
+<li>使用恒等式让所有条件格式都一样</li>
+<li><code>&lt;where&gt;</code>标签替换where关键字</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>增删改需要<ul>
+<li><code>sqlSession.commit()</code>来提交事务,</li>
+<li><code>SqlSession sqlSession = sqlSessionFactory.openSession(true);</code>来开启动态提交</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>当传入数组时, <ul>
+<li>使用@(Param)(“SQL中参数占位符的名称”)</li>
+<li>使用array</li>
+</ul>
+</li>
+<li>foreach属性<ul>
+<li>collection : 容器</li>
+<li>item : 迭代元素</li>
+<li>open : 开始符号</li>
+<li>close : 结束符号</li>
+<li>separator : 分隔符</li>
+</ul>
+</li>
+</ul>
+<p>批量删除示例代码</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">delete</span> <span class="attr">id</span>=<span class="string">&quot;deleteByIds&quot;</span>&gt;</span></span><br><span class="line">    delete</span><br><span class="line">    from tb_brand</span><br><span class="line">    where id in</span><br><span class="line">    <span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">		collection : 容器</span></span><br><span class="line"><span class="comment">		item : 迭代元素</span></span><br><span class="line"><span class="comment">		open : 开始符号</span></span><br><span class="line"><span class="comment">		close : 结束符号</span></span><br><span class="line"><span class="comment">		separator : 分隔符</span></span><br><span class="line"><span class="comment">	--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">foreach</span> <span class="attr">collection</span>=<span class="string">&quot;array&quot;</span> <span class="attr">item</span>=<span class="string">&quot;id&quot;</span> <span class="attr">open</span>=<span class="string">&quot;(&quot;</span> <span class="attr">close</span>=<span class="string">&quot;)&quot;</span> <span class="attr">separator</span>=<span class="string">&quot;,&quot;</span>&gt;</span></span><br><span class="line">        #&#123;id&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">foreach</span>&gt;</span>;</span><br><span class="line"><span class="tag">&lt;/<span class="name">delete</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>MyBatis参数传递(建议都使用@Param注解来修改Map集合中的默认键名)</p>
+<ul>
+<li><p>单个参数</p>
+<ol>
+<li><p>POJO类型 : 直接使用, 实体类属性名 和 参数占位符名称一致</p>
+</li>
+<li><p>Map集合 : 直接使用, 键名 和 参数占位符名称一致</p>
+</li>
+<li><p>Collection : 封装成Map集合</p>
+<p> <code>map.put(&quot;collection&quot;, collection集合)</code></p>
+<p> <code>map.put(&quot;arg0&quot;, collection集合)</code></p>
+</li>
+<li><p>List : 封装成Map集合</p>
+<p> <code>map.put(&quot;collection&quot;, list集合)</code></p>
+<p> <code>map.put(&quot;list&quot;, list集合)</code></p>
+<p> <code>map.put(&quot;arg0&quot;, list集合)</code></p>
+</li>
+<li><p>Array : 封装成Map集合</p>
+<p> <code>map.put(&quot;array&quot;, array数组)</code></p>
+<p> <code>map.put(&quot;arg0&quot;, array数组)</code></p>
+</li>
+<li><p>其他类型 : 直接使用</p>
+</li>
+</ol>
+</li>
+<li><p>多个参数 : 封装成Map集合</p>
+<p>  <code>map.put(&quot;arg0&quot;, 参数值1)</code></p>
+<p>  <code>map.put(&quot;param1&quot;, 参数值1)</code></p>
+<p>  <code>map.put(&quot;arg1&quot;, 参数值2)</code></p>
+<p>  <code>map.put(&quot;param2&quot;, 参数值2)</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="注解开发"><a href="#注解开发" class="headerlink" title="注解开发"></a>注解开发</h2><p>适用于简单的情况</p>
+<p>在方法上添加注解</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Select(&quot;select * from tb_brand where id = #&#123;id&#125;&quot;)</span></span><br><span class="line"><span class="function">Brand <span class="title">selectById</span><span class="params">(Integer id)</span></span>;</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>本文标题：MyBatis学习</li>
+        <li>本文作者：chenysh</li>
+        <li>创建时间：2021-11-15 18:58:17</li>
+        <li>
+            本文链接：https://ischenysh.github.io/2021/11/15/MyBatis学习/
+        </li>
+        <li>
+            版权声明：本博客所有文章除特别声明外，均采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> 许可协议。转载请注明出处！
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/11/14/Bootstrap/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Bootstrap</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;评论</i>
+    </div>
+    
+
+        
+            
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>
+              -
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">chenysh</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.3</a>
+        </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MyBatis"><span class="nav-number">1.</span> <span class="nav-text">MyBatis</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5"><span class="nav-number">1.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mybatis%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8"><span class="nav-number">1.2.</span> <span class="nav-text">Mybatis快速入门</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mapper%E4%BB%A3%E7%90%86%E5%BC%80%E5%8F%91"><span class="nav-number">1.3.</span> <span class="nav-text">Mapper代理开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mapper%E6%A0%B8%E5%BF%83%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.4.</span> <span class="nav-text">Mapper核心配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%AE%8C%E6%88%90CRUD"><span class="nav-number">1.5.</span> <span class="nav-text">配置文件完成CRUD</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E8%A7%A3%E5%BC%80%E5%8F%91"><span class="nav-number">1.6.</span> <span class="nav-text">注解开发</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+
+    
+<script src="/js/code-copy.js"></script>
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+</body>
+</html>
