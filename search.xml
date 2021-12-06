@@ -3105,227 +3105,337 @@
   <entry>
     <title>redis学习</title>
     <url>/2021/11/11/redis%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><pre><code>1. 概念 : redis是一款高性能的NOSQL系列的非关系型数据库
+    <content><![CDATA[<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><blockquote>
+<p>redis是一款高性能的NOSQL系列的非关系型数据库</p>
+</blockquote>
+<h2 id="1-下载安装"><a href="#1-下载安装" class="headerlink" title="1. 下载安装"></a>1. 下载安装</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section"># 0. 环境</span></span><br><span class="line"><span class="bullet">	-</span> VMware 15</span><br><span class="line"><span class="bullet">	-</span> centos7</span><br><span class="line"><span class="section"># 1.下载redis源码包</span></span><br><span class="line"><span class="bullet">	-</span> http://redis.io/</span><br><span class="line"><span class="section"># 2. 将资料包移动到linux环境下</span></span><br><span class="line"><span class="section"># 3. 解压缩</span></span><br><span class="line"><span class="bullet">	-</span> tar -zxvf redis-.....tar.gz</span><br><span class="line"><span class="section"># 4. 安装gcc</span></span><br><span class="line"><span class="bullet">	-</span> yum intsall -y gcc</span><br><span class="line"><span class="section"># 5. 进入解压缩的目录执行</span></span><br><span class="line"><span class="bullet">	-</span> make MALLOC=libc</span><br><span class="line"><span class="section"># 6. 编译完成后</span></span><br><span class="line"><span class="bullet">	-</span> make install PREFIX=/usr/redis</span><br><span class="line"><span class="section"># 7. 进入/usr/redis目录启动redis服务</span></span><br><span class="line"><span class="bullet">	-</span> ./redis-server</span><br><span class="line"><span class="section"># 8. 启动客户端</span></span><br><span class="line"><span class="bullet">	-</span> ./redis-cli -h localhost -p 6379</span><br></pre></td></tr></table></figure>
 
-2. 下载安装
+<h2 id="2-redis启动细节"><a href="#2-redis启动细节" class="headerlink" title="2. redis启动细节"></a>2. redis启动细节</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section"># 1.redis启动服务的细节 </span></span><br><span class="line"><span class="code">	直接使用./redis-server方式启动使用的是redis-server这个shell脚本中默认配置</span></span><br><span class="line"><span class="code"># 2.在启动redis时指定配置文件启动</span></span><br><span class="line"><span class="code">	- 默认在redis安装完成之后安装目录没有任何配置文件, 需要在源码目录中复制redis.conf配置文件到安装目录</span></span><br><span class="line"><span class="code">	- ./redis-server ../redis.conf</span></span><br></pre></td></tr></table></figure>
 
-    * redis.windows.conf : 配置文件
-        * redis-cli.exe : redis的客户端
-        * redis-server.exe : redis的服务器端
 
-3. 命令操作
-    1. redis的数据结构 : 
-         * redis存储的是 : key/value格式的数据. 其中key都是字符串, value有5种不同的数据结构
-             * value的数据结构
-                 1. 字符串类型  String
-                 2. 哈希类型  hash  :   map格式
-                 3. 列表类型 list   : linkedlist格式
-                 4. 集合类型 set    : hashset格式
-                 5. 有序集合类型        : sortedset 
-     2. 字符串类型 String
-         1. 存储 : `set key value`
-         2. 获取 : `get key`
-         3. 删除 : `del key`
-     
-     3. 哈希类型  hash  :   map格式
-        1. 存储 : `hset key filed value`
-        2. 获取 : 
-               1. 获取指定的filed对应的value : `hget key filed `
-               2. 获取所有的filed和value : `hgetall key`
-               3. 删除 : `hdel key filed`
-     
-     4. 列表类型 list : linkedlist格式
-        1. 添加 : 
-            1. `lpush key value`: 将元素加入到列表左侧
-            2. `rpush key value`: 将元素加入到列表右侧 
-        2. 获取 : `lrange key start end` : 范围获取(start从0开始代表左边第一个, end从-1开始表示右边第一个)
-        3. 删除 : 
-            1. `lpop key`: 将最左边元素删除并返回
-            2. `rpop key`: 将最右边元素删除并返回   
-         
 
-      5. 集合类型 set : hashset格式
-          1. 存储 : sadd key value
-          2. 获取 : smembers key : 获取set集合中的所有元素
-          3. 删除 : srem key value : 删除set集合中的某个元素
 
-    6. 有序集合类型 : sortedset (按照score升序)
-        1. 存储 : zadd key score value
-          2. 获取 : zrange key start end
-          3. 删除 : srem key value 
 
-    7. 通用命令
-        1. key * : 查询所有的键名
-        2. type key : 获取键对应的value的类型
-        3. del key : 删除指定的key value
-4. 持久化
-    1. redis是一个内存数据库, 当服务器重启后, 数据将会丢失, 我们可以将redis内存中的数据持久化保存到硬盘的文件中
-    2. redis的持久化机制 :
-        1.  RDB : 默认方式, 不需要配置, 默认就使用这种机制
-            * 在一定的间隔时间中, 检测key的变化情况, 然后持久化数据
-            1. 编辑redis.windows.conf文件
-                #   In the example below the behaviour will be to save:
-                #   after 900 sec (15 min) if at least 1 key changed
-                save 900 1
-                #   after 300 sec (5 min) if at least 10 keys changed
-                save 300 10
-                #   after 60 sec if at least 10000 keys changed
-                save 60  10000
-            2. 重启redis服务器, 并指定配置文件名称
-                redis-server.exe redis.Windows.conf
+<h2 id="3-数据库命令"><a href="#3-数据库命令" class="headerlink" title="3. 数据库命令"></a>3. 数据库命令</h2><h3 id="3-1-数据库操作指令"><a href="#3-1-数据库操作指令" class="headerlink" title="3.1 数据库操作指令"></a>3.1 数据库操作指令</h3><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section"># 1. redis中库的概念</span></span><br><span class="line"><span class="bullet">	-</span> 库: database 用来存放数据的一个基本单元, redis中默认有16个库, 编号从0-15</span><br><span class="line"><span class="bullet">	-</span> 默认使用的是0号库</span><br><span class="line"><span class="bullet">	-</span> 切换库命令: select dbid(库编号)</span><br><span class="line"><span class="section"># 2. redis中清除库的指令</span></span><br><span class="line"><span class="bullet">	-</span> flushDB 清空当前库</span><br><span class="line"><span class="bullet">	-</span> flushAll 清空所有库</span><br></pre></td></tr></table></figure>
 
-        2. AOF : 日志记录的方式, 可以记录每一条命令的操作, 可以每一次命令操作后, 持久化数据
-            1. 编辑redis.windows.conf文件
-                appendonly no 关闭 yes 开启
+<h3 id="3-2-操作key的相关指令"><a href="#3-2-操作key的相关指令" class="headerlink" title="3.2 操作key的相关指令"></a>3.2 操作key的相关指令</h3><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section"># 1. DEL指令</span></span><br><span class="line"><span class="bullet">	-</span> 语法: DEL key [key ....]</span><br><span class="line"><span class="bullet">	-</span> 作用: 删除指定的一个或多个key, 不存在的key会被忽略</span><br><span class="line"><span class="bullet">	-</span> 返回值: 被删除key的数量</span><br><span class="line"><span class="section"># 2. EXISTS 指令</span></span><br><span class="line"><span class="bullet">	-</span> 语法: EXISTS key</span><br><span class="line"><span class="bullet">	-</span> 作用: 检查给定的key是否存在</span><br><span class="line"><span class="bullet">	-</span> 返回值: 1 : 存在, 0 : 不存在</span><br><span class="line"><span class="section"># 3. EXPIRE/PEXPIRE</span></span><br><span class="line"><span class="bullet">	-</span> 语法: EXPIRE/PEXPIRE key seconds/milliseconds</span><br><span class="line"><span class="bullet">	-</span> 作用: 为指定 key 设定生存时间,当 key 过期时, 它会被自动删除</span><br><span class="line"><span class="bullet">	-</span> 时间复杂度: O(1)</span><br><span class="line"><span class="bullet">	-</span> 返回值: 1 : 设置成功</span><br><span class="line"><span class="section"># 4. KEYS</span></span><br><span class="line"><span class="bullet">	-</span> 语法: KEYS pattern</span><br><span class="line"><span class="bullet">		-</span> <span class="emphasis">* : 匹配任意个字符</span></span><br><span class="line"><span class="emphasis">		- [abc...] : 匹配单个字符, 且必须为中括号内的</span></span><br><span class="line"><span class="emphasis">		- ? : 匹配单个任意字符</span></span><br><span class="line"><span class="emphasis">	- 返回值: 符合要求的 key 列表</span></span><br><span class="line"><span class="emphasis"># 5. TTL/PTTL</span></span><br><span class="line"><span class="emphasis">	- 语法: TTL/PTTL key</span></span><br><span class="line"><span class="emphasis">	- 作用: 返回给定key的剩余生存时间(time to live)</span></span><br><span class="line"><span class="emphasis">	- 返回值: -2 : key不存在 -1 : key永远存在 else : key的剩余生存时间</span></span><br><span class="line"><span class="emphasis"># 6. MOVE </span></span><br><span class="line"><span class="emphasis">	- 语法: MOVE key db</span></span><br><span class="line"><span class="emphasis">	- 作用: 将当前数据库的指定 key 移动到数据库 db 中</span></span><br><span class="line"><span class="emphasis">    - 返回值: 1 : 成功 0 : 失败</span></span><br><span class="line"><span class="emphasis"># 7. RANDOMKEY</span></span><br><span class="line"><span class="emphasis">	- 语法: RANDOMKEY</span></span><br><span class="line"><span class="emphasis">	- 作用: 从当前数据库随机返回一个 key</span></span><br><span class="line"><span class="emphasis">	- 返回值: 当数据库不为空时, 返回一个 key, 否则返回 nil</span></span><br><span class="line"><span class="emphasis"># 8. RENAME</span></span><br><span class="line"><span class="emphasis">	- 语法: RENAME key newkey</span></span><br><span class="line"><span class="emphasis">	- 作用: 重命名key</span></span><br><span class="line"><span class="emphasis">	- 返回值: 1 : 成功, 0 : 失败</span></span><br><span class="line"><span class="emphasis"># 9. TYPE</span></span><br><span class="line"><span class="emphasis">	- 语法: TYPE key</span></span><br><span class="line"><span class="emphasis">	- 作用: 返回 key 对应value的类型</span></span><br><span class="line"><span class="emphasis">	- 返回值: </span></span><br><span class="line"><span class="emphasis">		*</span> none(不存在)</span><br><span class="line"><span class="bullet">		*</span> string</span><br><span class="line"><span class="bullet">		*</span> list</span><br><span class="line"><span class="bullet">		*</span> set</span><br><span class="line"><span class="bullet">		*</span> zset(有序集)</span><br><span class="line"><span class="bullet">		*</span> hash</span><br></pre></td></tr></table></figure>
 
-                # appendfsync always     每一次操作都进行一次持久化
-                appendfsync everysec     每秒钟进行一次持久化
-                # appendfsync no        不进行持久化
+<h3 id="3-3-string-类型相关指令"><a href="#3-3-string-类型相关指令" class="headerlink" title="3.3 string 类型相关指令"></a>3.3 string 类型相关指令</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>set</td>
+<td>设置一个 key/value</td>
+</tr>
+<tr>
+<td>get</td>
+<td>根据 key 获得对应的 value</td>
+</tr>
+<tr>
+<td>mset</td>
+<td>一次设置多个 key/value</td>
+</tr>
+<tr>
+<td>mget</td>
+<td>一次获得多个 key 的value</td>
+</tr>
+<tr>
+<td>getset</td>
+<td>获得原始 key 的值, 同时获得新值</td>
+</tr>
+<tr>
+<td>strlen</td>
+<td>获得对应 key 存储 value 的长度</td>
+</tr>
+<tr>
+<td>append</td>
+<td>为对应 key 的 value 追加内容</td>
+</tr>
+<tr>
+<td>getrange</td>
+<td>截取 value 的内容</td>
+</tr>
+<tr>
+<td>setex</td>
+<td>设置一个 key 存活的有效期(秒)</td>
+</tr>
+<tr>
+<td>psetex</td>
+<td>设置一个 key 存活的有效期(毫秒)</td>
+</tr>
+<tr>
+<td>setnx</td>
+<td>key不存在时添加</td>
+</tr>
+<tr>
+<td>msetnx</td>
+<td>所有 key 都不存在时, 设置多个 key/value,</td>
+</tr>
+<tr>
+<td>decr</td>
+<td>对数值类型的value做 -1 操作</td>
+</tr>
+<tr>
+<td>decrby</td>
+<td>对数值类型的value做 减法 操作</td>
+</tr>
+<tr>
+<td>incr</td>
+<td>对数值类型的value做 +1 操作</td>
+</tr>
+<tr>
+<td>incrby</td>
+<td>对数值类型的value做 加法 操作</td>
+</tr>
+<tr>
+<td>incrbyfloat</td>
+<td>对数值类型的value做 加法 操作(支持浮点数)</td>
+</tr>
+</tbody></table>
+<h3 id="3-4-List类型"><a href="#3-4-List类型" class="headerlink" title="3.4 List类型"></a>3.4 List类型</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>lpush</td>
+<td>将某个值加入到 key 列表头部</td>
+</tr>
+<tr>
+<td>lpushx</td>
+<td>同 lpush, 但是要保证 key 存在</td>
+</tr>
+<tr>
+<td>rpush</td>
+<td>将某个值加入到 key 列表末尾</td>
+</tr>
+<tr>
+<td>rpushx</td>
+<td>同 rpush, 但是要保证 key 存在</td>
+</tr>
+<tr>
+<td>lpop</td>
+<td>返回和移除列表左边的第一个元素</td>
+</tr>
+<tr>
+<td>rpop</td>
+<td>返回和移除列表右边的第一个元素</td>
+</tr>
+<tr>
+<td>lrange</td>
+<td>返回某个下标区间内的元素</td>
+</tr>
+<tr>
+<td>llen</td>
+<td>获取列表元素个数</td>
+</tr>
+<tr>
+<td>lset</td>
+<td>设置某个指定索引的值</td>
+</tr>
+<tr>
+<td>lindex</td>
+<td>获取某个指定索引位置的元素</td>
+</tr>
+<tr>
+<td>lrem</td>
+<td>去重</td>
+</tr>
+<tr>
+<td>ltrim</td>
+<td>保留列表中特定区间内的元素</td>
+</tr>
+<tr>
+<td>linsert</td>
+<td>在某个元素之前, 之后插入新元素</td>
+</tr>
+</tbody></table>
+<h3 id="3-5-SET类型"><a href="#3-5-SET类型" class="headerlink" title="3.5 SET类型"></a>3.5 SET类型</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sadd</td>
+<td>为集合添加元素</td>
+</tr>
+<tr>
+<td>smembers</td>
+<td>显示集合中所有元素, 无序</td>
+</tr>
+<tr>
+<td>scard</td>
+<td>返回集合中元素个数</td>
+</tr>
+<tr>
+<td>spop</td>
+<td>随机返回一个元素, 并将该元素删除</td>
+</tr>
+<tr>
+<td>smove</td>
+<td>从一个集合中向另一个集合移动元素</td>
+</tr>
+<tr>
+<td>srem</td>
+<td>从集合中删除元素</td>
+</tr>
+<tr>
+<td>sismember</td>
+<td>判断一个集合中是否含有这个元素</td>
+</tr>
+<tr>
+<td>srandmember</td>
+<td>随机返回元素</td>
+</tr>
+<tr>
+<td>sdiff</td>
+<td>求补集</td>
+</tr>
+<tr>
+<td>sinter</td>
+<td>求交集</td>
+</tr>
+<tr>
+<td>sumion</td>
+<td>求并集</td>
+</tr>
+</tbody></table>
+<h3 id="3-6-ZSET类型"><a href="#3-6-ZSET类型" class="headerlink" title="3.6 ZSET类型"></a>3.6 ZSET类型</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>zadd</td>
+<td>添加一个有序集合元素</td>
+</tr>
+<tr>
+<td>zcard</td>
+<td>返回集合的元素个数</td>
+</tr>
+<tr>
+<td>zrange升序, zervrange降序</td>
+<td>返回一个范围内的元素</td>
+</tr>
+<tr>
+<td>zrangebyscore</td>
+<td>按照分数查找一个范围内的元素</td>
+</tr>
+<tr>
+<td>zrank</td>
+<td>返回排名</td>
+</tr>
+<tr>
+<td>zrevrank</td>
+<td>倒序排名</td>
+</tr>
+<tr>
+<td>zscore</td>
+<td>显示某个元素的分数</td>
+</tr>
+<tr>
+<td>zrem</td>
+<td>移除某个元素</td>
+</tr>
+<tr>
+<td>zincrby</td>
+<td>给某个元素加分</td>
+</tr>
+</tbody></table>
+<h3 id="3-7-hash"><a href="#3-7-hash" class="headerlink" title="3.7 hash"></a>3.7 hash</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>hset</td>
+<td>设置一个 key/value 对</td>
+</tr>
+<tr>
+<td>hget</td>
+<td>获得一个 key 对应的value</td>
+</tr>
+<tr>
+<td>hgetall</td>
+<td>获得所有的键值对</td>
+</tr>
+<tr>
+<td>hdel</td>
+<td>删除一个键值对</td>
+</tr>
+<tr>
+<td>hexists</td>
+<td>判断一个key是否存在</td>
+</tr>
+<tr>
+<td>hkeys</td>
+<td>获得所有的key</td>
+</tr>
+<tr>
+<td>hvals</td>
+<td>获得所有的value</td>
+</tr>
+<tr>
+<td>hmset</td>
+<td>设置多个键值对</td>
+</tr>
+<tr>
+<td>hmget</td>
+<td>获得多个键值对</td>
+</tr>
+<tr>
+<td>hsetnx</td>
+<td>当key不存在时, 设置一个键值对</td>
+</tr>
+<tr>
+<td>hincrby</td>
+<td>对value进行加法</td>
+</tr>
+<tr>
+<td>hincrbyfloat</td>
+<td>对value进行加法(支持浮点数)</td>
+</tr>
+</tbody></table>
+<h2 id="4-持久化"><a href="#4-持久化" class="headerlink" title="4. 持久化"></a>4. 持久化</h2><p><img src="https://raw.githubusercontent.com/ischenysh/images/master/image.1gh1qa3leluo.png" alt="image"></p>
+<p>Redis官方提供了两种不同的持久化方法来将数据存储到硬盘</p>
+<ul>
+<li>快照(Snapshot)</li>
+<li>AOF(qppend only file) 之追加日志文件</li>
+</ul>
+<h3 id="4-1-快照-Snapshot"><a href="#4-1-快照-Snapshot" class="headerlink" title="4.1 快照(Snapshot)"></a>4.1 快照(Snapshot)</h3><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section"># 特点</span></span><br><span class="line"><span class="bullet">	-</span> 这种方式可以将某一时刻的所有数据写入硬盘中, 是redis默认开启的持久化方式. 保存的文件以.rdb结尾, 也被称为rdb方式</span><br><span class="line"><span class="section"># 快照生成方式</span></span><br><span class="line"><span class="section">## 客户端方式: BGSAVE 和 SAVE指令</span></span><br><span class="line"><span class="bullet">	*</span> BGSAVE: redis调用fork来创建一个子进程, 然后子进程负责将快照写入磁盘中, 而父进程则继续处理命令请求</span><br><span class="line"><span class="code">		`名词解释: fork: 当一个进程创建子进程时, 底层的操作系统会创建该进程的一个副本, 在类UNIX系统下, 创建子进程的操作会被优化, 在父进程或子进程对内存进行写操作之前, 他们共享内存</span></span><br><span class="line"><span class="code">	* SAVE: redis直接使用主进程进行快照的创建, 期间不再响应任何指令</span></span><br><span class="line"><span class="code">		- 不常用, 会丢失数据</span></span><br><span class="line"><span class="code">## 服务器配置自动触发</span></span><br><span class="line"><span class="code">	- 在配置文件中设置save选项, redis会在满足任意设定的条件后自动执行BGSAVE命令,</span></span><br></pre></td></tr></table></figure>
 
-5. Java客户端 Jedis
-    * Jedis: 一款Java操作redis数据库的工具
-    * 使用步骤 : 
-        1.    导入jar包
-        2.    使用
-            //    1. 获取连接
-            Jedis jedis = new Jedis(&quot;localhost&quot;, 6379);
-            //    2. 操作
-            jedis.set(&quot;name&quot;, &quot;chenysh&quot;);
-            //    3. 关闭
-            jedis.close();
-    * jedis操作各种redis中的数据结构
-        1. 字符串类型  String
-            * set
-            * get
-            //    1. 获取连接
-            Jedis jedis = new Jedis(&quot;localhost&quot;, 6379);
-            //    2. 操作
-            jedis.set(&quot;name&quot;, &quot;chenysh&quot;);
-            String name = jedis.get(&quot;name&quot;);
-            System.out.println(name);
-            jedis.setex(&quot;checkCode&quot;, 20, &quot;320595&quot;);// 存储右时限的数据
-            String checkCode = jedis.get(&quot;checkCode&quot;);
-            System.out.println(checkCode);
-            //    3. 关闭
-            jedis.close();
-         2. 哈希类型  hash : map格式
-             * hset
-             * hget
-             * hgetAll
-            //    1. 获取连接
-            Jedis jedis = new Jedis();// 如果使用空参构造, 则默认为&quot;localhost&quot; 6379
-            //    2. 操作
-            jedis.hset(&quot;user&quot;, &quot;name&quot;, &quot;zhangsan&quot;);
-            jedis.hset(&quot;user&quot;, &quot;age&quot;, &quot;21&quot;);
-            jedis.hset(&quot;user&quot;, &quot;gender&quot;, &quot;male&quot;);
-    
-            String username = jedis.hget(&quot;user&quot;, &quot;name&quot;);
-            System.out.println(username);
-    
-            Map&lt;String, String&gt; users = jedis.hgetAll(&quot;user&quot;);
-            Set&lt;Map.Entry&lt;String, String&gt;&gt; entries = users.entrySet();
-            for (Map.Entry&lt;String, String&gt; entry : entries) &#123;
-                System.out.println(entry.getKey() + &quot;:&quot; + entry.getValue());
-            &#125;
-            //        3. 关闭
-            jedis.close();
-        3. 列表类型 list : linkedlist格式
-            * lpush/rpush
-            * lpop/rpop
-            * lrange
-            //    1. 获取连接
-            Jedis jedis = new Jedis();// 如果使用空参构造, 则默认为&quot;localhost&quot; 6379
-            //    2. 操作
-            jedis.lpush(&quot;list&quot;, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;);
-            jedis.rpush(&quot;list&quot;, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;);
-    
-            List&lt;String&gt; list = jedis.lrange(&quot;list&quot;, 0, -1);
-            System.out.println(list);
-    
-            System.out.println(jedis.lpop(&quot;list&quot;));
-            System.out.println(jedis.rpop(&quot;list&quot;));
-    
-            list = jedis.lrange(&quot;list&quot;, 0, -1);
-            System.out.println(list);
-            //    3. 关闭
-            jedis.close();
-        4. 集合类型 set : hashset格式
-            * sadd
-            * smembers
-            //        1. 获取连接
-            Jedis jedis = new Jedis();// 如果使用空参构造, 则默认为&quot;localhost&quot; 6379
-            //        2. 操作
-            jedis.sadd(&quot;set&quot;, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;);
-            jedis.sadd(&quot;set&quot;, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;);
-    
-            Set&lt;String&gt; set = jedis.smembers(&quot;set&quot;);
-            System.out.println(set);
-            //        3. 关闭
-            jedis.close();
-        5. 有序集合类型 : sortedset 
-            * zadd
-            * zrange
-            //    1. 获取连接
-            Jedis jedis = new Jedis();// 如果使用空参构造, 则默认为&quot;localhost&quot; 6379
-            //    2. 操作
-            jedis.zadd(&quot;sortedset&quot;, 10, &quot;a&quot;);
-            jedis.zadd(&quot;sortedset&quot;, 80, &quot;b&quot;);
-            jedis.zadd(&quot;sortedset&quot;, 70, &quot;c&quot;);
-    
-            Set&lt;String&gt; sortedset = jedis.zrange(&quot;sortedset&quot;, 0, -1);
-            System.out.println(sortedset);
-            //    3. 关闭
-            jedis.close();
-    * jedis连接池JedisPool
-        * 使用 : 
-            //    1. 创建配置对象
-            JedisPoolConfig config = new JedisPoolConfig();
-            config.setMaxTotal(50);// 最大连接数
-            config.setMaxIdle(10);// 最大空闲数
-            //    2. 创建连接池对象
-            JedisPool jedisPool = new JedisPool(config, &quot;localhost&quot;, 6379);
-            //  3. 从连接池获取连接
-            Jedis jedis = jedisPool.getResource();// 如果使用空参构造, 则默认为&quot;localhost&quot; 6379
-            //    4. 操作
-            jedis.zadd(&quot;sortedset&quot;, 10, &quot;a&quot;);
-            jedis.zadd(&quot;sortedset&quot;, 80, &quot;b&quot;);
-            jedis.zadd(&quot;sortedset&quot;, 70, &quot;c&quot;);
-    
-            Set&lt;String&gt; sortedset = jedis.zrange(&quot;sortedset&quot;, 0, -1);
-            System.out.println(sortedset);
-            //    5. 关闭, 返还给连接池
-            jedis.close();
-        * JedisPool工具类
-            public class JedisPoolUtils &#123;
-                private static JedisPool pool;
-            
-                public static Jedis getJedis() &#123;
-                    return pool.getResource();
-                &#125;
-            
-                public static JedisPool getJedisPool() &#123;
-                    return pool;
-                &#125;
-            
-                static &#123;
-                    try &#123;
-                        InputStream is = JedisPoolUtils.class.getClassLoader().getResourceAsStream(&quot;jedis.properties&quot;);
-                        Properties properties = new Properties();
-                        properties.load(is);
-                        JedisPoolConfig config = new JedisPoolConfig();
-                        config.setMaxTotal(Integer.parseInt(properties.getProperty(&quot;redis.pool.maxTotal&quot;)));
-                        config.setMaxIdle(Integer.parseInt(properties.getProperty(&quot;redis.pool.maxIdle&quot;)));
-                        pool = new JedisPool(config, properties.getProperty(&quot;redis.ip&quot;), Integer.parseInt(properties.getProperty(&quot;redis.port&quot;)));
-                        is.close();
-                    &#125; catch (IOException e) &#123;
-                        e.printStackTrace();
-                    &#125;
-                &#125;
-            &#125;
-    * 注意 : 使用redis缓存一些不经常变化的数据
-        * 数据库的数据一旦发生改变, 则需要更新缓存
-            * 数据库的表执行增删改的相关操作时, 需要将数据库的数据再次缓存到redis中
-</code></pre>
+<p><img src="https://raw.githubusercontent.com/ischenysh/images/master/image.50tv5fv1ems0.png" alt="image"></p>
+<h3 id="4-2-AOF只追加日志文件"><a href="#4-2-AOF只追加日志文件" class="headerlink" title="4.2 AOF只追加日志文件"></a>4.2 AOF只追加日志文件</h3><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section"># 1. 特点</span></span><br><span class="line"><span class="code">	这种方式将所有客户端所进行的写操作都记录到日志文件中, 只要将AOF文件的所有命令都执行一遍, 就可以恢复数据</span></span><br><span class="line"><span class="code"># 2. 开启AOF持久化</span></span><br><span class="line"><span class="code">	在redis的默认配置中AOF持久化机制没有开启, 需要在配置中开启</span></span><br><span class="line"><span class="code">		1. 修改 appendonl yes 开启持久化</span></span><br><span class="line"><span class="code">		2. 修改 appendfilename &quot;appendonly.aof&quot; 指定生成文件的名称</span></span><br><span class="line"><span class="code"># 3. 日志追加频率</span></span><br><span class="line"><span class="code">	- always</span></span><br><span class="line"><span class="code">	- everysec [推荐]</span></span><br><span class="line"><span class="code">	- no</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/ischenysh/images/master/image.6wgvonhgyvc0.png" alt="image"></p>
+<p><img src="https://raw.githubusercontent.com/ischenysh/images/master/image.25ymtt383280.png" alt="image"></p>
+<h3 id="4-3-AOF文件的重写"><a href="#4-3-AOF文件的重写" class="headerlink" title="4.3 AOF文件的重写"></a>4.3 AOF文件的重写</h3><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section"># 1. AOF带来的问题</span></span><br><span class="line"><span class="code">	大量无用指令, 为了节省内存, Redis提供了AOF的重写机制</span></span><br><span class="line"><span class="code"># 2. AOF重写</span></span><br><span class="line"><span class="code">	用来在一定程度上减少AOF文件的体积</span></span><br><span class="line"><span class="code"># 3. 触发重写方式</span></span><br><span class="line"><span class="code">## 3.1 客户端方式触发重写</span></span><br><span class="line"><span class="code">	- 执行BGREWRITEAOF命令	不会阻塞redis服务</span></span><br><span class="line"><span class="code">## 3.2 服务器配置方式自动触发</span></span><br><span class="line"><span class="code">	- auto-aof-rewrite-percentage 100</span></span><br><span class="line"><span class="code">	- auto-aof-rewrite-min-size 64mb</span></span><br><span class="line"><span class="code">	- 如上设置下, 当aof文件体积大于64M, 并且上一次重写体积大了一倍(100%), 会自动触发重写</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/ischenysh/images/master/image.6u6kb8i7pxs0.png" alt="image"></p>
+<h2 id="5-springboot继承redis开发"><a href="#5-springboot继承redis开发" class="headerlink" title="5. springboot继承redis开发"></a>5. springboot继承redis开发</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">Spring Boot Data Redis 中提供了<span class="code">`RedisTemplate`</span>和<span class="code">`StringRedisTemplate`</span>, 其中<span class="code">`StringRedisTemplate`</span>是<span class="code">`RedisTemplate`</span>的子类, 两个方法基本一致, </span><br><span class="line">不同点:</span><br><span class="line"><span class="bullet">	-</span> <span class="code">`RedisTemplate`</span>两个泛型都是Object, 其 key 和 value 都可以是对象(自动序列化与反序列化, 实际也是字符串)</span><br><span class="line"><span class="bullet">	-</span> <span class="code">`StringRedisTemplate`</span>两个泛型都是String, 其 key 和 value 只能是String</span><br></pre></td></tr></table></figure>
+
+
+
+<ol>
+<li><p>导入依赖</p>
+ <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>配置文件</p>
+ <figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># redis</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">    <span class="attr">redis:</span></span><br><span class="line">        <span class="attr">host:</span> <span class="number">192.168</span><span class="number">.80</span><span class="number">.128</span></span><br><span class="line">        <span class="attr">port:</span> <span class="number">6379</span></span><br><span class="line">        <span class="attr">database:</span> <span class="number">0</span></span><br><span class="line">        <span class="attr">password:</span> <span class="string">123abc...</span></span><br></pre></td></tr></table></figure></li>
+<li><p>测试</p>
+ <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> StringRedisTemplate stringRedisTemplate;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">testStringRedisTemplate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   <span class="comment">// 操作字符串 stringRedisTemplate.opsForValue()</span></span><br><span class="line">   stringRedisTemplate.opsForValue().set(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;chen&quot;</span>);</span><br><span class="line">   System.out.println(stringRedisTemplate.opsForValue().get(<span class="string">&quot;name&quot;</span>));</span><br><span class="line">   System.out.println(<span class="string">&quot;******************************&quot;</span>);</span><br><span class="line">   <span class="comment">// 操作key stringRedisTemplate</span></span><br><span class="line">   System.out.println(stringRedisTemplate.keys(<span class="string">&quot;*&quot;</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
 ]]></content>
   </entry>
   <entry>
@@ -4246,9 +4356,9 @@
 </ul>
 <h2 id="Mapper代理开发"><a href="#Mapper代理开发" class="headerlink" title="Mapper代理开发"></a>Mapper代理开发</h2><ul>
 <li>使用Mapper代理方式完成入门案例<ol>
-<li>定义与SQL映射文件同名的Mapper接口, 并将接口与SQL映射文件放在同一目录下</li>
-<li>设置SQL映射文件的namespace属性为Mapper接口全限定名</li>
-<li>在Mapper接口中定义方法, 方法名为SQL映射文件中sql语句的id, 并保持参数类型与返回值类型一致</li>
+<li><strong>定义与SQL映射文件同名的Mapper接口, 并将接口与SQL映射文件放在同一目录下</strong></li>
+<li><strong>设置SQL映射文件的namespace属性为Mapper接口全限定名</strong></li>
+<li>在Mapper接口中定义方法, 方法名为SQL映射文件中sql语句的id, <strong>并保持参数类型与返回值类型一致</strong></li>
 <li>编码<ol>
 <li>通过SqlSession的getMapper方法获取Mapper接口的代理对象</li>
 <li>调用对应方法完成sql的执行</li>
@@ -4261,15 +4371,40 @@
 <ul>
 <li><p>要严格按照顺序配置</p>
 </li>
-<li><p>类型别名 :</p>
-<ul>
-<li>```xml  <typeAliases>
-      <package name="com.chenysh.pojo"/>
+<li><p>properties标签 : <code>&lt;properties resource=&quot;jdbc.properties&quot;&gt;&lt;/properties&gt;    &lt;!--加载额外配置的properties文件--&gt;</code></p>
+</li>
+<li><p>typeAliases标签 : </p>
+</li>
+<li><p>```xml<br>  <typeAliases><!--为java类型设置一个短的名字--></p>
+<pre><code>  &lt;!--设置单个别名--&gt;
+  &lt;typeAlias type=&quot;com.chenysh.domain.User&quot; alias=&quot;user&quot;/&gt;
+  &lt;!--扫包为每个类设置别名  User2user--&gt;
+  &lt;package name=&quot;com.chenysh.domain&quot;/&gt;
+</code></pre>
   </typeAliases>
-  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">```xml</span><br><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span><br><span class="line">&lt;!DOCTYPE configuration</span><br><span class="line">        PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot;</span><br><span class="line">        &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;</span><br><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;typeAliases&gt;</span><br><span class="line">        &lt;package name=&quot;com.chenysh.pojo&quot;/&gt;</span><br><span class="line">    &lt;/typeAliases&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!--配置数据库的连接环境信息, 可以配置多个environment 通过default属性切换不同的environment--&gt;</span><br><span class="line">    &lt;environments default=&quot;development&quot;&gt;</span><br><span class="line">        &lt;environment id=&quot;development&quot;&gt;</span><br><span class="line">            &lt;transactionManager type=&quot;JDBC&quot;/&gt;</span><br><span class="line">            &lt;dataSource type=&quot;POOLED&quot;&gt;</span><br><span class="line">                &lt;!--数据库连接信息--&gt;</span><br><span class="line">                &lt;property name=&quot;driver&quot; value=&quot;com.mysql.cj.jdbc.Driver&quot;/&gt;</span><br><span class="line">                &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql:///db1?useSSL=false&quot;/&gt;</span><br><span class="line">                &lt;property name=&quot;username&quot; value=&quot;root&quot;/&gt;</span><br><span class="line">                &lt;property name=&quot;password&quot; value=&quot;123456&quot;/&gt;</span><br><span class="line">            &lt;/dataSource&gt;</span><br><span class="line">        &lt;/environment&gt;</span><br><span class="line"></span><br><span class="line">        &lt;environment id=&quot;test&quot;&gt;</span><br><span class="line">            &lt;transactionManager type=&quot;JDBC&quot;/&gt;</span><br><span class="line">            &lt;dataSource type=&quot;POOLED&quot;&gt;</span><br><span class="line">                &lt;!--数据库连接信息--&gt;</span><br><span class="line">                &lt;property name=&quot;driver&quot; value=&quot;com.mysql.cj.jdbc.Driver&quot;/&gt;</span><br><span class="line">                &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql:///db1?useSSL=false&quot;/&gt;</span><br><span class="line">                &lt;property name=&quot;username&quot; value=&quot;root&quot;/&gt;</span><br><span class="line">                &lt;property name=&quot;password&quot; value=&quot;123456&quot;/&gt;</span><br><span class="line">            &lt;/dataSource&gt;</span><br><span class="line">        &lt;/environment&gt;</span><br><span class="line">    &lt;/environments&gt;</span><br><span class="line">    &lt;mappers&gt;</span><br><span class="line">        &lt;!--加载sql映射文件--&gt;</span><br><span class="line">        &lt;!--&lt;mapper resource=&quot;com/chenysh/Mapper/UserMapper.xml&quot;/&gt;--&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!--Mapper代理方式 : 包扫描--&gt;</span><br><span class="line">        &lt;package name=&quot;com.chenysh.mapper&quot;/&gt;</span><br><span class="line">    &lt;/mappers&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure></li>
-</ul>
+  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">- typeHandlers标签 : </span><br><span class="line"></span><br><span class="line">- ```xml</span><br><span class="line">	&lt;typeHandlers&gt;    &lt;!--注册自定义的类型处理器--&gt;</span><br><span class="line">	    &lt;typeHandler handler=&quot;com.chenysh.handler.DateTypeHandler&quot;/&gt;</span><br><span class="line">	&lt;/typeHandlers&gt;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>定义转换类继承<code>BaseTypeHandler&lt;T&gt;</code></p>
+</li>
+<li><p>覆盖为实现方法, 其中setNunNullParameter为java程序设置数据到数据库的回调方法</p>
+ <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DateTypeHandler</span> <span class="keyword">extends</span> <span class="title">BaseTypeHandler</span>&lt;<span class="title">Date</span>&gt; </span>&#123;</span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 将java类型 转换成 数据库需要的类型</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setNonNullParameter</span><span class="params">(PreparedStatement preparedStatement, <span class="keyword">int</span> i, Date date, JdbcType jdbcType)</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">      Long timeLong = date.getTime();</span><br><span class="line">      preparedStatement.setLong(i, timeLong);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 将数据库中类型转换成java类型</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> Date <span class="title">getNullableResult</span><span class="params">(ResultSet resultSet, String s)</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line"><span class="comment">//    获取数据库数据</span></span><br><span class="line">      <span class="keyword">long</span> timeLong = resultSet.getLong(s);</span><br><span class="line"><span class="comment">//    转成date</span></span><br><span class="line">      Date date = <span class="keyword">new</span> Date(timeLong);</span><br><span class="line">      <span class="keyword">return</span> date;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 将数据库中类型转换成java类型</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> Date <span class="title">getNullableResult</span><span class="params">(ResultSet resultSet, <span class="keyword">int</span> i)</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">      <span class="comment">//    获取数据库数据</span></span><br><span class="line">      <span class="keyword">long</span> timeLong = resultSet.getLong(i);</span><br><span class="line"><span class="comment">//    转成date</span></span><br><span class="line">      Date date = <span class="keyword">new</span> Date(timeLong);</span><br><span class="line">      <span class="keyword">return</span> date;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 将数据库中类型转换成java类型</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> Date <span class="title">getNullableResult</span><span class="params">(CallableStatement callableStatement, <span class="keyword">int</span> i)</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line"><span class="comment">//    获取数据库数据</span></span><br><span class="line">      <span class="keyword">long</span> timeLong = callableStatement.getLong(i);</span><br><span class="line"><span class="comment">//    转成date</span></span><br><span class="line">      Date date = <span class="keyword">new</span> Date(timeLong);</span><br><span class="line">      <span class="keyword">return</span> date;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p>plugins标签 : 加载插件 </p>
+<p>  分页插件示例</p>
+<ol>
+<li><p>导入坐标</p>
+ <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.pagehelper<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pagehelper<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.jsqlparser<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jsqlparser<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>在mybatis-config.xml中配置PageHelper插件</p>
+ <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">plugin</span> <span class="attr">interceptor</span>=<span class="string">&quot;com.github.pagehelper.PageInterceptor&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>使用</p>
+ <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testPageHelper</span><span class="params">()</span> </span>&#123;</span><br><span class="line"><span class="comment">//    设置当前页码和每页显示条数</span></span><br><span class="line">      PageHelper.startPage(<span class="number">1</span>, <span class="number">3</span>);</span><br><span class="line">      List&lt;User&gt; users = mapper.selectAll();</span><br><span class="line"><span class="comment">//    获取与分页相关的参数</span></span><br><span class="line">      PageInfo&lt;User&gt; pageInfo = <span class="keyword">new</span> PageInfo&lt;&gt;(users);</span><br><span class="line">      System.out.println(<span class="string">&quot;当前页 :&quot;</span> + pageInfo.getPageSize());</span><br><span class="line">      System.out.println(<span class="string">&quot;每页显示条数 :&quot;</span> + pageInfo.getPrePage());</span><br><span class="line">      System.out.println(<span class="string">&quot;总条数 :&quot;</span> + pageInfo.getTotal());</span><br><span class="line">      System.out.println(<span class="string">&quot;总页数 :&quot;</span> + pageInfo.getPages());</span><br><span class="line">      System.out.println(<span class="string">&quot;上一页 :&quot;</span> + pageInfo.getPrePage());</span><br><span class="line">      System.out.println(<span class="string">&quot;下一页 :&quot;</span> + pageInfo.getNextPage());</span><br><span class="line">      System.out.println(<span class="string">&quot;是否是第一页 :&quot;</span> + pageInfo.isIsFirstPage());</span><br><span class="line">      System.out.println(<span class="string">&quot;是否是最后一页 :&quot;</span> + pageInfo.isIsLastPage());</span><br><span class="line">      System.out.println(users);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
 </li>
 </ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">properties</span> <span class="attr">resource</span>=<span class="string">&quot;jdbc.properties&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">properties</span>&gt;</span>    <span class="comment">&lt;!--加载额外配置的properties文件--&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">typeAliases</span>&gt;</span><span class="comment">&lt;!--为java类型设置一个短的名字--&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--设置单个别名--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">typeAlias</span> <span class="attr">type</span>=<span class="string">&quot;com.chenysh.domain.User&quot;</span> <span class="attr">alias</span>=<span class="string">&quot;user&quot;</span>/&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--扫包为每个类设置别名  User2user--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">package</span> <span class="attr">name</span>=<span class="string">&quot;com.chenysh.domain&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">typeAliases</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">typeHandlers</span>&gt;</span>    <span class="comment">&lt;!--注册自定义的类型处理器--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">typeHandler</span> <span class="attr">handler</span>=<span class="string">&quot;com.chenysh.handler.DateTypeHandler&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">typeHandlers</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">plugins</span>&gt;</span>    <span class="comment">&lt;!--配置插件--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">plugin</span> <span class="attr">interceptor</span>=<span class="string">&quot;com.github.pagehelper.PageInterceptor&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!----&gt;</span></span><br><span class="line">    <span class="comment">&lt;!----&gt;</span></span><br><span class="line">    <span class="comment">&lt;!----&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">environments</span> <span class="attr">default</span>=<span class="string">&quot;development&quot;</span>&gt;</span> <span class="comment">&lt;!--指定默认环境--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">environment</span> <span class="attr">id</span>=<span class="string">&quot;development&quot;</span>&gt;</span><span class="comment">&lt;!--指定当前环境名称--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">transactionManager</span> <span class="attr">type</span>=<span class="string">&quot;JDBC&quot;</span>/&gt;</span><span class="comment">&lt;!--指定事务管理类型--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">dataSource</span> <span class="attr">type</span>=<span class="string">&quot;POOLED&quot;</span>&gt;</span><span class="comment">&lt;!--指定当前数据源类型是连接池--&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;driver&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;jdbc.driver&#125;&quot;</span>/&gt;</span><span class="comment">&lt;!--数据源配置的基本参数--&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;url&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;jdbc.url&#125;&quot;</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;username&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;jdbc.username&#125;&quot;</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;jdbc.password&#125;&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">dataSource</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">environment</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">environments</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mappers</span>&gt;</span>    <span class="comment">&lt;!--加载映射--&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--相对于类路径的资源引用--&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--        &lt;mapper resource=&quot;com/chenysh/mapper/UserMapper.xml&quot;/&gt;--&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--使用映射器接口实现类的完全限定名--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mapper</span> <span class="attr">class</span>=<span class="string">&quot;com.chenysh.mapper.UserMapper&quot;</span>/&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--将包内的映射器接口实现类的完全限定名--&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--        &lt;package name=&quot;com.chenysh.mapper&quot;/&gt;--&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">mappers</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="配置文件完成CRUD"><a href="#配置文件完成CRUD" class="headerlink" title="配置文件完成CRUD"></a>配置文件完成CRUD</h2><ul>
 <li>数据库表 tb_brand</li>
 <li>实体类Brand</li>
@@ -4293,7 +4428,7 @@
 <li>sql片段</li>
 <li>resultMap :<ol>
 <li>定义resultMap标签</li>
-<li>在<select>标签中, 使用resultMap属性 替换 resultType属性</li>
+<li>在<code>&lt;select&gt;</code>标签中, 使用resultMap属性 替换 resultType属性</li>
 </ol>
 </li>
 </ol>
@@ -4303,6 +4438,8 @@
 </ul>
 <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mapper</span> <span class="attr">namespace</span>=<span class="string">&quot;com.chenysh.mapper.BrandMapper&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">       数据库表的字段名称 和 实体类的属性名称 不一样, 则不能自动封装数据</span></span><br><span class="line"><span class="comment">            解决方法 :</span></span><br><span class="line"><span class="comment">                1. 起别名</span></span><br><span class="line"><span class="comment">                2. sql片段</span></span><br><span class="line"><span class="comment">                3. resultMap :</span></span><br><span class="line"><span class="comment">                    1. 定义resultMap标签</span></span><br><span class="line"><span class="comment">                    2. 在&lt;select&gt;标签中, 使用resultMap属性 替换 resultType属性</span></span><br><span class="line"><span class="comment">    --&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">        id : 唯一标识</span></span><br><span class="line"><span class="comment">        type : 映射的类型, 支持别名</span></span><br><span class="line"><span class="comment">    --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">resultMap</span> <span class="attr">id</span>=<span class="string">&quot;brandResultMap&quot;</span> <span class="attr">type</span>=<span class="string">&quot;brand&quot;</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">            id : 完成主键映射</span></span><br><span class="line"><span class="comment">            result : 完成一般字段映射</span></span><br><span class="line"><span class="comment">        --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">&quot;brand_name&quot;</span> <span class="attr">property</span>=<span class="string">&quot;brandName&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">&quot;company_name&quot;</span> <span class="attr">property</span>=<span class="string">&quot;companyName&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">resultMap</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;selectAll&quot;</span> <span class="attr">resultMap</span>=<span class="string">&quot;brandResultMap&quot;</span>&gt;</span></span><br><span class="line">        select *</span><br><span class="line">        from tb_brand;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mapper</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <ul>
+<li><p>resultMap用于封装结果集</p>
+  <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">resultMap</span> <span class="attr">id</span>=<span class="string">&quot;orderMapper&quot;</span> <span class="attr">type</span>=<span class="string">&quot;order&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span> <span class="attr">column</span>=<span class="string">&quot;order_id&quot;</span> <span class="attr">property</span>=<span class="string">&quot;id&quot;</span>/&gt;</span>    <span class="comment">&lt;!--主键用id, 普通字段用result--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">&quot;order_time&quot;</span> <span class="attr">property</span>=<span class="string">&quot;orderTime&quot;</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--        &lt;result column=&quot;user_id&quot; property=&quot;user.id&quot;/&gt;--&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--        &lt;result column=&quot;username&quot; property=&quot;user.username&quot;/&gt;--&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">        可以用association来封装实体类</span></span><br><span class="line"><span class="comment">        property为当前实体order的属性名</span></span><br><span class="line"><span class="comment">        javaType为当前实体order的属性类名</span></span><br><span class="line"><span class="comment">    --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">association</span> <span class="attr">property</span>=<span class="string">&quot;user&quot;</span> <span class="attr">javaType</span>=<span class="string">&quot;user&quot;</span>&gt;</span>    </span><br><span class="line">        <span class="tag">&lt;<span class="name">id</span> <span class="attr">column</span>=<span class="string">&quot;user_id&quot;</span> <span class="attr">property</span>=<span class="string">&quot;id&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">&quot;username&quot;</span> <span class="attr">property</span>=<span class="string">&quot;username&quot;</span>/&gt;</span></span><br><span class="line">        </span><br><span class="line">                <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">            配置集合信息</span></span><br><span class="line"><span class="comment">                property:当前实体的属性名</span></span><br><span class="line"><span class="comment">                ofType : 集合中的数据类型</span></span><br><span class="line"><span class="comment">        --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">collection</span> <span class="attr">property</span>=<span class="string">&quot;orderList&quot;</span> <span class="attr">ofType</span>=<span class="string">&quot;order&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">id</span> <span class="attr">column</span>=<span class="string">&quot;order_id&quot;</span> <span class="attr">property</span>=<span class="string">&quot;id&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">&quot;order_time&quot;</span> <span class="attr">property</span>=<span class="string">&quot;orderTime&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">collection</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">association</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resultMap</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
 <li><p>参数占位符</p>
 <ul>
 <li><code>#&#123;&#125;</code> : 会将其替换 为 ? , 可以防止sql注入</li>
@@ -4317,7 +4454,7 @@
 <li>参数类型 : parameterType(可省略</li>
 <li>sql语句特殊字符处理<ul>
 <li>转义字符 : &lt;</li>
-<li>CDATA区 : <![CDATA[ < ]]> (打CD自动提示)</li>
+<li>CDATA区 : <code>&lt;![CDATA[ &lt; ]]&gt;</code> (打CD自动提示)</li>
 </ul>
 </li>
 </ul>
@@ -4418,9 +4555,63 @@
 </ul>
 </li>
 </ul>
-<h2 id="注解开发"><a href="#注解开发" class="headerlink" title="注解开发"></a>注解开发</h2><p>适用于简单的情况</p>
-<p>在方法上添加注解</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Select(&quot;select * from tb_brand where id = #&#123;id&#125;&quot;)</span></span><br><span class="line"><span class="function">Brand <span class="title">selectById</span><span class="params">(Integer id)</span></span>;</span><br></pre></td></tr></table></figure>
+<h2 id="注解开发"><a href="#注解开发" class="headerlink" title="注解开发"></a>注解开发</h2><ul>
+<li><p>Mybatis的常用注解</p>
+<table>
+<thead>
+<tr>
+<th>注解名称</th>
+<th>介绍</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Insert</td>
+<td>实现新增</td>
+</tr>
+<tr>
+<td>Update</td>
+<td>实现更新</td>
+</tr>
+<tr>
+<td>Delete</td>
+<td>实现删除</td>
+</tr>
+<tr>
+<td>Select</td>
+<td>实现查询</td>
+</tr>
+<tr>
+<td>Result</td>
+<td>实现结果集封装</td>
+</tr>
+<tr>
+<td>Results</td>
+<td>与@Result一起使用, 封装多个结果集</td>
+</tr>
+<tr>
+<td>One</td>
+<td>实现一对一结果集封装</td>
+</tr>
+<tr>
+<td>Many</td>
+<td>实现一对多的结果集封装</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<p>示例 :</p>
+<ul>
+<li><p>一对一</p>
+  <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Select(&quot;        select u.id user_id, u.username, o.id order_id, order_time\n&quot; +</span></span><br><span class="line"><span class="meta">      &quot;        from sys_user u,\n&quot; +</span></span><br><span class="line"><span class="meta">      &quot;             sys_order o\n&quot; +</span></span><br><span class="line"><span class="meta">      &quot;        where u.id = o.user_id;&quot;)</span></span><br><span class="line"><span class="meta">@Results(&#123;@Result(column = &quot;user_id&quot;, property = &quot;id&quot;),</span></span><br><span class="line"><span class="meta">      @Result(column = &quot;order_time&quot;, property = &quot;orderTime&quot;),</span></span><br><span class="line"><span class="meta">      @Result(column = &quot;user_id&quot;, property = &quot;user.id&quot;),</span></span><br><span class="line"><span class="meta">      @Result(column = &quot;username&quot;, property = &quot;user.username&quot;)</span></span><br><span class="line"><span class="meta">&#125;)</span></span><br><span class="line"><span class="function">List&lt;Order&gt; <span class="title">selectAll</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@Select(&quot;select * from sys_order&quot;)</span></span><br><span class="line"><span class="meta">@Results(&#123;@Result(column = &quot;id&quot;, property = &quot;id&quot;),</span></span><br><span class="line"><span class="meta">      @Result(column = &quot;order_time&quot;, property = &quot;orderTime&quot;),</span></span><br><span class="line"><span class="meta">      @Result(</span></span><br><span class="line"><span class="meta">            property = &quot;user&quot;,</span></span><br><span class="line"><span class="meta">            javaType = User.class,</span></span><br><span class="line"><span class="meta">            column = &quot;user_id&quot;,</span></span><br><span class="line"><span class="meta">            one = @One(select = &quot;com.chenysh.mapper.UserMapper.selectById&quot;)</span></span><br><span class="line"><span class="meta">      )</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">&#125;)</span></span><br></pre></td></tr></table></figure></li>
+<li><p>一对多</p>
+  <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Select(&quot;select * from sys_user&quot;)</span></span><br><span class="line"><span class="meta">@Results(&#123;</span></span><br><span class="line"><span class="meta">		@Result(id = true, column = &quot;id&quot;, property = &quot;id&quot;),</span></span><br><span class="line"><span class="meta">		@Result(column = &quot;username&quot;, property = &quot;username&quot;),</span></span><br><span class="line"><span class="meta">		@Result(</span></span><br><span class="line"><span class="meta">				property = &quot;orderList&quot;,</span></span><br><span class="line"><span class="meta">				column = &quot;id&quot;,</span></span><br><span class="line"><span class="meta">				javaType = List.class,</span></span><br><span class="line"><span class="meta">				many = @Many(select = &quot;com.chenysh.mapper.OrderMapper.selectByUid&quot;)</span></span><br><span class="line"><span class="meta">		)</span></span><br><span class="line"><span class="meta">&#125;)</span></span><br><span class="line"><span class="function">List&lt;User&gt; <span class="title">selectAll</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure></li>
+<li><p>多对多</p>
+  <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Select(&quot;select * from sys_role;&quot;)</span></span><br><span class="line"><span class="meta">@Results(&#123;</span></span><br><span class="line"><span class="meta">      @Result(id = true, column = &quot;id&quot;, property = &quot;id&quot;),</span></span><br><span class="line"><span class="meta">      @Result(column = &quot;role_name&quot;, property = &quot;roleName&quot;),</span></span><br><span class="line"><span class="meta">      @Result(</span></span><br><span class="line"><span class="meta">            column = &quot;id&quot;,</span></span><br><span class="line"><span class="meta">            property = &quot;userList&quot;,</span></span><br><span class="line"><span class="meta">            javaType = List.class,</span></span><br><span class="line"><span class="meta">            many = @Many(select = &quot;com.chenysh.mapper.UserMapper.selectByRoleId&quot;)</span></span><br><span class="line"><span class="meta">      )</span></span><br><span class="line"><span class="meta">&#125;)</span></span><br><span class="line"><span class="function">List&lt;Role2&gt; <span class="title">selectAll</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="与SpringBoot的整合"><a href="#与SpringBoot的整合" class="headerlink" title="与SpringBoot的整合"></a>与SpringBoot的整合</h2><p>配置别名:</p>
+<p>​    mybatis.type-aliases-packge: com.chenysh.pojo</p>
+<p>配置xml文件位置</p>
+<p>​    mybatis.mapperlocaltion=classpath:/com.chenysh.mapper</p>
 ]]></content>
   </entry>
   <entry>
@@ -4610,6 +4801,254 @@
 <li>Layout布局 : 通过基础的24分栏, 迅速简便地创建布局</li>
 <li>Container布局容器 : 用于布局的容器组件, 方便快速搭建页面的基本结构</li>
 </ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>jwt学习</title>
+    <url>/2021/12/06/jwt%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h1 id="1-JWT简介"><a href="#1-JWT简介" class="headerlink" title="1. JWT简介"></a>1. JWT简介</h1><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="bullet">-</span> JWT全称JSON Web Token, 也就是通过JSON形式作为Web应用中的令牌, 用于在各方之间安全地将信息作为JSON对象传输, 在数据传输过程中还可以完成数据加密, 签名等处理</span><br></pre></td></tr></table></figure>
+
+<h1 id="2-JWT的用途"><a href="#2-JWT的用途" class="headerlink" title="2. JWT的用途"></a>2. JWT的用途</h1><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section"># 1. 授权</span></span><br><span class="line"><span class="bullet">	-</span> 一旦用户登录, 每个后续请求将包括JWT, 从而允许用户允许该令牌允许的路由, 资源和服务</span><br><span class="line"><span class="section"># 2. 信息交换</span></span><br><span class="line"><span class="bullet">	-</span> JSON Web Token是在各方之间安全地传输信息的好方法, 因为可以对JWT进行签名(例如, 使用公钥/私钥对)</span><br></pre></td></tr></table></figure>
+
+<h1 id="3-基于JWT的认证流程"><a href="#3-基于JWT的认证流程" class="headerlink" title="3. 基于JWT的认证流程"></a>3. 基于JWT的认证流程</h1><p><img src="https://raw.githubusercontent.com/ischenysh/images/master/image.7b7i3fra3v40.png" alt="image"></p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section"># 认证流程</span></span><br><span class="line"><span class="bullet">	1.</span> 前端将Web表单发送到后端的接口</span><br><span class="line"><span class="bullet">	2.</span> 后端核对用户名密码后, 将用户的信息作为JWT Payload(负载), 将其与头部分别进行Base64编码拼接后签名, 形成一个JWT(Token), 形成的JWT就是一个形同lll.zzz.xxx的字符串</span><br><span class="line"><span class="bullet">	3.</span> 后端将JWT字符串作为登录成功返回结果返回给前端, 前端将结果保存到localStorage或sessionStorage上, 退出登录时前端删除保存的JWT即可</span><br><span class="line"><span class="bullet">	4.</span> 前端每次请求将JWT放入HTTP Header 中的Authorization位</span><br><span class="line"><span class="bullet">	5.</span> 后端进行JWT的检验</span><br><span class="line"><span class="bullet">	6.</span> 后端对JWT的检验结果不同进行相应的操作</span><br></pre></td></tr></table></figure>
+
+<h1 id="4-JWT的结构"><a href="#4-JWT的结构" class="headerlink" title="4. JWT的结构"></a>4. JWT的结构</h1><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section"># 1. 令牌组成</span></span><br><span class="line"><span class="bullet">	1.</span> 标头(Header)</span><br><span class="line"><span class="bullet">	2.</span> 有效载荷(Payload)</span><br><span class="line"><span class="bullet">	3.</span> 签名(Signature)</span><br><span class="line"><span class="code">	Header.Payload.Signature</span></span><br><span class="line"><span class="code"># 2. Header</span></span><br><span class="line"><span class="code">	- 表头通常由两部分组成: </span></span><br><span class="line"><span class="code">		1. 令牌的类型</span></span><br><span class="line"><span class="code">		2. 所使用的签名算法</span></span><br><span class="line"><span class="code">	- 使用Base64编码形成Header内容</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;alg&quot;</span>: <span class="string">&quot;HS256&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;typ&quot;</span>: <span class="string">&quot;JWT&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section"># 3. Payload</span></span><br><span class="line"><span class="bullet">	-</span> 包含有关实体(通常是用户)和其他数据的声明, 使用Base64编码形成Payload内容</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;uid&quot;</span>: <span class="string">&quot;144654651&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;zhangsan&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;admin&quot;</span>: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section"># 4. Signature</span></span><br><span class="line"><span class="bullet">	-</span> 使用Header中声明的签名算法对 编码后的header和payload以及一个密钥 进行签名, 得到的结果就是Signature部分</span><br><span class="line"><span class="bullet">	-</span> 签名的目的是为了防止JWT被篡改</span><br></pre></td></tr></table></figure>
+
+<h1 id="5-JWT的使用"><a href="#5-JWT的使用" class="headerlink" title="5. JWT的使用"></a>5. JWT的使用</h1><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section"># 1. 引入依赖</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.auth0<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>java-jwt<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.18.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section"># 2. 生成token</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">testGenerateJWT</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Calendar instance = Calendar.getInstance();</span><br><span class="line">    instance.add(Calendar.SECOND, <span class="number">120</span>);</span><br><span class="line">    String token = JWT.create()</span><br><span class="line">        <span class="comment">// payload</span></span><br><span class="line">        .withClaim(<span class="string">&quot;uid&quot;</span>, <span class="string">&quot;3196&quot;</span>)</span><br><span class="line">        .withClaim(<span class="string">&quot;username&quot;</span>, <span class="string">&quot;zhangsan&quot;</span>)</span><br><span class="line">        <span class="comment">// 指定令牌过期时间</span></span><br><span class="line">        .withExpiresAt(instance.getTime())</span><br><span class="line">        <span class="comment">// 签名</span></span><br><span class="line">        .sign(Algorithm.HMAC256(<span class="string">&quot;&amp;R&amp;#^%&amp;%@#&quot;</span>));</span><br><span class="line">    System.out.println(token);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section"># 3. 验证token</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">testVerifyJWT</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 创建验证对象</span></span><br><span class="line">    JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(<span class="string">&quot;&amp;R&amp;#^%&amp;%@#&quot;</span>)).build();</span><br><span class="line"></span><br><span class="line">    DecodedJWT verify = jwtVerifier.verify(<span class="string">&quot;eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjMxOTYsImV4cCI6MTYzODgwNzg4MywidXNlcm5hbWUiOiJ6aGFuZ3NhbiJ9.H4vHje2INY2OkFudk7GNvH6HU0OEVYzwrQn9OplVOQk&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 解析数据</span></span><br><span class="line">    System.out.println(verify.getClaims().get(<span class="string">&quot;uid&quot;</span>).asInt());</span><br><span class="line">    System.out.println(verify.getClaims().get(<span class="string">&quot;username&quot;</span>).asString());</span><br><span class="line">    <span class="comment">// 过期时间</span></span><br><span class="line">    System.out.println(verify.getExpiresAt());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section"># 4. 常见异常信息</span></span><br><span class="line"><span class="bullet">	-</span> SigntureVerification:        签名不一致</span><br><span class="line"><span class="bullet">	-</span> TokenExpiredException:       令牌过期</span><br><span class="line"><span class="bullet">	-</span> AlgorithmMismatchException:  算法不匹配</span><br><span class="line"><span class="bullet">	-</span> InvalidClaimException:       失效的payload</span><br></pre></td></tr></table></figure>
+
+<h1 id="6-封装工具类"><a href="#6-封装工具类" class="headerlink" title="6. 封装工具类"></a>6. 封装工具类</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JWTUtils</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String SALT = <span class="string">&quot;&amp;R&amp;#^%&amp;%@#&quot;</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 生成token</span></span><br><span class="line"><span class="comment">	 *</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getToken</span><span class="params">(Map&lt;String, String&gt; date)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		Calendar instance = Calendar.getInstance();</span><br><span class="line">		instance.add(Calendar.DATE, <span class="number">7</span>);</span><br><span class="line"></span><br><span class="line">		JWTCreator.Builder builder = JWT.create();</span><br><span class="line">		date.forEach((k, v) -&gt; builder.withClaim(k, v));</span><br><span class="line"></span><br><span class="line">		String token = builder</span><br><span class="line">				<span class="comment">// 指定令牌过期时间</span></span><br><span class="line">				.withExpiresAt(instance.getTime())</span><br><span class="line">				<span class="comment">// 签名</span></span><br><span class="line">				.sign(Algorithm.HMAC256(SALT));</span><br><span class="line">		System.out.println(token);</span><br><span class="line">		<span class="keyword">return</span> token;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 验证token</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> JWTVerifier <span class="title">VerifyJWT</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// 创建验证对象</span></span><br><span class="line">		<span class="keyword">return</span> JWT.require(Algorithm.HMAC256(SALT)).build();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+  </entry>
+  <entry>
+    <title>linux学习</title>
+    <url>/2021/12/03/linux%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h1 id="linux学习"><a href="#linux学习" class="headerlink" title="linux学习"></a>linux学习</h1><h2 id="1-Linux的目录结构"><a href="#1-Linux的目录结构" class="headerlink" title="1. Linux的目录结构"></a>1. Linux的目录结构</h2><ul>
+<li><p>Linux中的目录结构为树形结构</p>
+<p>  <img src="https://raw.githubusercontent.com/ischenysh/images/master/003vPl7Rty6E8kZRlAEdc690.1dsngq3rpehs.jpg" alt="003vPl7Rty6E8kZRlAEdc690"></p>
+<ul>
+<li><strong>bin</strong> (binaries)存放二进制可执行文件</li>
+<li>sbin(super user binaries)存放二进制可执行文件, 只有root可以访问</li>
+<li><strong>etc</strong> (etcetera) 存放系统配置文件</li>
+<li><strong>usr</strong> (unix shared resources) 用于存放共享的系统资源</li>
+<li><strong>home</strong> 存放用户文件的根目录</li>
+<li><strong>root</strong> 超级用户目录</li>
+<li>dev (devices) 用于存放设备文件</li>
+<li>lib (library) 存放跟文件系统中程序运行所需要的共享库及内核模块</li>
+<li>mnt(mount)系统管理员安装临时文件的安装点</li>
+<li>boot 存放用于系统引导时使用的各种文件</li>
+<li><strong>tmp</strong> (temporary) 用于存放各种临时文件</li>
+<li>var (variable) 用于存放运行时需要改变数据的文件</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-常用命令"><a href="#2-常用命令" class="headerlink" title="2. 常用命令"></a>2. 常用命令</h2><h3 id="2-0-命令的使用"><a href="#2-0-命令的使用" class="headerlink" title="2.0 命令的使用"></a>2.0 命令的使用</h3><ul>
+<li>严格区分大小写</li>
+<li>语法: 命令 [-选项(可组合使用)] [参数]</li>
+</ul>
+<h3 id="2-1-ls命令"><a href="#2-1-ls命令" class="headerlink" title="2.1 ls命令"></a>2.1 ls命令</h3><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section"># ls 显示文件和目录结构(list)</span></span><br><span class="line"><span class="code">	常用选项:</span></span><br><span class="line"><span class="code">		-l(long) 查看当前目录中文件和目录的详细信息</span></span><br><span class="line"><span class="code">			drwxr-xr-x, 2 root root 6 Dec  4 07:23 aa</span></span><br><span class="line"><span class="code">			-re-r--r--, 1 root root 0 Dec  4 07:23 a.txt</span></span><br><span class="line"><span class="code">            * 长格式的含义</span></span><br><span class="line"><span class="code">				1. 第一个信息(1位)</span></span><br><span class="line"><span class="code">                	d 代表当前类型为目录</span></span><br><span class="line"><span class="code">                	- 代表当前类型为文件</span></span><br><span class="line"><span class="code">                2. 第二个信息(9位)</span></span><br><span class="line"><span class="code">                	r(读) w(写) x(执行)</span></span><br><span class="line"><span class="code">                	2-4   代表当前文件创建者的操作权限 user</span></span><br><span class="line"><span class="code">                	5-7   代表当前文件创建者的同组用户 group</span></span><br><span class="line"><span class="code">                	8-10  代表当前创建者的不同组用户   other</span></span><br><span class="line"><span class="code">                3. 第三个信息 链接数</span></span><br><span class="line"><span class="code">                	一般文件链接数为 1</span></span><br><span class="line"><span class="code">                	一般目录链接数为 2</span></span><br><span class="line"><span class="code">                4. 第四个信息</span></span><br><span class="line"><span class="code">                	当前文件创建者</span></span><br><span class="line"><span class="code">                5. 第五个信息</span></span><br><span class="line"><span class="code">                	当前文件创建者所属的组时哪个组</span></span><br><span class="line"><span class="code">                6. 第六个信息</span></span><br><span class="line"><span class="code">                	当前文件创建者所属的组是哪个组</span></span><br><span class="line"><span class="code">                7. 第七个信息</span></span><br><span class="line"><span class="code">                	文件的最后一次修改时间</span></span><br><span class="line"><span class="code">                8. 第八个信息</span></span><br><span class="line"><span class="code">                	文件名或目录名</span></span><br><span class="line"><span class="code">		-a(all)  查看当前目录的所有文件(包括隐藏文件)</span></span><br><span class="line"><span class="code">		-R       递归显示目录中文件和子目录</span></span><br><span class="line"><span class="code">    常用参数: 任意目录或文件</span></span><br><span class="line"><span class="code">    e.g.: 	ls -a /etc</span></span><br><span class="line"><span class="code">    		ls -la /usr</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-清除页面内容"><a href="#2-2-清除页面内容" class="headerlink" title="2.2 清除页面内容"></a>2.2 清除页面内容</h3><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="bullet">-</span> clear 清除内容</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-操作文件命令"><a href="#2-3-操作文件命令" class="headerlink" title="2.3 操作文件命令"></a>2.3 操作文件命令</h3><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section"># cd 切换的目录</span></span><br><span class="line"><span class="section"># pwd 展示工作目录(pring working directtory)</span></span><br><span class="line"><span class="bullet">	-</span> 回到root目录的家目录 cd /root 或 cd ` 或 cd</span><br><span class="line"><span class="section"># touch 创建空文件</span></span><br><span class="line"><span class="code">	当文件存在时修改文件的创建日期而不是覆盖</span></span><br><span class="line"><span class="code"># mkdir 创建目录 (make directory)</span></span><br><span class="line"><span class="code">	-p 父目录不存在的情况下生成父目录</span></span><br><span class="line"><span class="code"># cp 复制文件或目录 (copy)</span></span><br><span class="line"><span class="code">	cp 		文件		目录   复制文件到指定目录下</span></span><br><span class="line"><span class="code">	cp 		目录		目录   复制目录(只能为空目录)到指定目录下</span></span><br><span class="line"><span class="code">	cp 	-r	目录		目录   复制目录到指定目录下</span></span><br><span class="line"><span class="code">	-r 递归处理, 将指定目录下的文件与子目录一并拷贝(recursive)</span></span><br><span class="line"><span class="code"># mv 移动文件或目录, 文件或目录改名(move)</span></span><br><span class="line"><span class="code">	mv 		文件名		新文件名			 改文件名</span></span><br><span class="line"><span class="code">	mv 		文件名		目录名		 		  移动文件</span></span><br><span class="line"><span class="code">	mv 		目录名		不存在目录名 			改目录名</span></span><br><span class="line"><span class="code">	mv 		目录名		已存在目录名			移动目录</span></span><br><span class="line"><span class="code"># rm 删除文件(remove)</span></span><br><span class="line"><span class="code">	-r 同时删除该目录下所有文件(recursive)</span></span><br><span class="line"><span class="code">	-f 强制删除文件或目录(force)</span></span><br><span class="line"><span class="code">	rm -rf 强制删除目录或文件</span></span><br><span class="line"><span class="code"># rmdir 删除空目录 (remove directoriy)</span></span><br><span class="line"><span class="code"># cat 显示文本文件内容 y</span></span><br><span class="line"><span class="code"># more, less 分页展示文本中开头或结尾部分的内容</span></span><br><span class="line"><span class="code">	按 &#x27;q&#x27; 退出</span></span><br><span class="line"><span class="code"># head, tail 查看文本中开头或结尾的内容</span></span><br><span class="line"><span class="code">    head -n 5 a.log  查看a.log文件的前五行</span></span><br><span class="line"><span class="code"># tail -f b.log 循环读取(fellow)</span></span><br><span class="line"><span class="code"># echo 输出命令</span></span><br><span class="line"><span class="code">	echo Hello, World!    			向屏幕输出Hello, World!</span></span><br><span class="line"><span class="code">	echo Hello, World! &gt;&gt; a.txt     将这段文本写入到文件中</span></span><br><span class="line"><span class="code"></span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-4-网络相关的命令"><a href="#2-4-网络相关的命令" class="headerlink" title="2.4 网络相关的命令"></a>2.4 网络相关的命令</h3><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section"># 1. ip addr 查看IP地址</span></span><br><span class="line"><span class="code">	简化为 ip a</span></span><br><span class="line"><span class="code"># 2. ping 测试网络连通性</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-5-tar命令-解压"><a href="#2-5-tar命令-解压" class="headerlink" title="2.5 tar命令(解压)"></a>2.5 tar命令(解压)</h3><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section"># tar命令</span></span><br><span class="line"><span class="code">	-c 建立一个压缩文件(create)</span></span><br><span class="line"><span class="code">	-x 解压(extract)</span></span><br><span class="line"><span class="code">	-z 是否使用 gzip 压缩</span></span><br><span class="line"><span class="code">	-v 压缩过程中显示文件(verbase)</span></span><br><span class="line"><span class="code">	-f 使用档名, 在 f 之后要立即接档名(file)</span></span><br><span class="line"><span class="code">	</span></span><br><span class="line"><span class="code">`组合使用`</span></span><br><span class="line"><span class="code">	tar -cvf a.tar file1.txt file2.txt 将file1和2打包成a.tar</span></span><br><span class="line"><span class="code">	</span></span><br><span class="line"><span class="code">	tar -zcvf a.tar file1.txt file2.txt 将file1和2打包成a.tar并压缩</span></span><br><span class="line"><span class="code">	tar -zxvf a.tar.gz                  将a.tar.gz解压</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-6-systemctl-服务命令-System-control"><a href="#2-6-systemctl-服务命令-System-control" class="headerlink" title="2.6 systemctl 服务命令(System control)"></a>2.6 systemctl 服务命令(System control)</h3><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section"># systemctl</span></span><br><span class="line"><span class="code">	systemctl status 服务名	查看某个服务的运行状态</span></span><br><span class="line"><span class="code">	systemctl start 服务名		启动某个服务</span></span><br><span class="line"><span class="code">	systemctl restart 服务名	重启服务</span></span><br><span class="line"><span class="code">	systemctl stop 服务名 		停止服务</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-7-进程相关的命令"><a href="#2-7-进程相关的命令" class="headerlink" title="2.7 进程相关的命令"></a>2.7 进程相关的命令</h3><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section"># 1. ps 查询当前控制台上运行的进程</span></span><br><span class="line"><span class="code">	ps -aux 查询系统中所有运行的进程, 包括后台进程, 其中参数a是所有进程. 参数x是不占用控制台的进程, 参数u显示用户</span></span><br><span class="line"><span class="code">	ps -ef  查询系统中所有运行的进程, 包括后台进程, 而且可以显示出每个进程的父进程号</span></span><br><span class="line"><span class="code">	</span></span><br><span class="line"><span class="code">	ps -aux|grep 关键字 搜索进程</span></span><br><span class="line"><span class="code"># 2. top 命令 动态显示系统进程</span></span><br><span class="line"><span class="code"></span></span><br><span class="line"><span class="section"># 3. kill 杀死进程</span></span><br><span class="line"><span class="code">	kill 3029 杀死进程号为3029的进程</span></span><br><span class="line"><span class="code">	kill -9 3029 强制终止3029号进程的运行, 其中+代表强制的意思, 实际kill命令是向该进程发送信号, 该进程得到信号后决定是否停止运行, 有些守护进程必须要收到参数9才终止运行</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-8-vi命令"><a href="#2-8-vi命令" class="headerlink" title="2.8 vi命令"></a>2.8 vi命令</h3><p><img src="https://raw.githubusercontent.com/ischenysh/images/master/image.3d0cxcuhk2w0.png" alt="image"></p>
+<h3 id="2-9-软件相关命令"><a href="#2-9-软件相关命令" class="headerlink" title="2.9 软件相关命令"></a>2.9 软件相关命令</h3><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section"># rpm 命令(RedHat Packge Manager)</span></span><br><span class="line"><span class="code">	常用选项</span></span><br><span class="line"><span class="code">		-i: 安装(install)</span></span><br><span class="line"><span class="code">		-e: 卸载(erase)</span></span><br><span class="line"><span class="code">		-vh: 显示安装进度(verbose hash)</span></span><br><span class="line"><span class="code">		-U: 升级软件包; (update)</span></span><br><span class="line"><span class="code">		-qa: 显示所有已安装的软件包</span></span><br><span class="line"><span class="code">	</span></span><br><span class="line"><span class="code">	e.g.: </span></span><br><span class="line"><span class="code">		rpm -ivh xxx.rpm</span></span><br><span class="line"><span class="code">		rpm -evh xxx.rpm</span></span><br><span class="line"><span class="code">		rpm -Uvh xxx.rpm</span></span><br><span class="line"><span class="code"># yum 命令(Yellow dog Updateer, Modified)</span></span><br><span class="line"><span class="code">	e.g.: </span></span><br><span class="line"><span class="code">		yum install gcc-c++</span></span><br><span class="line"><span class="code">		yum remove gcc-c++</span></span><br><span class="line"><span class="code">		yum update gcc-c++</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>使用 yum 命令必须连接外部网络</p>
+</blockquote>
+<h3 id="2-10-用户和组相关命令"><a href="#2-10-用户和组相关命令" class="headerlink" title="2.10 用户和组相关命令"></a>2.10 用户和组相关命令</h3><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section"># 1. 查看当前用户: whoami</span></span><br><span class="line"><span class="section"># 2. 查看登录用户: who</span></span><br><span class="line"><span class="code">	-m或-am I 只显示运行who命令的用户名, 登录终端和登陆时间</span></span><br><span class="line"><span class="code">	-q或--count 只显示用户的登录账号和登录用户的数量</span></span><br><span class="line"><span class="code"># 3. 退出用户 exit</span></span><br><span class="line"><span class="code"># 4. 添加, 删除组账号: groupadd groupdel</span></span><br><span class="line"><span class="code"># 5. 添加用户账号: useradd</span></span><br><span class="line"><span class="code">	-g 指定组名称  说明: 如果创建时不指定组名, 则会创建一个与用户名相同的组</span></span><br><span class="line"><span class="code"># 6. 设置用户密码: passwd [用户名]</span></span><br><span class="line"><span class="code"># 7. 切换用户: su</span></span><br><span class="line"><span class="code">	su root</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-11-权限相关命令"><a href="#2-11-权限相关命令" class="headerlink" title="2.11 权限相关命令"></a>2.11 权限相关命令</h3><blockquote>
+<p>Linux文件有三种典型的权限, 即 r : 读, w : 写, x, 执行.</p>
+<p>r = 4, w = 2, x = 1</p>
+</blockquote>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section"># chmod</span></span><br><span class="line"><span class="code">	all = user + group + other</span></span><br><span class="line"><span class="code">	chomd u+rwx, g+rw, o-x 文件名</span></span><br><span class="line"><span class="code">	字母法: chmod u/g/o/a +/-/= rwx 文件</span></span><br><span class="line"><span class="code">	[u/g/o/a]含义:</span></span><br><span class="line"><span class="code">		u user			表示该文件的所有者</span></span><br><span class="line"><span class="code">		g group 		表示与该文件所有者属于同一组者</span></span><br><span class="line"><span class="code">		o other         表示其他以外的人</span></span><br><span class="line"><span class="code">		a all           表示所有用户</span></span><br><span class="line"><span class="code">	[+/-/=]含义</span></span><br><span class="line"><span class="code">		+				增加权限</span></span><br><span class="line"><span class="code">		- 				减少权限</span></span><br><span class="line"><span class="code">		= 				设定权限</span></span><br><span class="line"><span class="code">	数字法</span></span><br><span class="line"><span class="code">		chomd 777 文件名</span></span><br><span class="line"><span class="code"></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-0-CRT使用"><a href="#3-0-CRT使用" class="headerlink" title="3.0 CRT使用"></a>3.0 CRT使用</h2><p><img src="https://raw.githubusercontent.com/ischenysh/images/master/image.10gn15bok75s.png" alt="image"></p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="code">`alt + p 开启传输端口`</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="4-0-JDK安装"><a href="#4-0-JDK安装" class="headerlink" title="4.0 JDK安装"></a>4.0 JDK安装</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="bullet">1.</span> 下载jdk</span><br><span class="line"><span class="bullet">2.</span> 上传到linux系统中</span><br><span class="line"><span class="bullet">3.</span> 将安装包移动到 /usr 目录下</span><br><span class="line"><span class="bullet">4.</span> 进入 /usr 进行安装</span><br><span class="line"><span class="bullet">5.</span> 配置环境变量</span><br><span class="line"><span class="bullet">	-</span> jdk的home目录 /usr/java/jdk1.8.0<span class="emphasis">_301-amd64</span></span><br><span class="line"><span class="emphasis">	- 修改 /etc/profile 文件在最后加入</span></span><br><span class="line"><span class="emphasis">		export JAVA_</span>HOME=/usr/java/jdk1.8.0<span class="emphasis">_301-amd64</span></span><br><span class="line"><span class="emphasis">		export PATH=$PATH:$JAVA_</span>HOME/bin</span><br></pre></td></tr></table></figure>
+
+]]></content>
+  </entry>
+  <entry>
+    <title>springboot学习</title>
+    <url>/2021/11/24/springboot%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>shiro学习</title>
+    <url>/2021/12/02/shiro%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h1 id="权限的管理"><a href="#权限的管理" class="headerlink" title="权限的管理"></a>权限的管理</h1><ol>
+<li>权限管理</li>
+</ol>
+<ul>
+<li>权限管理实现对用户访问系统的控制按照安全或<strong>安全策略</strong>控制用户可以访问并且只能访问自己被授权的资源</li>
+<li>权限管理包括<strong>身份认证</strong>和<strong>授权</strong>两部分, 简称<strong>认证授权</strong></li>
+</ul>
+<ol start="2">
+<li>身份认证</li>
+</ol>
+<ul>
+<li>身份认证, 就是判断用户是否为合法用户的处理过程</li>
+</ul>
+<ol start="3">
+<li>授权</li>
+</ol>
+<ul>
+<li>即访问控制, 控制谁能访问那些资源</li>
+</ul>
+<h1 id="shiro简介"><a href="#shiro简介" class="headerlink" title="shiro简介"></a>shiro简介</h1><blockquote>
+<p><strong>Apache Shiro™</strong> is a powerful and easy-to-use Java security framework that performs authentication(身份认证), authorization(授权), cryptography(加密), and session management(会话管理). With Shiro’s easy-to-understand API, you can quickly and easily secure any application – from the smallest mobile applications to the largest web and enterprise applications.</p>
+</blockquote>
+<h2 id="核心架构"><a href="#核心架构" class="headerlink" title="核心架构"></a>核心架构</h2><p><img src="https://raw.githubusercontent.com/ischenysh/images/master/image.6wkth0tc3mk0.png" alt="image"></p>
+<h1 id="shiro中的认证"><a href="#shiro中的认证" class="headerlink" title="shiro中的认证"></a>shiro中的认证</h1><ol>
+<li><p>shiro中认证的关键对象</p>
+<ol>
+<li><p>subject: 主体</p>
+<p> 访问系统的用户, 主体可以是用户 程序等, 进行认证的都称为主体</p>
+</li>
+<li><p>Principal: 身份信息</p>
+<p> 是主体进行身份认证的标识, 标识必须具有唯一性, 如用户名, 手机号, 一个主体可以有多个身份, 当必须有一个主身份(Primary Principal)</p>
+</li>
+<li><p>credential: 凭证信息</p>
+<p> 只有主体自己知道的安全信息, 如密码, 证书等</p>
+</li>
+</ol>
+</li>
+<li><p>认证流程</p>
+<p> <img src="https://raw.githubusercontent.com/ischenysh/images/master/image.c7d1tp7lky8.png" alt="image"></p>
+</li>
+</ol>
+<h2 id="快速入门"><a href="#快速入门" class="headerlink" title="快速入门"></a>快速入门</h2><ol>
+<li><p>导入依赖</p>
+ <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.shiro<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>shiro-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.7.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>引入shiro的配置文件并加入配置</p>
+ <figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="section">[users]</span></span><br><span class="line"><span class="attr">zhangsan</span>=<span class="number">123</span></span><br><span class="line"><span class="attr">chenysh</span>=<span class="number">123456</span></span><br></pre></td></tr></table></figure></li>
+<li><p>测试</p>
+ <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test01</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   <span class="comment">// 1. 创建安全管理器</span></span><br><span class="line">   DefaultSecurityManager securityManager = <span class="keyword">new</span> DefaultSecurityManager();</span><br><span class="line"></span><br><span class="line">   <span class="comment">// 2. 给安全管理器设置realm</span></span><br><span class="line">   securityManager.setRealm(<span class="keyword">new</span> IniRealm(<span class="string">&quot;classpath:shiro.ini&quot;</span>));</span><br><span class="line"></span><br><span class="line">   <span class="comment">// 3. SecurityUtils 全局安全工具类</span></span><br><span class="line">   SecurityUtils.setSecurityManager(securityManager);</span><br><span class="line"></span><br><span class="line">   <span class="comment">// 4. 关键对象 subject 主体</span></span><br><span class="line">   Subject subject = SecurityUtils.getSubject();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   <span class="comment">// 5. 创建令牌</span></span><br><span class="line">   AuthenticationToken token = <span class="keyword">new</span> UsernamePasswordToken(<span class="string">&quot;chenysh&quot;</span>, <span class="string">&quot;123456&quot;</span>);</span><br><span class="line"></span><br><span class="line">   <span class="comment">// 6. 登录</span></span><br><span class="line">   <span class="keyword">try</span> &#123;</span><br><span class="line">      subject.login(token);</span><br><span class="line">      System.out.println(<span class="string">&quot;认证状态: &quot;</span> + subject.isAuthenticated());</span><br><span class="line">   &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">      e.printStackTrace();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="流程解析"><a href="#流程解析" class="headerlink" title="流程解析"></a>流程解析</h2><p><img src="https://raw.githubusercontent.com/ischenysh/images/master/image.ii81rkx5cag.png" alt="image"></p>
+<p>认证 : </p>
+<pre><code>1. 最终执行用户名比较在 SimpleAccountRealm 的 doGetAuthenticationInfo 方法完成用户名校验
+1. 最终密码校验是在 AuthenticatingRealm 的 assertCredebtialsMatch 方法中完成校验
+3. 总结
+    1. 认证realm : AuthenticatingRealm doGetAuthenticationInfo 
+    2. 授权realm : AuthorizingRealm    doGetAuthorizationInfo
+</code></pre>
+<h2 id="自定义realm"><a href="#自定义realm" class="headerlink" title="自定义realm"></a>自定义realm</h2><h3 id="创建类继承-AuthorizingRealm-重写方法"><a href="#创建类继承-AuthorizingRealm-重写方法" class="headerlink" title="创建类继承 AuthorizingRealm 重写方法"></a>创建类继承 AuthorizingRealm 重写方法</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">shiroConfig</span> <span class="keyword">extends</span> <span class="title">AuthorizingRealm</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 授权</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> principalCollection</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">protected</span> AuthorizationInfo <span class="title">doGetAuthorizationInfo</span><span class="params">(PrincipalCollection principalCollection)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 认证</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> authenticationToken</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">    * <span class="doctag">@throws</span> AuthenticationException</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">protected</span> AuthenticationInfo <span class="title">doGetAuthenticationInfo</span><span class="params">(AuthenticationToken authenticationToken)</span> <span class="keyword">throws</span> AuthenticationException </span>&#123;</span><br><span class="line">      <span class="comment">// 1. 在token中获取用户名</span></span><br><span class="line">      String principal = (String) authenticationToken.getPrincipal();</span><br><span class="line">      System.out.println(principal);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 2. 根据用户信息查询数据库</span></span><br><span class="line">      <span class="keyword">if</span> (<span class="string">&quot;zhangsan&quot;</span>.equals(principal)) &#123;</span><br><span class="line">         <span class="comment">// 参数一: 数据库中的正确的用户名 参数二: 数据库中的密码 参数三: 提供当前realm的名字this.getName()</span></span><br><span class="line">         SimpleAuthenticationInfo simpleAuthenticationInfo = <span class="keyword">new</span> SimpleAuthenticationInfo(principal, <span class="string">&quot;123&quot;</span>, <span class="keyword">this</span>.getName());</span><br><span class="line">         <span class="keyword">return</span> simpleAuthenticationInfo;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test02</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   <span class="comment">// 1. 创建安全管理器</span></span><br><span class="line">   DefaultSecurityManager securityManager = <span class="keyword">new</span> DefaultSecurityManager();</span><br><span class="line"></span><br><span class="line">   <span class="comment">// 2. 给安全管理器设置realm</span></span><br><span class="line">   securityManager.setRealm(<span class="keyword">new</span> shiroConfig());</span><br><span class="line"></span><br><span class="line">   <span class="comment">// 3. 将安全管理器交给 SecurityUtils 全局安全工具类</span></span><br><span class="line">   SecurityUtils.setSecurityManager(securityManager);</span><br><span class="line"></span><br><span class="line">   <span class="comment">// 4. 获取subject</span></span><br><span class="line">   Subject subject = SecurityUtils.getSubject();</span><br><span class="line"></span><br><span class="line">   <span class="comment">// 5. 设置token</span></span><br><span class="line">   AuthenticationToken token = <span class="keyword">new</span> UsernamePasswordToken(<span class="string">&quot;zhangsan&quot;</span>, <span class="string">&quot;123&quot;</span>);</span><br><span class="line"></span><br><span class="line">   <span class="comment">// 6. 身份认证</span></span><br><span class="line">   <span class="keyword">try</span> &#123;</span><br><span class="line">      subject.login(token);</span><br><span class="line">      System.out.println(<span class="string">&quot;认证状态: &quot;</span> + subject.isAuthenticated());</span><br><span class="line">   &#125; <span class="keyword">catch</span> (AuthenticationException e) &#123;</span><br><span class="line">      e.printStackTrace();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="MD5-和-salt"><a href="#MD5-和-salt" class="headerlink" title="MD5 和 salt"></a>MD5 和 salt</h2><p>MD5算法</p>
+<ul>
+<li><p>作用: 一般用于加密 或者 签名(校验和)</p>
+</li>
+<li><p>特点: MD5算法不可逆 如果内容相同, 经过加密后的生成结果也一定相同</p>
+</li>
+<li><p>生成结果: 始终是一个16进制 32位长度的字符串</p>
+<p>  <img src="https://raw.githubusercontent.com/ischenysh/images/master/image.1vaixqcxw80w.png" alt="image"></p>
+</li>
+<li><p>快速入门</p>
+  <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testMD5AndSalt</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   Md5Hash md5Hash = <span class="keyword">new</span> Md5Hash(<span class="string">&quot;123&quot;</span>, <span class="string">&quot;abcd&quot;</span>, <span class="number">1024</span>);</span><br><span class="line">   System.out.println(md5Hash);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="CustomerRealmWithMD5AndSalt快速入门"><a href="#CustomerRealmWithMD5AndSalt快速入门" class="headerlink" title="CustomerRealmWithMD5AndSalt快速入门"></a>CustomerRealmWithMD5AndSalt快速入门</h2><h3 id="realm"><a href="#realm" class="headerlink" title="realm"></a>realm</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomerRealmWithMD5</span> <span class="keyword">extends</span> <span class="title">AuthorizingRealm</span> </span>&#123;</span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 授权</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> principalCollection</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">protected</span> AuthorizationInfo <span class="title">doGetAuthorizationInfo</span><span class="params">(PrincipalCollection principalCollection)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 认证</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> authenticationToken</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">    * <span class="doctag">@throws</span> AuthenticationException</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">protected</span> AuthenticationInfo <span class="title">doGetAuthenticationInfo</span><span class="params">(AuthenticationToken authenticationToken)</span> <span class="keyword">throws</span> AuthenticationException </span>&#123;</span><br><span class="line">      <span class="comment">// 1. 在token中获取用户名</span></span><br><span class="line">      String principal = (String) authenticationToken.getPrincipal();</span><br><span class="line">      System.out.println(principal);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 2. 根据用户信息查询数据库</span></span><br><span class="line">      <span class="keyword">if</span> (<span class="string">&quot;zhangsan&quot;</span>.equals(principal)) &#123;</span><br><span class="line">         <span class="comment">// 参数一: 数据库中的正确的用户名 参数二: 数据库中的密码 参数三: salt 参数四: 提供当前realm的名字this.getName()</span></span><br><span class="line">         SimpleAuthenticationInfo simpleAuthenticationInfo = <span class="keyword">new</span> SimpleAuthenticationInfo(principal,</span><br><span class="line">               <span class="string">&quot;db61b3dd4478153692822904ac4b4f4a&quot;</span>, ByteSource.Util.bytes(<span class="string">&quot;abcd&quot;</span>), <span class="keyword">this</span>.getName());</span><br><span class="line">         <span class="keyword">return</span> simpleAuthenticationInfo;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="测试-1"><a href="#测试-1" class="headerlink" title="测试"></a>测试</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testCustomerRealmWithMD5AndSalt</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   <span class="comment">// 1. 创建安全管理器</span></span><br><span class="line">   DefaultSecurityManager securityManager = <span class="keyword">new</span> DefaultSecurityManager();</span><br><span class="line"></span><br><span class="line">   <span class="comment">// 2. 给安全管理器设置realm</span></span><br><span class="line">   CustomerRealmWithMD5 realm = <span class="keyword">new</span> CustomerRealmWithMD5();</span><br><span class="line">   <span class="comment">// 2.1.0 新建 HashedCredentialsMatcher</span></span><br><span class="line">   HashedCredentialsMatcher credentialsMatcher = <span class="keyword">new</span> HashedCredentialsMatcher();</span><br><span class="line">   <span class="comment">// 2.1.1 告知credentialsMatcher使用的算法</span></span><br><span class="line">   credentialsMatcher.setHashAlgorithmName(<span class="string">&quot;MD5&quot;</span>);</span><br><span class="line">   <span class="comment">// 2.1.2 告知散列次数</span></span><br><span class="line">   credentialsMatcher.setHashIterations(<span class="number">1024</span>);</span><br><span class="line">   <span class="comment">// 2.1.3 设置 credentialsMatcher 为 hash凭证匹配器(HashedCredentialsMatcher)</span></span><br><span class="line">   realm.setCredentialsMatcher(credentialsMatcher);</span><br><span class="line">   <span class="comment">// 2.2 给安全管理器设置realm</span></span><br><span class="line">   securityManager.setRealm(realm);</span><br><span class="line"></span><br><span class="line">   <span class="comment">// 3. 将安全管理器交给 SecurityUtils 全局安全工具类</span></span><br><span class="line">   SecurityUtils.setSecurityManager(securityManager);</span><br><span class="line"></span><br><span class="line">   <span class="comment">// 4. 获取subject</span></span><br><span class="line">   Subject subject = SecurityUtils.getSubject();</span><br><span class="line"></span><br><span class="line">   <span class="comment">// 5. 设置token</span></span><br><span class="line">   AuthenticationToken token = <span class="keyword">new</span> UsernamePasswordToken(<span class="string">&quot;zhangsan&quot;</span>, <span class="string">&quot;123&quot;</span>);</span><br><span class="line"></span><br><span class="line">   <span class="comment">// 6. 身份认证</span></span><br><span class="line">   <span class="keyword">try</span> &#123;</span><br><span class="line">      subject.login(token);</span><br><span class="line">      System.out.println(<span class="string">&quot;认证状态: &quot;</span> + subject.isAuthenticated());</span><br><span class="line">   &#125; <span class="keyword">catch</span> (AuthenticationException e) &#123;</span><br><span class="line">      e.printStackTrace();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="shiro中的授权"><a href="#shiro中的授权" class="headerlink" title="shiro中的授权"></a>shiro中的授权</h1><h2 id="关键对象"><a href="#关键对象" class="headerlink" title="关键对象"></a>关键对象</h2><blockquote>
+<p>授权可简单理解为who对what进行how操作</p>
+</blockquote>
+<ol>
+<li>who, 即主体(subject), 肢体需要访问系统中的资源</li>
+<li>what, 即资源(resource), 如系统菜单, 页面, 商品信息等, 资源包括资源类型和资源实例. 如商品信息为资源类型, 编号为001的商品的商品信息为资源实例</li>
+<li>how, 权限/许可 (Permission), 规定了主体对资源的操作许可, 权限离开资源没有意义</li>
+</ol>
+<h2 id="授权流程"><a href="#授权流程" class="headerlink" title="授权流程"></a>授权流程</h2><p><img src="https://raw.githubusercontent.com/ischenysh/images/master/image.47ibx7lf9000.png" alt="image"></p>
+<h2 id="授权方式"><a href="#授权方式" class="headerlink" title="授权方式"></a>授权方式</h2><ul>
+<li><p>基于角色的授权访问</p>
+<ul>
+<li><p>RBAC(Role-Based Access Control) 是以角色为中心进行访问控制</p>
+  <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (subject.hashRole(<span class="string">&quot;admin&quot;</span>)) &#123;</span><br><span class="line">    <span class="comment">// 执行操作</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+<li><p>基于资源的访问控制</p>
+<ul>
+<li><p>RBAC(Resource-Based Access Control) 是以资源为中心进行访问控制</p>
+  <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (subject.idPermission(<span class="string">&quot;user:create:*&quot;</span>)) &#123;</span><br><span class="line">    <span class="comment">// 执行操作</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="权限字符串"><a href="#权限字符串" class="headerlink" title="权限字符串"></a>权限字符串</h2><p>权限字符串的规则:<code>资源标识符: 操作 : 资源实例标识符</code>, 意思是对哪个资源的哪个实例具有什么操作. ‘:’作为分隔符, <strong>权限字符串也可以使用’*’作为通配符</strong></p>
+<h3 id="快速入门-1"><a href="#快速入门-1" class="headerlink" title="快速入门"></a>快速入门</h3><h4 id="realm-1"><a href="#realm-1" class="headerlink" title="realm"></a>realm</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> AuthorizationInfo <span class="title">doGetAuthorizationInfo</span><span class="params">(PrincipalCollection principalCollection)</span> </span>&#123;</span><br><span class="line">   String primaryPrincipal = (String) principalCollection.getPrimaryPrincipal();</span><br><span class="line">   SimpleAuthorizationInfo authorizationInfo = <span class="keyword">new</span> SimpleAuthorizationInfo();</span><br><span class="line">   authorizationInfo.addRole(<span class="string">&quot;admin&quot;</span>);</span><br><span class="line">   authorizationInfo.addRole(<span class="string">&quot;user&quot;</span>);</span><br><span class="line">   authorizationInfo.addStringPermission(<span class="string">&quot;user:create&quot;</span>);</span><br><span class="line">   authorizationInfo.addStringPermission(<span class="string">&quot;production:*&quot;</span>);</span><br><span class="line">   <span class="keyword">return</span> authorizationInfo;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="测试-2"><a href="#测试-2" class="headerlink" title="测试"></a>测试</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">System.out.println(<span class="string">&quot;===================================&quot;</span>);</span><br><span class="line">System.out.println(subject.hasRole(<span class="string">&quot;admin&quot;</span>));</span><br><span class="line"><span class="keyword">boolean</span>[] booleans = subject.hasRoles(Arrays.asList(<span class="string">&quot;admin&quot;</span>, <span class="string">&quot;user&quot;</span>, <span class="string">&quot;super&quot;</span>));</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">boolean</span> aBoolean : booleans) &#123;</span><br><span class="line">   System.out.println(aBoolean);</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(subject.hasAllRoles(Arrays.asList(<span class="string">&quot;admin&quot;</span>, <span class="string">&quot;user&quot;</span>, <span class="string">&quot;super&quot;</span>)));</span><br><span class="line">System.out.println(<span class="string">&quot;===================================&quot;</span>);</span><br><span class="line">System.out.println(subject.isPermitted(<span class="string">&quot;user:*&quot;</span>));</span><br><span class="line">System.out.println(subject.isPermitted(<span class="string">&quot;user:create&quot;</span>));</span><br><span class="line">System.out.println(subject.isPermitted(<span class="string">&quot;user:create:001&quot;</span>));</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">&quot;===================================&quot;</span>);</span><br><span class="line"><span class="keyword">boolean</span>[] permitted = subject.isPermitted(<span class="string">&quot;user:create:001&quot;</span>, <span class="string">&quot;production:select&quot;</span>);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">boolean</span> b : permitted) &#123;</span><br><span class="line">   System.out.println(b);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">&quot;===================================&quot;</span>);</span><br><span class="line">System.out.println(subject.isPermittedAll(<span class="string">&quot;user:create:001&quot;</span>, <span class="string">&quot;production:select&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<h1 id="SpringBoot整合shiro"><a href="#SpringBoot整合shiro" class="headerlink" title="SpringBoot整合shiro"></a>SpringBoot整合shiro</h1><h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p><img src="C:\Users\yoga\AppData\Roaming\Typora\typora-user-images\image-20211202161447979.png" alt="image-20211202161447979"></p>
+<h3 id="1-config"><a href="#1-config" class="headerlink" title="1. config"></a>1. config</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.chenysh.config;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.chenysh.realms.CustomerRealm;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.SecurityUtils;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authc.credential.HashedCredentialsMatcher;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.realm.Realm;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.spring.web.ShiroFilterFactoryBean;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.web.mgt.DefaultWebSecurityManager;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 用来整合与shiro框架相关的配置</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ShiroConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">   <span class="comment">// 1. 创建shiroFilter, 负责拦截所有请求</span></span><br><span class="line">   <span class="meta">@Bean</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> ShiroFilterFactoryBean <span class="title">shiroFilterFactoryBean</span><span class="params">(DefaultWebSecurityManager defaultWebSecurityManager)</span> </span>&#123;</span><br><span class="line">      ShiroFilterFactoryBean shiroFilterFactoryBean = <span class="keyword">new</span> ShiroFilterFactoryBean();</span><br><span class="line"></span><br><span class="line">      <span class="comment">//  给filter设置安全管理器</span></span><br><span class="line">      shiroFilterFactoryBean.setSecurityManager(defaultWebSecurityManager);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 配置系统首先资源</span></span><br><span class="line">      <span class="comment">// 配置系统公共资源</span></span><br><span class="line">      HashMap&lt;String, String&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">      <span class="comment">// 将此资源设为匿名访问</span></span><br><span class="line">      map.put(<span class="string">&quot;/user/**&quot;</span>, <span class="string">&quot;anon&quot;</span>);</span><br><span class="line">      map.put(<span class="string">&quot;/login.jsp&quot;</span>, <span class="string">&quot;anon&quot;</span>);</span><br><span class="line">      map.put(<span class="string">&quot;/register.jsp&quot;</span>, <span class="string">&quot;anon&quot;</span>);</span><br><span class="line">      <span class="comment">// 请求这个资源需要认证和授权</span></span><br><span class="line">      map.put(<span class="string">&quot;/**&quot;</span>, <span class="string">&quot;authc&quot;</span>);</span><br><span class="line"></span><br><span class="line">      shiroFilterFactoryBean.setFilterChainDefinitionMap(map);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 设置认证界面路径</span></span><br><span class="line">      shiroFilterFactoryBean.setLoginUrl(<span class="string">&quot;/login.jsp&quot;</span>);</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> shiroFilterFactoryBean;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   <span class="comment">// 2. 创建安全管理器</span></span><br><span class="line">   <span class="meta">@Bean</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> DefaultWebSecurityManager <span class="title">DefaultWebSecurityManager</span><span class="params">(Realm realm)</span> </span>&#123;</span><br><span class="line">      DefaultWebSecurityManager defaultWebSecurityManager = <span class="keyword">new</span> DefaultWebSecurityManager();</span><br><span class="line">       <span class="comment">// 给安全管理器设置realm</span></span><br><span class="line">      defaultWebSecurityManager.setRealm(realm);</span><br><span class="line">      <span class="keyword">return</span> defaultWebSecurityManager;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   <span class="comment">// 3. 创建自定义realm</span></span><br><span class="line">   <span class="meta">@Bean</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> Realm <span class="title">Realm</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      CustomerRealm realm = <span class="keyword">new</span> CustomerRealm();</span><br><span class="line">      <span class="comment">// 2.1.0 新建 HashedCredentialsMatcher</span></span><br><span class="line">      HashedCredentialsMatcher credentialsMatcher = <span class="keyword">new</span> HashedCredentialsMatcher();</span><br><span class="line">      <span class="comment">// 2.1.1 告知credentialsMatcher使用的算法</span></span><br><span class="line">      credentialsMatcher.setHashAlgorithmName(<span class="string">&quot;MD5&quot;</span>);</span><br><span class="line">      <span class="comment">// 2.1.2 告知散列次数</span></span><br><span class="line">      credentialsMatcher.setHashIterations(<span class="number">1024</span>);</span><br><span class="line">      <span class="comment">// 2.1.3 设置 credentialsMatcher 为 hash凭证匹配器(HashedCredentialsMatcher)</span></span><br><span class="line">      realm.setCredentialsMatcher(credentialsMatcher);</span><br><span class="line">      <span class="keyword">return</span> realm;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-realm"><a href="#2-realm" class="headerlink" title="2. realm"></a>2. realm</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.chenysh.realms;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;</span><br><span class="line"><span class="keyword">import</span> com.chenysh.pojo.Prem;</span><br><span class="line"><span class="keyword">import</span> com.chenysh.pojo.Role;</span><br><span class="line"><span class="keyword">import</span> com.chenysh.pojo.User;</span><br><span class="line"><span class="keyword">import</span> com.chenysh.service.IRoleService;</span><br><span class="line"><span class="keyword">import</span> com.chenysh.service.IUserService;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authc.AuthenticationException;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authc.AuthenticationInfo;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authc.AuthenticationToken;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authc.SimpleAuthenticationInfo;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authz.AuthorizationInfo;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authz.SimpleAuthorizationInfo;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.realm.AuthorizingRealm;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.subject.PrincipalCollection;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.util.ByteSource;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.util.CollectionUtils;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomerRealm</span> <span class="keyword">extends</span> <span class="title">AuthorizingRealm</span> </span>&#123;</span><br><span class="line">   <span class="meta">@Autowired</span></span><br><span class="line">   <span class="keyword">private</span> IUserService userService;</span><br><span class="line">   <span class="meta">@Autowired</span></span><br><span class="line">   <span class="keyword">private</span> IRoleService roleService;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">protected</span> AuthorizationInfo <span class="title">doGetAuthorizationInfo</span><span class="params">(PrincipalCollection principalCollection)</span> </span>&#123;</span><br><span class="line">      String primaryPrincipal = (String) principalCollection.getPrimaryPrincipal();</span><br><span class="line">      SimpleAuthorizationInfo authorizationInfo = <span class="keyword">new</span> SimpleAuthorizationInfo();</span><br><span class="line">      User user = userService.selectRolesByUsername(primaryPrincipal);</span><br><span class="line">      List&lt;Role&gt; roles = user.getRoles();</span><br><span class="line">      <span class="keyword">if</span> (!CollectionUtils.isEmpty(roles)) &#123;</span><br><span class="line">         roles.forEach(role -&gt; &#123;</span><br><span class="line">             <span class="comment">// 授予身份</span></span><br><span class="line">            authorizationInfo.addRole(role.getName());</span><br><span class="line">            List&lt;Prem&gt; prems = roleService.selectPremsByRoleName(role.getName());</span><br><span class="line">            <span class="keyword">if</span> (!CollectionUtils.isEmpty(prems)) &#123;</span><br><span class="line">                <span class="comment">// 授予权限</span></span><br><span class="line">               prems.forEach(prem -&gt; authorizationInfo.addStringPermission(prem.getName()));</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;);</span><br><span class="line"></span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> authorizationInfo;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">protected</span> AuthenticationInfo <span class="title">doGetAuthenticationInfo</span><span class="params">(AuthenticationToken token)</span> <span class="keyword">throws</span> AuthenticationException </span>&#123;</span><br><span class="line">      String principal = (String) token.getPrincipal();</span><br><span class="line">      LambdaQueryWrapper&lt;User&gt; query = <span class="keyword">new</span> LambdaQueryWrapper();</span><br><span class="line">      query.eq(principal != <span class="keyword">null</span>, User::getUsername, principal);</span><br><span class="line">      User user = userService.selectByUsername(principal);</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (user != <span class="keyword">null</span>) &#123;</span><br><span class="line">         AuthenticationInfo authenticationInfo = <span class="keyword">new</span> SimpleAuthenticationInfo(principal, user.getPassword(),</span><br><span class="line">               ByteSource.Util.bytes(user.getSalt()), <span class="keyword">this</span>.getName());</span><br><span class="line">         <span class="keyword">return</span> authenticationInfo;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="jsp"><a href="#jsp" class="headerlink" title="jsp"></a>jsp</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;%<span class="meta">@page</span> contentType=<span class="string">&quot;text/html; utf-8&quot;</span> pageEncoding=<span class="string">&quot;UTF-8&quot;</span> language=<span class="string">&quot;java&quot;</span> %&gt;</span><br><span class="line">&lt;%<span class="meta">@taglib</span> prefix=<span class="string">&quot;shiro&quot;</span> uri=<span class="string">&quot;http://shiro.apache.org/tags&quot;</span> %&gt;</span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">&quot;zh-CN&quot;</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=<span class="string">&quot;utf-8&quot;</span>/&gt;</span><br><span class="line">    &lt;meta http-equiv=<span class="string">&quot;X-UA-Compatible&quot;</span> content=<span class="string">&quot;IE=edge&quot;</span>/&gt;</span><br><span class="line">    &lt;meta name=<span class="string">&quot;viewport&quot;</span> content=<span class="string">&quot;width=device-width, initial-scale=1&quot;</span>/&gt;</span><br><span class="line">    &lt;title&gt;首页&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;h1&gt;系统主页V1<span class="number">.0</span>&lt;/h1&gt;</span><br><span class="line">&lt;a href=<span class="string">&quot;$&#123;pageContext.request.contextPath&#125;/user/logout&quot;</span>&gt;退出登录&lt;/a&gt;</span><br><span class="line">&lt;ul&gt;</span><br><span class="line">    &lt;shiro:hasAnyRoles name=<span class="string">&quot;user, admin&quot;</span>&gt;</span><br><span class="line">        &lt;li&gt;&lt;a href=<span class="string">&quot;&quot;</span>&gt;订单管理&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">    &lt;/shiro:hasAnyRoles&gt;</span><br><span class="line">    &lt;shiro:hasRole name=<span class="string">&quot;admin&quot;</span>&gt;</span><br><span class="line">        &lt;li&gt;&lt;a href=<span class="string">&quot;&quot;</span>&gt;商品管理&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">        &lt;li&gt;&lt;a href=<span class="string">&quot;&quot;</span>&gt;物流管理&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">        &lt;li&gt;&lt;a href=<span class="string">&quot;&quot;</span>&gt;用户管理&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">    &lt;/shiro:hasRole&gt;</span><br><span class="line">    &lt;ul&gt;</span><br><span class="line">        &lt;shiro:hasPermission name=<span class="string">&quot;order:add:*&quot;</span>&gt;</span><br><span class="line">            &lt;li&gt;&lt;a href=<span class="string">&quot;&quot;</span>&gt;添加&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">        &lt;/shiro:hasPermission&gt;</span><br><span class="line">        &lt;shiro:hasPermission name=<span class="string">&quot;order:delete:*&quot;</span>&gt;</span><br><span class="line">            &lt;li&gt;&lt;a href=<span class="string">&quot;&quot;</span>&gt;删除&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">        &lt;/shiro:hasPermission&gt;</span><br><span class="line">        &lt;shiro:hasPermission name=<span class="string">&quot;order:query:*&quot;</span>&gt;</span><br><span class="line">            &lt;li&gt;&lt;a href=<span class="string">&quot;&quot;</span>&gt;查找&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">        &lt;/shiro:hasPermission&gt;</span><br><span class="line">    &lt;/ul&gt;</span><br><span class="line">&lt;/ul&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="controller"><a href="#controller" class="headerlink" title="controller"></a>controller</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.chenysh.controller;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.chenysh.pojo.User;</span><br><span class="line"><span class="keyword">import</span> com.chenysh.service.IUserService;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.SecurityUtils;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authc.AuthenticationException;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authc.AuthenticationToken;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authc.UsernamePasswordToken;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.subject.Subject;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.web.mgt.DefaultWebSecurityManager;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.PostMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestParam;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/user&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Autowired</span></span><br><span class="line">   <span class="keyword">private</span> DefaultWebSecurityManager defaultWebSecurityManager;</span><br><span class="line">   <span class="meta">@Autowired</span></span><br><span class="line">   <span class="keyword">private</span> IUserService userService;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@RequestMapping(&quot;/logout&quot;)</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> String <span class="title">logout</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      Subject subject = SecurityUtils.getSubject();</span><br><span class="line">      subject.logout();</span><br><span class="line">      <span class="keyword">return</span> <span class="string">&quot;redirect:/login.jsp&quot;</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// public Md5Hash(Object source, Object salt, int hashIterations) &#123;</span></span><br><span class="line"><span class="comment">//    super(&quot;MD5&quot;, source, salt, hashIterations);</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br><span class="line"></span><br><span class="line">   <span class="meta">@RequestMapping(&quot;/register&quot;)</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> String <span class="title">register</span><span class="params">(<span class="meta">@RequestParam</span> String username, <span class="meta">@RequestParam</span> String password)</span> </span>&#123;</span><br><span class="line">      userService.register(username, password);</span><br><span class="line">      <span class="keyword">return</span> <span class="string">&quot;redirect:/login.jsp&quot;</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@PostMapping</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> String <span class="title">login</span><span class="params">(<span class="meta">@RequestParam</span> String username, <span class="meta">@RequestParam</span> String password)</span> </span>&#123;</span><br><span class="line">      User user = <span class="keyword">new</span> User();</span><br><span class="line">      user.setUsername(username);</span><br><span class="line">      user.setPassword(password);</span><br><span class="line">      Subject subject = SecurityUtils.getSubject();</span><br><span class="line">      AuthenticationToken token = <span class="keyword">new</span> UsernamePasswordToken(user.getUsername(), user.getPassword());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">         subject.login(token);</span><br><span class="line">         <span class="keyword">return</span> <span class="string">&quot;redirect:/index.jsp&quot;</span>;</span><br><span class="line">      &#125; <span class="keyword">catch</span> (AuthenticationException e) &#123;</span><br><span class="line">         e.printStackTrace();</span><br><span class="line">         <span class="keyword">return</span> <span class="string">&quot;redirect:/login.jsp&quot;</span>;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.chenysh.controller;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.SecurityUtils;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.subject.Subject;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/order&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OrderController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   <span class="comment">// @RequiresRoles(&quot;admin&quot;)</span></span><br><span class="line">   <span class="meta">@RequestMapping(&quot;/add&quot;)</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> String <span class="title">select</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      Subject subject = SecurityUtils.getSubject();</span><br><span class="line">      <span class="keyword">if</span> (subject.isPermitted(<span class="string">&quot;order:add:*&quot;</span>)) &#123;</span><br><span class="line">         System.out.println(<span class="string">&quot;查询成功&quot;</span>);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">         System.out.println(<span class="string">&quot;你没有权限哦!&quot;</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> <span class="string">&quot;redirect:/index.jsp&quot;</span>;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="使用CacheManger"><a href="#使用CacheManger" class="headerlink" title="使用CacheManger"></a>使用CacheManger</h1><h2 id="Cache作用"><a href="#Cache作用" class="headerlink" title="Cache作用"></a>Cache作用</h2><ul>
+<li><p>cache 缓存: 计算机内存中一段数据 内存条</p>
+</li>
+<li><p>作用: 用来减轻DB的访问压力,从而提高系统的查询效率</p>
+</li>
+<li><p>流程:</p>
+<p>  <img src="https://raw.githubusercontent.com/ischenysh/images/master/image.5xhhz7ur6j8.png" alt="image"></p>
+</li>
+</ul>
+<h2 id="使用shiro中默认EhCache实现缓存"><a href="#使用shiro中默认EhCache实现缓存" class="headerlink" title="使用shiro中默认EhCache实现缓存"></a>使用shiro中默认EhCache实现缓存</h2><ol>
+<li><p>导入依赖</p>
+ <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.shiro&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;shiro-ehcache&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;<span class="number">1.8</span><span class="number">.0</span>&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>开启缓存</p>
+ <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 开启缓存管理</span></span><br><span class="line">realm.setCacheManager(<span class="keyword">new</span> EhCacheManager());</span><br><span class="line"><span class="comment">// 开启全局缓存</span></span><br><span class="line">realm.setCachingEnabled(<span class="keyword">true</span>);</span><br><span class="line"><span class="comment">// 开启认证缓存</span></span><br><span class="line">realm.setAuthenticationCachingEnabled(<span class="keyword">true</span>);</span><br><span class="line"><span class="comment">// 设置认证缓存的名字</span></span><br><span class="line">realm.setAuthenticationCacheName(<span class="string">&quot;authenticationCache&quot;</span>);</span><br><span class="line"><span class="comment">// 开启授权缓存</span></span><br><span class="line">realm.setAuthorizationCachingEnabled(<span class="keyword">true</span>);</span><br><span class="line"><span class="comment">// 设置授权缓存的名字</span></span><br><span class="line">realm.setAuthorizationCacheName(<span class="string">&quot;authorizationCache&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
 ]]></content>
   </entry>
 </search>

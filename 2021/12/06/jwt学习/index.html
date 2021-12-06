@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="chenysh">
+    
+    <title>
+        
+            jwt学习 |
+        
+        chenysh&#39;s blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/logo.svg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"zh-CN","path":"search.xml"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"https://raw.githubusercontent.com/ischenysh/images/master/touxiang.5suj3kmb2xg0.png","favicon":"/images/logo.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":true},"first_screen":{"enable":true,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.3"};
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 月前","year":"%s 年前"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                chenysh&#39;s blog
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                首页
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                归档
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">首页</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">归档</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">jwt学习</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://raw.githubusercontent.com/ischenysh/images/master/touxiang.5suj3kmb2xg0.png">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">chenysh</span>
+                        
+                            <span class="author-label">学生</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-12-06 23:33:42
+    </span>
+    
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="1-JWT简介"><a href="#1-JWT简介" class="headerlink" title="1. JWT简介"></a>1. JWT简介</h1><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> JWT全称JSON Web Token, 也就是通过JSON形式作为Web应用中的令牌, 用于在各方之间安全地将信息作为JSON对象传输, 在数据传输过程中还可以完成数据加密, 签名等处理</span><br></pre></td></tr></table></figure>
+
+<h1 id="2-JWT的用途"><a href="#2-JWT的用途" class="headerlink" title="2. JWT的用途"></a>2. JWT的用途</h1><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 1. 授权</span></span><br><span class="line"><span class="bullet">	-</span> 一旦用户登录, 每个后续请求将包括JWT, 从而允许用户允许该令牌允许的路由, 资源和服务</span><br><span class="line"><span class="section"># 2. 信息交换</span></span><br><span class="line"><span class="bullet">	-</span> JSON Web Token是在各方之间安全地传输信息的好方法, 因为可以对JWT进行签名(例如, 使用公钥/私钥对)</span><br></pre></td></tr></table></figure>
+
+<h1 id="3-基于JWT的认证流程"><a href="#3-基于JWT的认证流程" class="headerlink" title="3. 基于JWT的认证流程"></a>3. 基于JWT的认证流程</h1><p><img src="https://raw.githubusercontent.com/ischenysh/images/master/image.7b7i3fra3v40.png" alt="image"></p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 认证流程</span></span><br><span class="line"><span class="bullet">	1.</span> 前端将Web表单发送到后端的接口</span><br><span class="line"><span class="bullet">	2.</span> 后端核对用户名密码后, 将用户的信息作为JWT Payload(负载), 将其与头部分别进行Base64编码拼接后签名, 形成一个JWT(Token), 形成的JWT就是一个形同lll.zzz.xxx的字符串</span><br><span class="line"><span class="bullet">	3.</span> 后端将JWT字符串作为登录成功返回结果返回给前端, 前端将结果保存到localStorage或sessionStorage上, 退出登录时前端删除保存的JWT即可</span><br><span class="line"><span class="bullet">	4.</span> 前端每次请求将JWT放入HTTP Header 中的Authorization位</span><br><span class="line"><span class="bullet">	5.</span> 后端进行JWT的检验</span><br><span class="line"><span class="bullet">	6.</span> 后端对JWT的检验结果不同进行相应的操作</span><br></pre></td></tr></table></figure>
+
+<h1 id="4-JWT的结构"><a href="#4-JWT的结构" class="headerlink" title="4. JWT的结构"></a>4. JWT的结构</h1><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 1. 令牌组成</span></span><br><span class="line"><span class="bullet">	1.</span> 标头(Header)</span><br><span class="line"><span class="bullet">	2.</span> 有效载荷(Payload)</span><br><span class="line"><span class="bullet">	3.</span> 签名(Signature)</span><br><span class="line"><span class="code">	Header.Payload.Signature</span></span><br><span class="line"><span class="code"># 2. Header</span></span><br><span class="line"><span class="code">	- 表头通常由两部分组成: </span></span><br><span class="line"><span class="code">		1. 令牌的类型</span></span><br><span class="line"><span class="code">		2. 所使用的签名算法</span></span><br><span class="line"><span class="code">	- 使用Base64编码形成Header内容</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;alg&quot;</span>: <span class="string">&quot;HS256&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;typ&quot;</span>: <span class="string">&quot;JWT&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 3. Payload</span></span><br><span class="line"><span class="bullet">	-</span> 包含有关实体(通常是用户)和其他数据的声明, 使用Base64编码形成Payload内容</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;uid&quot;</span>: <span class="string">&quot;144654651&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;zhangsan&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;admin&quot;</span>: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 4. Signature</span></span><br><span class="line"><span class="bullet">	-</span> 使用Header中声明的签名算法对 编码后的header和payload以及一个密钥 进行签名, 得到的结果就是Signature部分</span><br><span class="line"><span class="bullet">	-</span> 签名的目的是为了防止JWT被篡改</span><br></pre></td></tr></table></figure>
+
+<h1 id="5-JWT的使用"><a href="#5-JWT的使用" class="headerlink" title="5. JWT的使用"></a>5. JWT的使用</h1><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 1. 引入依赖</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.auth0<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>java-jwt<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.18.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 2. 生成token</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">testGenerateJWT</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Calendar instance = Calendar.getInstance();</span><br><span class="line">    instance.add(Calendar.SECOND, <span class="number">120</span>);</span><br><span class="line">    String token = JWT.create()</span><br><span class="line">        <span class="comment">// payload</span></span><br><span class="line">        .withClaim(<span class="string">&quot;uid&quot;</span>, <span class="string">&quot;3196&quot;</span>)</span><br><span class="line">        .withClaim(<span class="string">&quot;username&quot;</span>, <span class="string">&quot;zhangsan&quot;</span>)</span><br><span class="line">        <span class="comment">// 指定令牌过期时间</span></span><br><span class="line">        .withExpiresAt(instance.getTime())</span><br><span class="line">        <span class="comment">// 签名</span></span><br><span class="line">        .sign(Algorithm.HMAC256(<span class="string">&quot;&amp;R&amp;#^%&amp;%@#&quot;</span>));</span><br><span class="line">    System.out.println(token);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 3. 验证token</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">testVerifyJWT</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 创建验证对象</span></span><br><span class="line">    JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(<span class="string">&quot;&amp;R&amp;#^%&amp;%@#&quot;</span>)).build();</span><br><span class="line"></span><br><span class="line">    DecodedJWT verify = jwtVerifier.verify(<span class="string">&quot;eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjMxOTYsImV4cCI6MTYzODgwNzg4MywidXNlcm5hbWUiOiJ6aGFuZ3NhbiJ9.H4vHje2INY2OkFudk7GNvH6HU0OEVYzwrQn9OplVOQk&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 解析数据</span></span><br><span class="line">    System.out.println(verify.getClaims().get(<span class="string">&quot;uid&quot;</span>).asInt());</span><br><span class="line">    System.out.println(verify.getClaims().get(<span class="string">&quot;username&quot;</span>).asString());</span><br><span class="line">    <span class="comment">// 过期时间</span></span><br><span class="line">    System.out.println(verify.getExpiresAt());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 4. 常见异常信息</span></span><br><span class="line"><span class="bullet">	-</span> SigntureVerification:        签名不一致</span><br><span class="line"><span class="bullet">	-</span> TokenExpiredException:       令牌过期</span><br><span class="line"><span class="bullet">	-</span> AlgorithmMismatchException:  算法不匹配</span><br><span class="line"><span class="bullet">	-</span> InvalidClaimException:       失效的payload</span><br></pre></td></tr></table></figure>
+
+<h1 id="6-封装工具类"><a href="#6-封装工具类" class="headerlink" title="6. 封装工具类"></a>6. 封装工具类</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JWTUtils</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String SALT = <span class="string">&quot;&amp;R&amp;#^%&amp;%@#&quot;</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 生成token</span></span><br><span class="line"><span class="comment">	 *</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getToken</span><span class="params">(Map&lt;String, String&gt; date)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		Calendar instance = Calendar.getInstance();</span><br><span class="line">		instance.add(Calendar.DATE, <span class="number">7</span>);</span><br><span class="line"></span><br><span class="line">		JWTCreator.Builder builder = JWT.create();</span><br><span class="line">		date.forEach((k, v) -&gt; builder.withClaim(k, v));</span><br><span class="line"></span><br><span class="line">		String token = builder</span><br><span class="line">				<span class="comment">// 指定令牌过期时间</span></span><br><span class="line">				.withExpiresAt(instance.getTime())</span><br><span class="line">				<span class="comment">// 签名</span></span><br><span class="line">				.sign(Algorithm.HMAC256(SALT));</span><br><span class="line">		System.out.println(token);</span><br><span class="line">		<span class="keyword">return</span> token;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 验证token</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> JWTVerifier <span class="title">VerifyJWT</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// 创建验证对象</span></span><br><span class="line">		<span class="keyword">return</span> JWT.require(Algorithm.HMAC256(SALT)).build();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>本文标题：jwt学习</li>
+        <li>本文作者：chenysh</li>
+        <li>创建时间：2021-12-06 23:33:42</li>
+        <li>
+            本文链接：https://ischenysh.github.io/2021/12/06/jwt学习/
+        </li>
+        <li>
+            版权声明：本博客所有文章除特别声明外，均采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> 许可协议。转载请注明出处！
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/12/03/linux%E5%AD%A6%E4%B9%A0/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">linux学习</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;评论</i>
+    </div>
+    
+
+        
+            
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>
+              -
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">chenysh</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.3</a>
+        </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-JWT%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">1. JWT简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-JWT%E7%9A%84%E7%94%A8%E9%80%94"><span class="nav-number">2.</span> <span class="nav-text">2. JWT的用途</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E5%9F%BA%E4%BA%8EJWT%E7%9A%84%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">3. 基于JWT的认证流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-JWT%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-number">4.</span> <span class="nav-text">4. JWT的结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-JWT%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">5.</span> <span class="nav-text">5. JWT的使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-%E5%B0%81%E8%A3%85%E5%B7%A5%E5%85%B7%E7%B1%BB"><span class="nav-number">6.</span> <span class="nav-text">6. 封装工具类</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+
+    
+<script src="/js/code-copy.js"></script>
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+</body>
+</html>
