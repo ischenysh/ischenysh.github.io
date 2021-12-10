@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="chenysh">
+    
+    <title>
+        
+            校园流浪动物管理 |
+        
+        chenysh&#39;s blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/logo.svg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"zh-CN","path":"search.xml"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"https://raw.githubusercontent.com/ischenysh/images/master/touxiang.5suj3kmb2xg0.png","favicon":"/images/logo.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":true},"first_screen":{"enable":true,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.3"};
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 月前","year":"%s 年前"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                chenysh&#39;s blog
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                首页
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                归档
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">首页</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">归档</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">校园流浪动物管理</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://raw.githubusercontent.com/ischenysh/images/master/touxiang.5suj3kmb2xg0.png">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">chenysh</span>
+                        
+                            <span class="author-label">学生</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-12-09 14:46:24
+    </span>
+    
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="项目准备"><a href="#项目准备" class="headerlink" title="项目准备"></a>项目准备</h1><h2 id="1-技术选型"><a href="#1-技术选型" class="headerlink" title="1. 技术选型"></a>1. 技术选型</h2><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 前端</span></span><br><span class="line"><span class="bullet">	-</span> vue + axois</span><br><span class="line"><span class="section"># 后端</span></span><br><span class="line"><span class="bullet">	-</span> springboot + mysql + mybatis-plus + tomcat + redis</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="2-需求分析"><a href="#2-需求分析" class="headerlink" title="2. 需求分析"></a>2. 需求分析</h2><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 用户模块 </span></span><br><span class="line"><span class="bullet">    1.</span> 用户登录</span><br><span class="line"><span class="bullet">    2.</span> 用户注册</span><br><span class="line"><span class="bullet">    3.</span> 验证码实现</span><br><span class="line"><span class="bullet">    4.</span> 欢迎xx用户展示</span><br><span class="line"><span class="bullet">    5.</span> 安全退出</span><br><span class="line"><span class="section"># 动物模块</span></span><br><span class="line"><span class="bullet">    6.</span> 动物列表展示</span><br><span class="line"><span class="bullet">    7.</span> 动物添加, 删除, 修改</span><br><span class="line"><span class="bullet">    8.</span> 动物列表加入redis缓存实现</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-库表分析"><a href="#3-库表分析" class="headerlink" title="3. 库表分析"></a>3. 库表分析</h2><table>
+<thead>
+<tr>
+<th>表名</th>
+<th>字段名</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>tb_user</td>
+<td>id</td>
+<td>唯一标识</td>
+</tr>
+<tr>
+<td></td>
+<td>username</td>
+<td>用户名</td>
+</tr>
+<tr>
+<td></td>
+<td>password</td>
+<td>密码</td>
+</tr>
+<tr>
+<td></td>
+<td>sex</td>
+<td>性别</td>
+</tr>
+<tr>
+<td></td>
+<td>status</td>
+<td>状态</td>
+</tr>
+<tr>
+<td></td>
+<td>register_time</td>
+<td>注册时间</td>
+</tr>
+<tr>
+<td>tb_animal</td>
+<td>id</td>
+<td>唯一标识</td>
+</tr>
+<tr>
+<td></td>
+<td>name</td>
+<td>姓名</td>
+</tr>
+<tr>
+<td></td>
+<td>kind</td>
+<td>种类</td>
+</tr>
+<tr>
+<td></td>
+<td>sex</td>
+<td>性别</td>
+</tr>
+<tr>
+<td></td>
+<td>habitat</td>
+<td>栖息地</td>
+</tr>
+<tr>
+<td></td>
+<td>photos</td>
+<td>照片</td>
+</tr>
+</tbody></table>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span>  <span class="keyword">table</span> `tb_user`(</span><br><span class="line">    `id` <span class="type">int</span>(<span class="number">10</span>) auto_increment <span class="keyword">primary</span> key ,</span><br><span class="line">    `username` <span class="type">varchar</span>(<span class="number">30</span>),</span><br><span class="line">    `password` <span class="type">varchar</span>(<span class="number">65</span>),</span><br><span class="line">    `salt` <span class="type">varchar</span>(<span class="number">30</span>),</span><br><span class="line">    `sex` <span class="type">varchar</span>(<span class="number">5</span>),</span><br><span class="line">    `status` <span class="type">varchar</span>(<span class="number">5</span>),</span><br><span class="line">    `register_time` <span class="type">timestamp</span>,</span><br><span class="line">    `email` <span class="type">varchar</span>(<span class="number">50</span>)</span><br><span class="line">);</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> `tb_animal`(</span><br><span class="line">    `id` <span class="type">int</span>(<span class="number">10</span>) auto_increment <span class="keyword">primary</span> key ,</span><br><span class="line">    `name` <span class="type">varchar</span>(<span class="number">10</span>) ,</span><br><span class="line">    `kind` <span class="type">varchar</span>(<span class="number">5</span>),</span><br><span class="line">    `<span class="type">varchar</span>` <span class="type">varchar</span>(<span class="number">5</span>),</span><br><span class="line">    `habitat` <span class="type">varchar</span>(<span class="number">50</span>),</span><br><span class="line">    `photo` <span class="type">varchar</span>(<span class="number">30</span>)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-编码环节"><a href="#4-编码环节" class="headerlink" title="4. 编码环节"></a>4. 编码环节</h2><h3 id="4-1-环境搭建"><a href="#4-1-环境搭建" class="headerlink" title="4.1 环境搭建"></a>4.1 环境搭建</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> springboot + mybatis + mysql</span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> 项目名: animal<span class="emphasis">_vue</span></span><br><span class="line"><span class="emphasis">- 包结构: </span></span><br><span class="line"><span class="emphasis">	src/main/java</span></span><br><span class="line"><span class="emphasis">		com.chenysh.xxx</span></span><br><span class="line"><span class="emphasis">					.util</span></span><br><span class="line"><span class="emphasis">					.mapper</span></span><br><span class="line"><span class="emphasis">					.service</span></span><br><span class="line"><span class="emphasis">					....</span></span><br><span class="line"><span class="emphasis">	src/main/resources</span></span><br><span class="line"><span class="emphasis">		application.yml</span></span><br><span class="line"><span class="emphasis">		application-dev.yml		测试</span></span><br><span class="line"><span class="emphasis">		application-prod.yml 	生产配置</span></span><br><span class="line"><span class="emphasis">		com/chenysh/mapper/		存放mybatis的mapper配置</span></span><br><span class="line"><span class="emphasis">		com/chenysh/sql/		数据库文件</span></span><br><span class="line"><span class="emphasis">		static					j</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>本文标题：校园流浪动物管理</li>
+        <li>本文作者：chenysh</li>
+        <li>创建时间：2021-12-09 14:46:24</li>
+        <li>
+            本文链接：https://ischenysh.github.io/2021/12/09/校园流浪动物管理/
+        </li>
+        <li>
+            版权声明：本博客所有文章除特别声明外，均采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> 许可协议。转载请注明出处！
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/12/07/CodeGenerate/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">CodeGenerate</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;评论</i>
+    </div>
+    
+
+        
+            
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>
+              -
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">chenysh</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.3</a>
+        </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E5%87%86%E5%A4%87"><span class="nav-number">1.</span> <span class="nav-text">项目准备</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B"><span class="nav-number">1.1.</span> <span class="nav-text">1. 技术选型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90"><span class="nav-number">1.2.</span> <span class="nav-text">2. 需求分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%BA%93%E8%A1%A8%E5%88%86%E6%9E%90"><span class="nav-number">1.3.</span> <span class="nav-text">3. 库表分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E7%BC%96%E7%A0%81%E7%8E%AF%E8%8A%82"><span class="nav-number">1.4.</span> <span class="nav-text">4. 编码环节</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.1 环境搭建</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+
+    
+<script src="/js/code-copy.js"></script>
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+</body>
+</html>
